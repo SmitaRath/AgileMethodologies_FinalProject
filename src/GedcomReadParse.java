@@ -2,32 +2,38 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.*;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class GedcomReadParse {
     //defining zero level tags
-    static final String[] zeroLevelTags = {"HEAD", "TRLR", "NOTE"};
+       /* static final String[] zeroLevelTags = {"HEAD", "TRLR", "NOTE"};
 
-    //defining exception tags
-    static final String[] exceptionTags = {"INDI","FAM"};
-    //defining one level tags
-    static final String[] oneLevelTags = {"NAME", "SEX", "BIRT", "DEAT",
-            "FAMC", "FAMS", "MARR", "HUSB", "WIFE", "CHIL",
-            "DIV"};
+        //defining exception tags
+        static final String[] exceptionTags = {"INDI","FAM"};
+        //defining one level tags
+        static final String[] oneLevelTags = {"NAME", "SEX", "BIRT", "DEAT",
+                "FAMC", "FAMS", "MARR", "HUSB", "WIFE", "CHIL",
+                "DIV"};
 
-    //defining two level tags
-    static final String[] twoLevelTags = { "DATE"};
+        //defining two level tags
+        static final String[] twoLevelTags = { "DATE"};
 
-    //defining all the tags
-    static final String[] allTags = { "INDI","FAM","HEAD", "TRLR", "NOTE","NAME", "SEX", "BIRT", "DEAT",
-            "FAMC", "FAMS", "MARR", "HUSB", "WIFE", "CHIL",
-            "DIV","DATE"};
-
+        //defining all the tags
+        static final String[] allTags = { "INDI","FAM","HEAD", "TRLR", "NOTE","NAME", "SEX", "BIRT", "DEAT",
+                "FAMC", "FAMS", "MARR", "HUSB", "WIFE", "CHIL",
+                "DIV","DATE"};*/
+    ArrayList<Individual> individuals = new ArrayList<>();
+    DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
 
     //method to check the tag is valid or not
-    static boolean findTag(String str,String[] tags){
-        for(int i=0;i<tags.length;i++){
-            if(str.equals(tags[i]))
+    static boolean findTag(String str, String[] tags) {
+        for (int i = 0; i < tags.length; i++) {
+            if (str.equals(tags[i]))
                 return true;
         }
         return false;
@@ -38,6 +44,8 @@ public class GedcomReadParse {
         BufferedReader reader;
         String[] splitString;
         GedcomEntry e1;
+        int counter = 0;
+        Individual ind = new Individual();
         try {
             //OPENING A FILE
             reader = new BufferedReader(new FileReader(
@@ -45,110 +53,82 @@ public class GedcomReadParse {
             //READING FIRST LINE
             String line = reader.readLine();
             //VERIFYING IF LINE IS NOT NULL AND DOESNOT CONTAIN only SPACEs
-            while (line != null) {
+            while (line != null && line.trim().length() > 0) {
+
                 //spliting the line into array
                 splitString = line.split(" ");
-
-                //looping through the array
-                e1 = new GedcomEntry();
-                for (int i = 0; i < splitString.length; i++) {
-                    //switch statement for different levels of i
-                    switch (i) {
-                        //for level attribute
-                        case 0: {
-                            e1.level = splitString[i];
+                if (splitString.length>2 && splitString[2].equals("INDI") && splitString[0].equals("0")) {
+                    if (!(ind.id==null)) {
+                        individuals.add(ind);
+                        if(individuals.size()>=1000)
                             break;
-                        }
-                        //for tag attribute
-                        case 1: {
-                            //checking level based on that calling required function
-                            switch (e1.level) {
-                                case "0": {
-                                    //checking for zero level tags
-                                    if (findTag(splitString[i], zeroLevelTags)) {
-                                        e1.validInvalidFlag = "Y";
-                                        e1.tag = splitString[i];
-                                    }
-                                    //if not then checking for exception tags
-                                    else if (splitString.length > 2 && findTag(splitString[splitString.length - 1], exceptionTags)) {
-                                        e1.validInvalidFlag = "Y";
-                                        e1.tag = splitString[splitString.length - 1];
-                                        e1.arguments = splitString[1];
-                                    }
-                                }
-                                break;
+                    }
+                    ind = new Individual();
+                    ind.id = splitString[1];
+                    line = reader.readLine();
+                    splitString=line.split(" ");
+                    if (splitString[1].equals("NAME") && splitString[0].equals("1"))
+                        ind.name = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
 
-                                case "1": {
-                                    //checking for one level tags
-                                    if (findTag(splitString[i], oneLevelTags)) {
-                                        e1.validInvalidFlag = "Y";
-                                        e1.tag = splitString[i];
-                                    }
-                                }
-                                break;
 
-                                case "2": {
-                                    //checking for two level tags
-                                    if (findTag(splitString[i], twoLevelTags)) {
-                                        e1.validInvalidFlag = "Y";
-                                        e1.tag = splitString[i];
-                                    }
-                                }
-                                break;
-                            }
-                            //if none of the condition is satisfied
-                            if(e1.validInvalidFlag.equals("")) {
-                                //checking if the tag is the last element and setting other fields
-                                if (splitString.length > 2 && findTag(splitString[splitString.length - 1], allTags)) {
-                                    e1.validInvalidFlag = "N";
-                                    e1.tag = splitString[splitString.length - 1];
-                                    e1.arguments = line.substring(line.indexOf(" ") + 1, line.indexOf(e1.tag));
-                                } else {
-                                    e1.validInvalidFlag = "N";
-                                    e1.tag = splitString[i];
-                                }
-                            }
-                            break;
-                        }
-                        //for other scenarios setting the argument attribute
-                        default: {
-                            if (e1.arguments.equals(""))
-                                e1.arguments = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-                            break;
-                        }
-
+                }
+                if(!(ind.id==null)) {
+                    if (splitString[1].equals("SEX") && splitString[0].equals("1")) {
+                        ind.gender = splitString[2];
                     }
 
+                    else if (splitString[1].equals("BIRT") && splitString[0].equals("1")) {
+                        line = reader.readLine();
+                        splitString = line.split(" ");
+                        if (splitString[1].equals("DATE") && splitString[0].equals("2")) {
+                            ind.dateOfBirth = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
+                            ind.dobDate = formatter.parse(ind.dateOfBirth);
+                            Instant instant = ind.dobDate.toInstant();
+                            ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
+                            LocalDate givenDate = zone.toLocalDate();
+                            //   month = givenDate.getMonthValue()?
+                            // ind.dateOfBirth  = givenDate.getYear() + "-" + givenDate.getMonthValue() + "-" + givenDate.getDayOfMonth();
+                            Period period = Period.between(givenDate, LocalDate.now());
+                            ind.age = period.getYears();
+                        }
+                    }
+
+                    else if (splitString[1].equals("DEAT") && splitString[0].equals("1")) {
+                        if (splitString[2].equals("Y"))
+                            ind.alive = false;
+                        else
+                            ind.alive = true;
+                        line = reader.readLine();
+                        splitString = line.split(" ");
+                        if (splitString[1].equals("DATE") && splitString[0].equals("2")) {
+                            {
+                                ind.death = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
+                                ind.deathDate = formatter.parse(ind.death);
+                            }
+                        }
+                    }
+
+                    else if (splitString[1].equals("FAMC") && splitString[0].equals("1")) {
+                        ind.child = "{" + splitString[2] + "}";
+                    }
+
+                    if (splitString[1].equals("FAMS") && splitString[0].equals("1")) {
+                        ind.spouse = "{" + splitString[2] + "}";
+                    }
                 }
-                //printing the output to console.
-                if(line.trim().length() > 0) {
-                    System.out.println("-->" + line);
-                    if (!e1.arguments.equals(""))
-                        System.out.println("<--" + e1.level + "|" + e1.tag + "|" + e1.validInvalidFlag + "|" + e1.arguments);
-                    else
-                        System.out.println("<--" + e1.level + "|" + e1.tag + "|" + e1.validInvalidFlag);
-                }
-                //going to next line in the file
+
+
                 line = reader.readLine();
+            }
+            for(Individual i : individuals){
+                System.out.println(i.toString());
             }
             //file closed
             reader.close();
-        }
-        catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        }catch (IOException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
-
     }
 }
-
-
-
-
-
-
-
-
-
-
