@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-
+import java.util.Comparator;
 public class Family{
     String id;
     String name;
@@ -27,15 +27,21 @@ public class Family{
 //        }
 //    }
 
-    @Override
     public String toString() {
-        for(String i : child){
-            System.out.print(i);
-        }
-//        return "Individual{" +
-//                "id='" + id + '\'' +
-//                ", name='" + husbandId + '\'' +
-//                '}';
-        return "";
+//        for(String i : child){
+//            System.out.print(i);
+//        }
+        return this.id;
     }
+
+    /* Comparator for sorting the list by Family ID */
+    public static Comparator<Family> familyIdComparator = new Comparator<Family>() {
+
+        public int compare(Family s1, Family s2) {
+            String Id1 = s1.id.toUpperCase();
+            String Id2 = s2.id.toUpperCase();
+
+            //ascending order
+            return Id1.compareTo(Id2);
+        }};
 }
