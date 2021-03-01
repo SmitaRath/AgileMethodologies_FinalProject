@@ -11,23 +11,7 @@ import java.util.Collections;
 import java.util.Date;
 
 public class GedcomReadParse {
-    //defining zero level tags
-       /* static final String[] zeroLevelTags = {"HEAD", "TRLR", "NOTE"};
 
-        //defining exception tags
-        static final String[] exceptionTags = {"INDI","FAM"};
-        //defining one level tags
-        static final String[] oneLevelTags = {"NAME", "SEX", "BIRT", "DEAT",
-                "FAMC", "FAMS", "MARR", "HUSB", "WIFE", "CHIL",
-                "DIV"};
-
-        //defining two level tags
-        static final String[] twoLevelTags = { "DATE"};
-
-        //defining all the tags
-        static final String[] allTags = { "INDI","FAM","HEAD", "TRLR", "NOTE","NAME", "SEX", "BIRT", "DEAT",
-                "FAMC", "FAMS", "MARR", "HUSB", "WIFE", "CHIL",
-                "DIV","DATE"};*/
     ArrayList<Individual> individuals = new ArrayList<>();
     DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
 
