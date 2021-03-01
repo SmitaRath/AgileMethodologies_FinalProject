@@ -7,9 +7,6 @@ public class Individual{
     String name;
     String gender;
     String dateOfBirth;
-
-
-
     Date dobDate;
     int age;
     boolean alive=true;

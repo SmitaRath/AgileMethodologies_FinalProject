@@ -12,6 +12,7 @@ import java.util.Date;
 
 public class GedcomReadParse {
 
+    ArrayList<Family> families = new ArrayList<>();
     ArrayList<Individual> individuals = new ArrayList<>();
     DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
 
@@ -63,6 +64,7 @@ public class GedcomReadParse {
         GedcomEntry e1;
         int counter = 0;
         Individual ind = new Individual();
+        Family family = new Family();
         String day;
         String month;
         try {
@@ -148,11 +150,62 @@ public class GedcomReadParse {
                     }
                 }
 
+                if (splitString.length > 2 && splitString[2].equals("FAM") && splitString[0].equals("0")) {
+                    //if already data is present in the ind object adding to array list
+                    if (!(family.id==null)) {
+                        if(families.size() >= 1000) {
+                            throw new ArrayIndexOutOfBoundsException("More than 1000 families not allowed");
+                        }
+                        families.add(family);
+                    }
+                    family = new Family();
+                    family.id = splitString[1].replaceAll("@","");
+                }
+
+                if(!(family.id == null) && splitString.length > 2) {
+
+                    // fetching children with level 1 adding into the list
+                    if (splitString[1].equals("HUSB") && splitString[0].equals("1")) {
+                        family.husbandId = splitString[2].replaceAll("@","");
+                    }
+
+                    // fetching children with level 1 adding into the list
+                    if (splitString[1].equals("WIFE") && splitString[0].equals("1")) {
+                        family.wifeId = splitString[2].replaceAll("@","");
+                    }
+
+                    // fetching children with level 1 adding into the list
+                    if (splitString[1].equals("CHIL") && splitString[0].equals("1")) {
+                        family.child.add(splitString[2].replaceAll("@",""));
+                    }
+
+                    // fetching children with level 1 adding into the list
+                    if (splitString[1].equals("DIV") && splitString[0].equals("1")) {
+                        family.divorced = splitString[2].replaceAll("@","");
+                    }
+                }
+                if (!(family.id == null) && splitString.length > 1 && splitString[0].equals("1")) {
+                    if(splitString[1].equals("DIV")) {
+                        family.divorced = "YES";
+                    }
+                }
+                if (splitString.length > 1 && splitString[1].equals("TRLR") && splitString[0].equals("0")) {
+                    if (!(family.id==null)) {
+                        if(families.size() >= 1000) {
+                            throw new ArrayIndexOutOfBoundsException("More than 1000 families not allowed");
+                        }
+                        families.add(family);
+                    }
+                }
+
                 line = reader.readLine();
             }
 
             Collections.sort(individuals, Individual.IDComparator);
             for(Individual i : individuals){
+                System.out.println(i.toString());
+            }
+            for(Family i : families){
                 System.out.println(i.toString());
             }
             //file closed
