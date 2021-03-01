@@ -9,6 +9,7 @@ import java.time.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.stream.Stream;
 
 public class GedcomReadParse {
 
@@ -200,14 +201,16 @@ public class GedcomReadParse {
 
                 line = reader.readLine();
             }
-
+            Collections.sort(families, Family.familyIdComparator);
             Collections.sort(individuals, Individual.IDComparator);
-            for(Individual i : individuals){
-                System.out.println(i.toString());
-            }
+
             for(Family i : families){
                 System.out.println(i.toString());
             }
+            for(Individual i : individuals){
+                System.out.println(i.toString());
+            }
+
             //file closed
             reader.close();
         } catch (IOException e) {
