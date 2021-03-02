@@ -86,7 +86,7 @@ public class GedcomReadParse {
                     if (!(ind.id==null)) {
                         individuals.add(ind);
                         if(individuals.size()>=5000)
-                            throw new ArrayIndexOutOfBoundsException("More than 5000 individuals not allowed");
+                            break;
                     }
 
                     //initializing object ind.
@@ -190,31 +190,28 @@ public class GedcomReadParse {
                         family.divorced = "YES";
                     }
                 }
-                if (splitString.length > 1 && splitString[1].equals("TRLR") && splitString[0].equals("0")) {
-                    if (!(family.id==null)) {
-                        if(families.size() >= 1000) {
-                            throw new ArrayIndexOutOfBoundsException("More than 1000 families not allowed");
-                        }
-                        families.add(family);
-                    }
-                }
-
                 line = reader.readLine();
             }
 
-            if(ind.id!=null)
-            {
-
-                if(individuals.size()>=5000) {
-                    throw new ArrayIndexOutOfBoundsException("More than 5000 individuals not allowed");
+            if (!(ind.id==null)) {
+                if(individuals.size() >= 5000) {
+                    throw new ArrayIndexOutOfBoundsException("More than 1000 families not allowed");
                 }
                 individuals.add(ind);
             }
 
+            if (!(family.id==null)) {
+                if(families.size() >= 1000) {
+                    throw new ArrayIndexOutOfBoundsException("More than 1000 families not allowed");
+                }
+                families.add(family);
+            }
             Collections.sort(families, Family.familyIdComparator);
             Collections.sort(individuals, Individual.IDComparator);
 
             for(Family i : families){
+                i.husbandName = getIndividualName(i.husbandId);
+                i.wifeName = getIndividualName(i.wifeId);
                 System.out.println(i.toString());
             }
             for(Individual i : individuals){
