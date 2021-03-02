@@ -202,6 +202,8 @@ public class GedcomReadParse {
             Collections.sort(individuals, Individual.IDComparator);
 
             for(Family i : families){
+                i.husbandName = getIndividualName(i.husbandId);
+                i.wifeName = getIndividualName(i.wifeId);
                 System.out.println(i.toString());
             }
             for(Individual i : individuals){

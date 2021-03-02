@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 public class Family{
     String id;
-    String name;
     String husbandId;
     String husbandName;
     String wifeId;
@@ -14,7 +13,6 @@ public class Family{
         this.id = null;
         this.husbandId = null;
         this.wifeId = null;
-        this.name = "NA";
         this.husbandName = "NA";
         this.wifeName = "NA";
         this.child = new ArrayList<>();
@@ -28,10 +26,10 @@ public class Family{
 //    }
 
     public String toString() {
-        for(String i : child){
-            System.out.print(i);
-        }
-        return this.id;
+//        for(String i : child){
+//            System.out.print(i);
+//        }
+        return this.husbandId + " " + this.husbandName;
     }
 
     /* Comparator for sorting the list by Family ID */
