@@ -28,9 +28,9 @@ public class Family{
 //    }
 
     public String toString() {
-//        for(String i : child){
-//            System.out.print(i);
-//        }
+        for(String i : child){
+            System.out.print(i);
+        }
         return this.id;
     }
 
