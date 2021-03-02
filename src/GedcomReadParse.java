@@ -204,6 +204,7 @@ public class GedcomReadParse {
 
             if(ind.id!=null)
             {
+
                 if(individuals.size()>=5000) {
                     throw new ArrayIndexOutOfBoundsException("More than 5000 individuals not allowed");
                 }
