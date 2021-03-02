@@ -1,4 +1,3 @@
-import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -43,16 +42,6 @@ public class Individual{
                 '}';
     }
 
-
- /*   @Override
-    public int compareTo(Individual obj) {
-        if(this.id.compareTo(obj.id)>0)
-            return 1;
-        if(this.id.compareTo(obj.id)<0)
-            return -1;
-        else
-            return 0;
-    }*/
 
     /*Comparator for sorting the list by ID*/
     public static Comparator<Individual> IDComparator = new Comparator<Individual>() {

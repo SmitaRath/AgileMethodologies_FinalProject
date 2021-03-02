@@ -1,4 +1,4 @@
-0 NOTE Group01
+0 NOTE https://github.com/SmitaRath/AgileMethodologies_FinalProject
 0 @I1@ INDI
 1 NAME Elizabeth /Peterson/
 1 SEX F
@@ -60,7 +60,7 @@
 1 NAME Sofia /Williams/
 1 SEX F
 1 BIRT
-2 DATE 9 AUG 2022
+2 DATE 9 AUG 2020
 1 FAMC @F4@
 0 @F1@ FAM
 1 MARR

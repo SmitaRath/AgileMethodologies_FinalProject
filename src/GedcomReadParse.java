@@ -86,7 +86,7 @@ public class GedcomReadParse {
                     if (!(ind.id==null)) {
                         individuals.add(ind);
                         if(individuals.size()>=5000)
-                            break;
+                            throw new ArrayIndexOutOfBoundsException("More than 5000 Individuals not allowed");
                     }
 
                     //initializing object ind.
@@ -192,6 +192,14 @@ public class GedcomReadParse {
                 }
                 line = reader.readLine();
             }
+
+            if (!(ind.id==null)) {
+                if(individuals.size() >= 5000) {
+                    throw new ArrayIndexOutOfBoundsException("More than 5000 Individuals not allowed");
+                }
+                individuals.add(ind);
+            }
+
             if (!(family.id==null)) {
                 if(families.size() >= 1000) {
                     throw new ArrayIndexOutOfBoundsException("More than 1000 families not allowed");
@@ -212,7 +220,11 @@ public class GedcomReadParse {
 
             //file closed
             reader.close();
-        } catch (IOException e) {
+        }
+        catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+        catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
