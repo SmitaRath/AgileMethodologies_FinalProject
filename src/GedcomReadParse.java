@@ -182,11 +182,6 @@ public class GedcomReadParse {
 
                     // fetching children with level 1 adding into the list
                     if (splitString[1].equals("DIV") && splitString[0].equals("1")) {
-                        family.divorced = splitString[2].replaceAll("@","");
-                    }
-                }
-                if (!(family.id == null) && splitString.length > 1 && splitString[0].equals("1")) {
-                    if(splitString[1].equals("DIV")) {
                         family.divorced = "YES";
                     }
                 }
@@ -206,6 +201,7 @@ public class GedcomReadParse {
                 }
                 families.add(family);
             }
+
             Collections.sort(families, Family.familyIdComparator);
             Collections.sort(individuals, Individual.IDComparator);
 
