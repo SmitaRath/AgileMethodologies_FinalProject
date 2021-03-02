@@ -85,8 +85,8 @@ public class GedcomReadParse {
                     //if already data is present in the ind object adding to array list
                     if (!(ind.id==null)) {
                         individuals.add(ind);
-                        if(individuals.size()>=1000)
-                            break;
+                        if(individuals.size()>=5000)
+                            throw new ArrayIndexOutOfBoundsException("More than 5000 individuals not allowed");
                     }
 
                     //initializing object ind.
@@ -201,6 +201,15 @@ public class GedcomReadParse {
 
                 line = reader.readLine();
             }
+
+            if(ind.id!=null)
+            {
+                if(individuals.size()>=5000) {
+                    throw new ArrayIndexOutOfBoundsException("More than 5000 individuals not allowed");
+                }
+                individuals.add(ind);
+            }
+
             Collections.sort(families, Family.familyIdComparator);
             Collections.sort(individuals, Individual.IDComparator);
 
