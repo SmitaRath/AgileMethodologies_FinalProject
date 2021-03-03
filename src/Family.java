@@ -37,4 +37,18 @@ public class Family{
             return Id1.compareTo(Id2);
         }
     };
+
+    public String printChildren() {
+        String str = "NA";
+        for(int i=0; i < this.child.size(); ++i) {
+            if(i == 0)
+                str = "{'" + this.child.get(i) + "'";
+            else
+                str += ", '" + this.child.get(i) + "'";
+
+            if(i == this.child.size()-1)
+                str += "}";
+        }
+        return str;
+    }
 }
