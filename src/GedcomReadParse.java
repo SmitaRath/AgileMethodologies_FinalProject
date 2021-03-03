@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.stream.Stream;
-
+import org.nocrala.tools.texttablefmt.Table;
 public class GedcomReadParse {
 
     ArrayList<Family> families = new ArrayList<>();
@@ -182,11 +182,6 @@ public class GedcomReadParse {
 
                     // fetching children with level 1 adding into the list
                     if (splitString[1].equals("DIV") && splitString[0].equals("1")) {
-                        family.divorced = splitString[2].replaceAll("@","");
-                    }
-                }
-                if (!(family.id == null) && splitString.length > 1 && splitString[0].equals("1")) {
-                    if(splitString[1].equals("DIV")) {
                         family.divorced = "YES";
                     }
                 }
@@ -206,6 +201,7 @@ public class GedcomReadParse {
                 }
                 families.add(family);
             }
+
             Collections.sort(families, Family.familyIdComparator);
             Collections.sort(individuals, Individual.IDComparator);
 
@@ -217,6 +213,14 @@ public class GedcomReadParse {
             for(Individual i : individuals){
                 System.out.println(i.toString());
             }
+            Table table = new Table(3);
+            table.addCell("ID");
+            table.addCell("ID");
+            table.addCell("ID");
+            table.addCell("1");
+            table.addCell("1");
+            table.addCell("1");
+            System.out.println(table.render());
 
             //file closed
             reader.close();
