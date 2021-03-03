@@ -151,8 +151,10 @@ public class GedcomReadParse {
                     }
                 }
 
+                // ------ Family Code logic ------ //
+                // Checking for FAM tag for family at level 0
                 if (splitString.length > 2 && splitString[2].equals("FAM") && splitString[0].equals("0")) {
-                    //if already data is present in the ind object adding to array list
+                    //if already data is present in the fam object adding to array list
                     if (!(family.id==null)) {
                         if(families.size() >= 1000) {
                             throw new ArrayIndexOutOfBoundsException("More than 1000 families not allowed");
@@ -163,36 +165,23 @@ public class GedcomReadParse {
                     family.id = splitString[1].replaceAll("@","");
                 }
 
-                if(!(family.id == null) && splitString.length > 2) {
-
-                    // fetching children with level 1 adding into the list
+                if(!(family.id == null)) {
+                    // fetching husband with level 1 adding into the list
                     if (splitString[1].equals("HUSB") && splitString[0].equals("1")) {
                         family.husbandId = splitString[2].replaceAll("@","");
                     }
 
-                    // fetching children with level 1 adding into the list
-                    if (splitString[1].equals("WIFE") && splitString[0].equals("1")) {
+                    // fetching wife with level 1 adding into the list
+                    else if (splitString[1].equals("WIFE") && splitString[0].equals("1")) {
                         family.wifeId = splitString[2].replaceAll("@","");
                     }
 
                     // fetching children with level 1 adding into the list
-                    if (splitString[1].equals("CHIL") && splitString[0].equals("1")) {
+                    else if (splitString[1].equals("CHIL") && splitString[0].equals("1")) {
                         family.child.add(splitString[2].replaceAll("@",""));
                     }
 
-
-//                    else if (splitString[1].equals("BIRT") && splitString[0].equals("1")) {
-//                        line = reader.readLine();
-//                        splitString = line.split(" ");
-//                        //if BIRT tag exist checking date of birth with level and tag
-//                        if (splitString[1].equals("DATE") && splitString[0].equals("2")) {
-//                            ind.dateOfBirth = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-//                            ind.dobDate = formatter.parse(ind.dateOfBirth);
-//                            ind.dateOfBirth = changeDateFormat(ind.dateOfBirth,ind.dobDate);
-//                            ind.age = calculateAge(ind.dobDate);
-//                        }
-//                    }
-
+                    // fetching marriage with level 1 adding into the list
                     else if (splitString[1].equals("MARR") && splitString[0].equals("1")) {
                         line = reader.readLine();
                         splitString = line.split(" ");
@@ -203,11 +192,25 @@ public class GedcomReadParse {
                             family.dateOfMarried = changeDateFormat(family.dateOfMarried ,family.marrriedDate);
                         }
                     }
+
+                    // fetching divided with level 1 adding into the list
+                    else if (splitString[1].equals("DIV") && splitString[0].equals("1")) {
+                        line = reader.readLine();
+                        splitString = line.split(" ");
+                        //if BIRT tag exist checking date of birth with level and tag
+                        if (splitString[1].equals("DATE") && splitString[0].equals("2")) {
+                            family.dateOfDivided = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
+                            family.dividedDate = formatter.parse(family.dateOfDivided);
+                            family.dateOfDivided = changeDateFormat(family.dateOfDivided ,family.dividedDate);
+                        }
+                    }
                 }
 
                 line = reader.readLine();
             }
 
+
+            // After while loop ends, which is end of GED file pushing last class list into respective ArrayList
             if (!(ind.id==null)) {
                 if(individuals.size() >= 5000) {
                     throw new ArrayIndexOutOfBoundsException("More than 5000 Individuals not allowed");
@@ -222,15 +225,12 @@ public class GedcomReadParse {
                 families.add(family);
             }
 
+            // Sorting using Unique Identifier for Individual and Family
             Collections.sort(families, Family.familyIdComparator);
             Collections.sort(individuals, Individual.IDComparator);
 
-            for(Family i: families) {
-                System.out.println(i.id);
-            }
-
+            // Table library
             Table table = new Table(9);
-            
             table.addCell("ID");
             table.addCell("Name");
             table.addCell("Gender");
@@ -240,13 +240,13 @@ public class GedcomReadParse {
             table.addCell("Death");
             table.addCell("Child");
             table.addCell("Spouse");
-            
+
             for(Individual i : individuals){
             	table.addCell(i.id.toString());
             	table.addCell(i.name.toString());
             	table.addCell(i.gender.toString());
             	table.addCell(i.dateOfBirth.toString());
-            	table.addCell(i.age);
+            	table.addCell(String.valueOf(i.age));
             	if(i.alive == true) {
             		table.addCell("True");
             	}
@@ -259,9 +259,8 @@ public class GedcomReadParse {
             }
             System.out.println("Individuals");
             System.out.println(table.render());
-            
+
             Table table1 = new Table(8);
-            
             table1.addCell("ID");
             table1.addCell("Married");
             table1.addCell("Divorced");
@@ -270,16 +269,17 @@ public class GedcomReadParse {
             table1.addCell("Wife ID");
             table1.addCell("Wife Name");
             table1.addCell("Children");
-            
+
             for(Family i : families){
-            	table1.addCell(i.id.toString());
-            	table1.addCell(i.name.toString());
-            	table1.addCell(i.divorced.toString());
-            	table1.addCell(i.husbandId.toString());
-            	table1.addCell(i.husbandName.toString());
-            	table1.addCell(i.wifeId);
-            	table1.addCell(i.wifeName.toString());
-            	table1.addCell(i.childData());
+                table1.addCell(i.id.toString());
+                table1.addCell(i.dateOfMarried.toString());
+                table1.addCell(i.dateOfDivided.toString());
+                table1.addCell(i.husbandId.toString());
+                table1.addCell(i.husbandName.toString());
+                table1.addCell(i.wifeId);
+                table1.addCell(i.wifeName.toString());
+                table1.addCell(i.child.toString());
+             	//table1.addCell(i.childData());
             }
             System.out.println("Families");
             System.out.println(table1.render());
