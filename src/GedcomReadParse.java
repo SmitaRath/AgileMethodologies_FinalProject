@@ -180,34 +180,31 @@ public class GedcomReadParse {
                         family.child.add(splitString[2].replaceAll("@",""));
                     }
 
-                    // fetching children with level 1 adding into the list
-                    if (splitString[1].equals("DIV") && splitString[0].equals("1")) {
-                        family.divorced = "YES";
-                    }
 
-//                    else if (splitString[1].equals("MARR") && splitString[0].equals("1")) {
+//                    else if (splitString[1].equals("BIRT") && splitString[0].equals("1")) {
 //                        line = reader.readLine();
 //                        splitString = line.split(" ");
 //                        //if BIRT tag exist checking date of birth with level and tag
 //                        if (splitString[1].equals("DATE") && splitString[0].equals("2")) {
-//                            family.married = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-//                            family.marriedDate = formatter.parse(family.married);
-//                            family.marriedDate = changeDateFormat(family.married ,family.marriedDate);
+//                            ind.dateOfBirth = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
+//                            ind.dobDate = formatter.parse(ind.dateOfBirth);
+//                            ind.dateOfBirth = changeDateFormat(ind.dateOfBirth,ind.dobDate);
 //                            ind.age = calculateAge(ind.dobDate);
 //                        }
 //                    }
-                    else if (splitString[1].equals("BIRT") && splitString[0].equals("1")) {
+
+                    else if (splitString[1].equals("MARR") && splitString[0].equals("1")) {
                         line = reader.readLine();
                         splitString = line.split(" ");
                         //if BIRT tag exist checking date of birth with level and tag
                         if (splitString[1].equals("DATE") && splitString[0].equals("2")) {
-                            ind.dateOfBirth = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-                            ind.dobDate = formatter.parse(ind.dateOfBirth);
-                            ind.dateOfBirth = changeDateFormat(ind.dateOfBirth,ind.dobDate);
-                            ind.age = calculateAge(ind.dobDate);
+                            family.dateOfMarried = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
+                            family.marrriedDate = formatter.parse(family.dateOfMarried);
+                            family.dateOfMarried = changeDateFormat(family.dateOfMarried ,family.marrriedDate);
                         }
                     }
                 }
+
                 line = reader.readLine();
             }
 
@@ -228,13 +225,8 @@ public class GedcomReadParse {
             Collections.sort(families, Family.familyIdComparator);
             Collections.sort(individuals, Individual.IDComparator);
 
-            for(Family i : families){
-                i.husbandName = getIndividualName(i.husbandId);
-                i.wifeName = getIndividualName(i.wifeId);
-                System.out.println(i.toString());
-            }
-            for(Individual i : individuals){
-                System.out.println(i.toString());
+            for(Family i: families) {
+                System.out.println(i.id);
             }
 
             Table table = new Table(9);
@@ -272,7 +264,7 @@ public class GedcomReadParse {
             table1.addCell("Children");
             for(Family i : families){
                 table1.addCell(i.id.toString());
-                table1.addCell(i.id.toString());
+                table.addCell(i.id.toString());
                 table1.addCell(i.divorced.toString());
                 table1.addCell(i.husbandId.toString());
                 table1.addCell(i.husbandName.toString());

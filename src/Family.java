@@ -8,8 +8,8 @@ public class Family{
     String husbandName;
     String wifeId;
     String wifeName;
-    String married;
-    Date marriedDate;
+    String dateOfMarried;
+    Date marrriedDate;
     ArrayList<String> child;
     String divorced;
 
@@ -21,21 +21,8 @@ public class Family{
         this.wifeName = "NA";
         this.child = new ArrayList<>();
         this.divorced = "NA";
-        this.married = "NA";
+        this.dateOfMarried = "NA";
     }
-
-//    public void printChildId() {
-//        for(int i=0; i< child.length ; ++i) {
-//           // System.out.print();
-//        }
-//    }
-
-//    public String toString() {
-////        for(String i : child){
-////            System.out.print(i);
-////        }
-//        return this.husbandId + " " + this.husbandName;
-//    }
 
     /* Comparator for sorting the list by Family ID */
     public static Comparator<Family> familyIdComparator = new Comparator<Family>() {
