@@ -143,11 +143,11 @@ public class GedcomReadParse {
 
                     //checking whether the individual is child or spouse in the family
                     else if (splitString[1].equals("FAMC") && splitString[0].equals("1")) {
-                        ind.child = "{" + splitString[2] + "}";
+                        ind.child = "{'" + splitString[2].replaceAll("@","") + "'}";
                     }
 
                     if (splitString[1].equals("FAMS") && splitString[0].equals("1")) {
-                        ind.spouse = "{" + splitString[2] + "}";
+                        ind.spouse = "{'" + splitString[2].replaceAll("@","") + "'}";
                     }
                 }
 
