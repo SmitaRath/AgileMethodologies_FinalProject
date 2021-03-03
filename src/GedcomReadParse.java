@@ -285,7 +285,6 @@ public class GedcomReadParse {
                 table1.addCell(i.wifeId);
                 table1.addCell(i.wifeName.toString());
                 table1.addCell(i.printChildren());
-             	//table1.addCell(i.childData());
             }
             System.out.println("Families");
             System.out.println(table1.render());
