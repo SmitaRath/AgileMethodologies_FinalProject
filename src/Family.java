@@ -1,11 +1,15 @@
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
+
 public class Family{
     String id;
     String husbandId;
     String husbandName;
     String wifeId;
     String wifeName;
+    String married;
+    Date marriedDate;
     ArrayList<String> child;
     String divorced;
 
@@ -17,6 +21,7 @@ public class Family{
         this.wifeName = "NA";
         this.child = new ArrayList<>();
         this.divorced = "NA";
+        this.married = "NA";
     }
 
 //    public void printChildId() {
@@ -25,12 +30,12 @@ public class Family{
 //        }
 //    }
 
-    public String toString() {
-//        for(String i : child){
-//            System.out.print(i);
-//        }
-        return this.husbandId + " " + this.husbandName;
-    }
+//    public String toString() {
+////        for(String i : child){
+////            System.out.print(i);
+////        }
+//        return this.husbandId + " " + this.husbandName;
+//    }
 
     /* Comparator for sorting the list by Family ID */
     public static Comparator<Family> familyIdComparator = new Comparator<Family>() {

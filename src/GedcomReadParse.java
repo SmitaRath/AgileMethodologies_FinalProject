@@ -50,7 +50,7 @@ public class GedcomReadParse {
     }
 
     //calculating age of the individual
-    int calculateAge(Date dob){
+    int calculateAge(Date dob) {
         Instant instant = dob.toInstant();
         ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
         LocalDate givenDate = zone.toLocalDate();
@@ -184,6 +184,29 @@ public class GedcomReadParse {
                     if (splitString[1].equals("DIV") && splitString[0].equals("1")) {
                         family.divorced = "YES";
                     }
+
+//                    else if (splitString[1].equals("MARR") && splitString[0].equals("1")) {
+//                        line = reader.readLine();
+//                        splitString = line.split(" ");
+//                        //if BIRT tag exist checking date of birth with level and tag
+//                        if (splitString[1].equals("DATE") && splitString[0].equals("2")) {
+//                            family.married = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
+//                            family.marriedDate = formatter.parse(family.married);
+//                            family.marriedDate = changeDateFormat(family.married ,family.marriedDate);
+//                            ind.age = calculateAge(ind.dobDate);
+//                        }
+//                    }
+                    else if (splitString[1].equals("BIRT") && splitString[0].equals("1")) {
+                        line = reader.readLine();
+                        splitString = line.split(" ");
+                        //if BIRT tag exist checking date of birth with level and tag
+                        if (splitString[1].equals("DATE") && splitString[0].equals("2")) {
+                            ind.dateOfBirth = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
+                            ind.dobDate = formatter.parse(ind.dateOfBirth);
+                            ind.dateOfBirth = changeDateFormat(ind.dateOfBirth,ind.dobDate);
+                            ind.age = calculateAge(ind.dobDate);
+                        }
+                    }
                 }
                 line = reader.readLine();
             }
@@ -213,14 +236,53 @@ public class GedcomReadParse {
             for(Individual i : individuals){
                 System.out.println(i.toString());
             }
-            Table table = new Table(3);
+
+            Table table = new Table(9);
             table.addCell("ID");
-            table.addCell("ID");
-            table.addCell("ID");
-            table.addCell("1");
-            table.addCell("1");
-            table.addCell("1");
+            table.addCell("Name");
+            table.addCell("Gender");
+            table.addCell("Birthday");
+            table.addCell("Age");
+            table.addCell("Alive");
+            table.addCell("Death");
+            table.addCell("Child");
+            table.addCell("Spouse");
+            for(Individual i : individuals){
+                table.addCell(i.id.toString());
+                table.addCell(i.name.toString());
+                table.addCell(i.gender.toString());
+                table.addCell(i.dateOfBirth.toString());
+                table.addCell(String.valueOf(i.age));
+                table.addCell(String.valueOf(i.alive));
+                table.addCell(i.death.toString());
+                table.addCell(i.child.toString());
+                table.addCell(i.spouse.toString());
+            }
+            System.out.println("Individuals");
             System.out.println(table.render());
+
+            Table table1 = new Table(8);
+            table1.addCell("ID");
+            table1.addCell("Married");
+            table1.addCell("Divorced");
+            table1.addCell("Husband ID");
+            table1.addCell("Husband Name");
+            table1.addCell("Wife ID");
+            table1.addCell("Wife Name");
+            table1.addCell("Children");
+            for(Family i : families){
+                table1.addCell(i.id.toString());
+                table1.addCell(i.id.toString());
+                table1.addCell(i.divorced.toString());
+                table1.addCell(i.husbandId.toString());
+                table1.addCell(i.husbandName.toString());
+                table1.addCell(i.wifeId);
+                table1.addCell(i.wifeName.toString());
+                table1.addCell(i.child.toString());
+            }
+            System.out.println("Families");
+            System.out.println(table1.render());
+
 
             //file closed
             reader.close();
