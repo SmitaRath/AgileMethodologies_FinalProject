@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.stream.Stream;
 import org.nocrala.tools.texttablefmt.Table;
+import java.io.PrintStream;
 public class GedcomReadParse {
 
     ArrayList<Family> families = new ArrayList<>();
@@ -24,68 +25,6 @@ public class GedcomReadParse {
                 return true;
         }
         return false;
-    }
-    //method to print the Individual details in table format
-    public void printIndividualTable(){
-        
-        Table table = new Table(9);
-        table.addCell("ID");
-        table.addCell("Name");
-        table.addCell("Gender");
-        table.addCell("Birthday");
-        table.addCell("Age");
-        table.addCell("Alive");
-        table.addCell("Death");
-        table.addCell("Child");
-        table.addCell("Spouse");
-
-        for(Individual i : individuals){
-            table.addCell(i.id.toString());
-            table.addCell(i.name.toString());
-            table.addCell(i.gender.toString());
-            table.addCell(i.dateOfBirth.toString());
-            table.addCell(String.valueOf(i.age));
-            if(i.alive == true) {
-                table.addCell("True");
-            }
-            else {
-                table.addCell("False");
-            }
-            table.addCell(i.death.toString());
-            table.addCell(i.child.toString());
-            table.addCell(i.spouse.toString());
-        }
-        
-        System.out.println("Individuals");
-        System.out.println(table.render());
-
-    }
-    //method to print the Family details in table format using libraries
-    public void printFamilyTable() {
-    	
-    	Table table1 = new Table(8);
-        table1.addCell("ID");
-        table1.addCell("Married");
-        table1.addCell("Divorced");
-        table1.addCell("Husband ID");
-        table1.addCell("Husband Name");
-        table1.addCell("Wife ID");
-        table1.addCell("Wife Name");
-        table1.addCell("Children");
-
-        for(Family i : families){
-            table1.addCell(i.id.toString());
-            table1.addCell(i.dateOfMarried.toString());
-            table1.addCell(i.dateOfDivided.toString());
-            table1.addCell(i.husbandId.toString());
-            table1.addCell(i.husbandName.toString());
-            table1.addCell(i.wifeId);
-            table1.addCell(i.wifeName.toString());
-            table1.addCell(i.printChildren());
-        }
-        
-        System.out.println("Families");
-        System.out.println(table1.render());
     }
 
     //method to retrieve name from id from individuals
@@ -130,7 +69,10 @@ public class GedcomReadParse {
         Family family = new Family();
         String day;
         String month;
+
         try {
+            PrintStream fileOut = new PrintStream("./out.txt");
+            PrintStream originalOut = System.out;
             //OPENING A FILE
             reader = new BufferedReader(new FileReader(
                     "Group01-AgileMethods.GED"));
@@ -298,9 +240,65 @@ public class GedcomReadParse {
             Collections.sort(families, Family.familyIdComparator);
             Collections.sort(individuals, Individual.IDComparator);
 
-            // Calling Print Table method
-            printIndividualTable();
-            printFamilyTable();
+            // Table library
+            Table table = new Table(9);
+            table.addCell("ID");
+            table.addCell("Name");
+            table.addCell("Gender");
+            table.addCell("Birthday");
+            table.addCell("Age");
+            table.addCell("Alive");
+            table.addCell("Death");
+            table.addCell("Child");
+            table.addCell("Spouse");
+
+            for(Individual i : individuals){
+                table.addCell(i.id.toString());
+                table.addCell(i.name.toString());
+                table.addCell(i.gender.toString());
+                table.addCell(i.dateOfBirth.toString());
+                table.addCell(String.valueOf(i.age));
+                if(i.alive == true) {
+                    table.addCell("True");
+                }
+                else {
+                    table.addCell("False");
+                }
+                table.addCell(i.death.toString());
+                table.addCell(i.child.toString());
+                table.addCell(i.spouse.toString());
+            }
+            fileOut.println("Individuals");
+            fileOut.println(table.render());
+            System.out.println("Individuals");
+            System.out.println(table.render());
+
+            Table table1 = new Table(8);
+            table1.addCell("ID");
+            table1.addCell("Married");
+            table1.addCell("Divorced");
+            table1.addCell("Husband ID");
+            table1.addCell("Husband Name");
+            table1.addCell("Wife ID");
+            table1.addCell("Wife Name");
+            table1.addCell("Children");
+
+            for(Family i : families){
+                table1.addCell(i.id.toString());
+                table1.addCell(i.dateOfMarried.toString());
+                table1.addCell(i.dateOfDivided.toString());
+                table1.addCell(i.husbandId.toString());
+                table1.addCell(i.husbandName.toString());
+                table1.addCell(i.wifeId);
+                table1.addCell(i.wifeName.toString());
+                table1.addCell(i.printChildren());
+            }
+
+            fileOut.println("Families");
+            fileOut.println(table1.render());
+            System.out.println("Families");
+            System.out.println(table1.render());
+
             //file closed
             reader.close();
         }
