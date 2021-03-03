@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.stream.Stream;
-
+import org.nocrala.tools.texttablefmt.Table;
 public class GedcomReadParse {
 
     ArrayList<Family> families = new ArrayList<>();
@@ -213,6 +213,14 @@ public class GedcomReadParse {
             for(Individual i : individuals){
                 System.out.println(i.toString());
             }
+            Table table = new Table(3);
+            table.addCell("ID");
+            table.addCell("ID");
+            table.addCell("ID");
+            table.addCell("1");
+            table.addCell("1");
+            table.addCell("1");
+            System.out.println(table.render());
 
             //file closed
             reader.close();
