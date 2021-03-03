@@ -225,6 +225,12 @@ public class GedcomReadParse {
                 families.add(family);
             }
 
+            // Husband and wife name of family
+            for(Family i: families) {
+                i.husbandName = getIndividualName(i.husbandId);
+                i.wifeName = getIndividualName(i.wifeId);
+            }
+
             // Sorting using Unique Identifier for Individual and Family
             Collections.sort(families, Family.familyIdComparator);
             Collections.sort(individuals, Individual.IDComparator);
