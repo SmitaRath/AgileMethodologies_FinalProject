@@ -347,7 +347,7 @@ public class GedcomReadParse {
 
                 if(!validateDate(i.dividedDate,i.dateOfDivided)){
                     us01.addCell(i.id);
-                    us01.addCell("Death");
+                    us01.addCell("Divorced");
                     us01.addCell(i.dateOfDivided);
                 }
 
