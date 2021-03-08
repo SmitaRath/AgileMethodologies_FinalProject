@@ -76,12 +76,25 @@ public class GedcomReadParse {
     //us-01 changes starts @sr
     //us01 dates before current date
     public boolean validateDate(Date dateField, String dateStr){
-        if(!(dateStr.equals("NA"))) {
+        if(!(dateStr.equals("NA") || dateStr.equals("INVALID DATE"))) {
             Date today = new Date();
             if (today.before(dateField))
                 return false;
         }
         return true;
+    }
+
+    //Method to validate date
+    public Date validateDate(String dateField){
+        formatter.setLenient(false);
+        Date returnDateField;
+        try{
+            returnDateField=formatter.parse(dateField);
+        }
+        catch(ParseException e){
+            returnDateField=null;
+        }
+        return returnDateField;
     }
 
     //us-01 changes ends @sr
@@ -156,9 +169,16 @@ public class GedcomReadParse {
                         //if BIRT tag exist checking date of birth with level and tag
                         if (splitString.length>2 && splitString[1].equals("DATE") && splitString[0].equals("2")) {
                             ind.dateOfBirth = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-                            ind.dobDate = formatter.parse(ind.dateOfBirth);
-                            ind.dateOfBirth = changeDateFormat(ind.dateOfBirth,ind.dobDate);
-                            ind.age = calculateAge(ind.dobDate);
+
+                            //us-01 changes starts @sr
+                            ind.dobDate=validateDate(ind.dateOfBirth);
+                            if(ind.dobDate==null)
+                                ind.dateOfBirth="INVALID DATE";
+                            else {
+                                ind.dateOfBirth = changeDateFormat(ind.dateOfBirth, ind.dobDate);
+                                ind.age = calculateAge(ind.dobDate);
+                            }
+                            //us-01 changes ends @sr
                         }
                     }
 
@@ -175,8 +195,13 @@ public class GedcomReadParse {
                         if (splitString.length>2 && splitString[1].equals("DATE") && splitString[0].equals("2")) {
                             {
                                 ind.death = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-                                ind.deathDate = formatter.parse(ind.death);
+                                //us-01 changes starts @sr
+                                ind.deathDate=validateDate(ind.death);
+                                if(ind.deathDate==null)
+                                    ind.death="INVALID DATE";
+                                else
                                 ind.death=changeDateFormat(ind.death,ind.deathDate);
+                                //us-01 changes ends @sr
                             }
                         }
                     }
@@ -226,10 +251,16 @@ public class GedcomReadParse {
                         line = reader.readLine();
                         splitString = line.split(" ");
                         //if BIRT tag exist checking date of birth with level and tag
-                        if (splitString.length > 2 && splitString[1].equals("DATE") && splitString[0].equals("2")) {
+                        if (splitString.length > 2 && splitString[1].equals("DATE") && splitString[0].equals("2"))
+                        {
                             family.dateOfMarried = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-                            family.marrriedDate = formatter.parse(family.dateOfMarried);
+                            //us-01 changes starts @sr
+                            family.marrriedDate=validateDate(family.dateOfMarried);
+                            if(family.marrriedDate==null)
+                                family.dateOfMarried="INVALID DATE";
+                            else
                             family.dateOfMarried = changeDateFormat(family.dateOfMarried ,family.marrriedDate);
+                            //us-01 changes ends @sr
                         }
                     }
 
@@ -240,8 +271,13 @@ public class GedcomReadParse {
                         //if BIRT tag exist checking date of birth with level and tag
                         if (splitString.length > 2 && splitString[1].equals("DATE") && splitString[0].equals("2")) {
                             family.dateOfDivided = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-                            family.dividedDate = formatter.parse(family.dateOfDivided);
+                            //us-01 changes starts @sr
+                            family.dividedDate=validateDate(family.dateOfDivided);
+                            if(family.dividedDate==null)
+                                family.dateOfDivided="INVALID DATE";
+                            else
                             family.dateOfDivided = changeDateFormat(family.dateOfDivided ,family.dividedDate);
+                            //us-01 changes starts @sr
                         }
                     }
                 }
@@ -430,8 +466,6 @@ public class GedcomReadParse {
             e.printStackTrace();
         }
         catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
             e.printStackTrace();
         }
     }
