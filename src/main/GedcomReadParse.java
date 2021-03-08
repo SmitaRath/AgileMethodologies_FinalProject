@@ -258,7 +258,9 @@ public class GedcomReadParse {
 
             // Table library
             Table table = new Table(9);
+            //us-01 changes starts @sr
             Table us01 = new Table (3);
+            //us-01 changes ends @sr
             table.addCell("ID");
             table.addCell("Name");
             table.addCell("Gender");
@@ -269,9 +271,11 @@ public class GedcomReadParse {
             table.addCell("Child");
             table.addCell("Spouse");
 
+            //us-01 changes starts @sr
             us01.addCell("Individual/Family ID");
             us01.addCell("Field Name");
             us01.addCell("Value");
+            //us-01 changes ends @sr
 
             for(Individual i : individuals){
                 table.addCell(i.id.toString());
