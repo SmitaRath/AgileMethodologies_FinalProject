@@ -1,3 +1,5 @@
+package main;
+
 public class GedcomEntry {
     String level;
     String tag;
