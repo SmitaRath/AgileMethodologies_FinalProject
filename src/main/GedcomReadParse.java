@@ -1,3 +1,5 @@
+package main;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -156,7 +158,7 @@ public class GedcomReadParse {
                     }
                 }
 
-                // ------ Family Code logic ------ //
+                // ------ main.Family Code logic ------ //
                 // Checking for FAM tag for family at level 0
                 if (splitString.length > 2 && splitString[2].equals("FAM") && splitString[0].equals("0")) {
                     //if already data is present in the fam object adding to array list
@@ -236,7 +238,7 @@ public class GedcomReadParse {
                 i.wifeName = getIndividualName(i.wifeId);
             }
 
-            // Sorting using Unique Identifier for Individual and Family
+            // Sorting using Unique Identifier for main.Individual and main.Family
             Collections.sort(families, Family.familyIdComparator);
             Collections.sort(individuals, Individual.IDComparator);
 

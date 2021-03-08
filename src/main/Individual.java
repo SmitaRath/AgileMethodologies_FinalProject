@@ -1,3 +1,5 @@
+package main;
+
 import java.util.Comparator;
 import java.util.Date;
 
@@ -27,7 +29,7 @@ public class Individual{
 
     @Override
     public String toString() {
-        return "Individual{" +
+        return "main.Individual{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", gender='" + gender + '\'' +

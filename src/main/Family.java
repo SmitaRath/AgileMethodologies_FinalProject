@@ -1,3 +1,5 @@
+package main;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -36,7 +38,7 @@ public class Family{
         return str;
     }
 
-    /* Comparator for sorting the list by Family ID */
+    /* Comparator for sorting the list by main.Family ID */
     public static Comparator<Family> familyIdComparator = new Comparator<Family>() {
         public int compare(Family s1, Family s2) {
             String Id1 = s1.id.toUpperCase();
@@ -59,5 +61,9 @@ public class Family{
                 str += "}";
         }
         return str;
+    }
+
+    public String name() {
+        return "Kandasamy";
     }
 }
