@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -60,6 +61,19 @@ public class GedcomReadParse {
         Period period = Period.between(givenDate, LocalDate.now());
         return period.getYears();
     }
+
+    //us-01 changes starts @sr
+    //us01 dates before current date
+    public boolean validateDate(Date dateField, String dateStr){
+        if(!(dateStr.equals("NA"))) {
+            Date today = new Date();
+            if (today.before(dateField))
+                return false;
+        }
+        return true;
+    }
+
+    //us-01 changes ends @sr
 
     // method to read GEDCOM FILE
     public void readGEDCOMFILE() {
@@ -153,7 +167,7 @@ public class GedcomReadParse {
                         ind.child = "{'" + splitString[2].replaceAll("@","") + "'}";
                     }
 
-                    if (splitString.length>2 && splitString[1].equals("FAMS") && splitString[0].equals("1")) {
+                    if (splitString.length>2 && splitString[1].equals("FAMS") && splitString[0].equals("1") && ind.spouse.equals("NA")) {
                         ind.spouse = "{'" + splitString[2].replaceAll("@","") + "'}";
                     }
                 }
@@ -244,6 +258,7 @@ public class GedcomReadParse {
 
             // Table library
             Table table = new Table(9);
+            Table us01 = new Table (3);
             table.addCell("ID");
             table.addCell("Name");
             table.addCell("Gender");
@@ -253,6 +268,10 @@ public class GedcomReadParse {
             table.addCell("Death");
             table.addCell("Child");
             table.addCell("Spouse");
+
+            us01.addCell("Individual/Family ID");
+            us01.addCell("Field Name");
+            us01.addCell("Value");
 
             for(Individual i : individuals){
                 table.addCell(i.id.toString());
@@ -269,6 +288,23 @@ public class GedcomReadParse {
                 table.addCell(i.death.toString());
                 table.addCell(i.child.toString());
                 table.addCell(i.spouse.toString());
+
+                //us-01 changes starts @sr
+
+                if(!validateDate(i.dobDate,i.dateOfBirth)) {
+                    us01.addCell(i.id);
+                    us01.addCell("BirthDay");
+                    us01.addCell(i.dateOfBirth);
+                }
+
+
+                if(!validateDate(i.deathDate,i.death)){
+                    us01.addCell(i.id);
+                    us01.addCell("Death");
+                    us01.addCell(i.death);
+                }
+
+                //us-01 changes ends @sr
             }
             fileOut.println("Individuals");
             fileOut.println(table.render());
@@ -285,6 +321,8 @@ public class GedcomReadParse {
             table1.addCell("Wife Name");
             table1.addCell("Children");
 
+
+
             for(Family i : families){
                 table1.addCell(i.id.toString());
                 table1.addCell(i.dateOfMarried.toString());
@@ -294,12 +332,35 @@ public class GedcomReadParse {
                 table1.addCell(i.wifeId);
                 table1.addCell(i.wifeName.toString());
                 table1.addCell(i.printChildren());
+
+                //us-01 changes starts @sr
+
+                if(!validateDate(i.marrriedDate,i.dateOfMarried)) {
+                    us01.addCell(i.id);
+                    us01.addCell("Married");
+                    us01.addCell(i.dateOfMarried);
+                }
+
+                if(!validateDate(i.dividedDate,i.dateOfDivided)){
+                    us01.addCell(i.id);
+                    us01.addCell("Death");
+                    us01.addCell(i.dateOfDivided);
+                }
+
+                //us-01 changes ends @sr
             }
 
             fileOut.println("Families");
             fileOut.println(table1.render());
             System.out.println("Families");
             System.out.println(table1.render());
+
+            //us-01 changes starts @sr
+            System.out.println("US01 - Dates before Current Date");
+            System.out.println(us01.render());
+            fileOut.println("US01 - Dates before Current Date");
+            fileOut.println(us01.render());
+            //us-01 changes ends @sr
 
             //file closed
             reader.close();
