@@ -39,6 +39,17 @@ public class GedcomReadParse {
         return "id not found";
     }
 
+    //us-21 changes starts @sr
+    //method to retrieve gender from id from individuals
+    String getGender(String id){
+        for(Individual ind: individuals){
+            if(ind.id.equals(id))
+                return ind.gender;
+        }
+        return "id not found";
+    }
+    //us-21 changes ends @sr
+
     //converting date fromat to yyyy-mm-dd
     String changeDateFormat(String dateVar, Date dataField){
         String dateString;
@@ -74,6 +85,14 @@ public class GedcomReadParse {
     }
 
     //us-01 changes ends @sr
+
+    //us-21 changes starts @sr
+    public boolean validateGenderForFamily(String id,String expectedGender){
+        if(!getGender(id).equals(expectedGender))
+            return false;
+        return true;
+    }
+    //us-21 changes ends @sr
 
     // method to read GEDCOM FILE
     public void readGEDCOMFILE() {
@@ -261,6 +280,11 @@ public class GedcomReadParse {
             //us-01 changes starts @sr
             Table us01 = new Table (3);
             //us-01 changes ends @sr
+
+            //us-21 changes starts @sr
+            Table us21 = new Table (5);
+            //us-21 changes ends @sr
+
             table.addCell("ID");
             table.addCell("Name");
             table.addCell("Gender");
@@ -276,6 +300,14 @@ public class GedcomReadParse {
             us01.addCell("Field Name");
             us01.addCell("Value");
             //us-01 changes ends @sr
+
+            //us-21 changes starts @sr
+            us21.addCell("Family ID");
+            us21.addCell("Individual ID");
+            us21.addCell("Role");
+            us21.addCell("Expected Gender");
+            us21.addCell("GEDCOM Gender");
+            //us-21 changes ends @sr
 
             for(Individual i : individuals){
                 table.addCell(i.id.toString());
@@ -347,11 +379,28 @@ public class GedcomReadParse {
 
                 if(!validateDate(i.dividedDate,i.dateOfDivided)){
                     us01.addCell(i.id);
-                    us01.addCell("Death");
+                    us01.addCell("Divorced");
                     us01.addCell(i.dateOfDivided);
                 }
-
                 //us-01 changes ends @sr
+
+                //us-21 changes starts @sr
+                if(!validateGenderForFamily(i.husbandId,"M")){
+                    us21.addCell(i.id);
+                    us21.addCell(i.husbandId);
+                    us21.addCell("Husband");
+                    us21.addCell("M");
+                    us21.addCell(getGender(i.husbandId));
+                }
+
+                if(!validateGenderForFamily(i.wifeId,"F")){
+                    us21.addCell(i.id);
+                    us21.addCell(i.wifeId);
+                    us21.addCell("Wife");
+                    us21.addCell("F");
+                    us21.addCell(getGender(i.wifeId));
+                }
+                //us-21 changes ends @sr
             }
 
             fileOut.println("Families");
@@ -365,6 +414,14 @@ public class GedcomReadParse {
             fileOut.println("US01 - Dates before Current Date");
             fileOut.println(us01.render());
             //us-01 changes ends @sr
+
+
+            //us-21 changes starts @sr
+            System.out.println("US21 - Correct gender for role");
+            System.out.println(us21.render());
+            fileOut.println("US21 - Correct gender for role");
+            fileOut.println(us21.render());
+            //us-21 changes ends @sr
 
             //file closed
             reader.close();

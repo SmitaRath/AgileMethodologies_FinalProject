@@ -2,8 +2,8 @@ Individuals
 +--+--------------------+------+----------+---+-----+----------+------+------+
 |ID|Name                |Gender|Birthday  |Age|Alive|Death     |Child |Spouse|
 +--+--------------------+------+----------+---+-----+----------+------+------+
-|I1|Elizabeth /Peterson/|F     |2022-08-07|-1 |False|1998-06-15|NA    |{'F1'}|
-|I2|Michael /Smith/     |M     |1920-10-10|100|False|1990-02-11|NA    |{'F1'}|
+|I1|Elizabeth /Peterson/|M     |2022-08-07|-1 |False|1998-06-15|NA    |{'F1'}|
+|I2|Michael /Smith/     |F     |1920-10-10|100|False|1990-02-11|NA    |{'F1'}|
 |I3|Linda /Smith/       |F     |1960-06-05|60 |True |NA        |{'F1'}|{'F2'}|
 |I4|Timothy /Williams/  |M     |1965-09-13|55 |False|1995-10-17|NA    |{'F3'}|
 |I5|Jacob /Williams/    |M     |1990-06-12|30 |True |NA        |{'F3'}|{'F4'}|
@@ -27,3 +27,10 @@ US01 - Dates before Current Date
 +--------------------+----------+----------+
 |I1                  |BirthDay  |2022-08-07|
 +--------------------+----------+----------+
+US21 - Correct gender for role
++---------+-------------+-------+---------------+-------------+
+|Family ID|Individual ID|Role   |Expected Gender|GEDCOM Gender|
++---------+-------------+-------+---------------+-------------+
+|F1       |I2           |Husband|M              |F            |
+|F1       |I1           |Wife   |F              |M            |
++---------+-------------+-------+---------------+-------------+
