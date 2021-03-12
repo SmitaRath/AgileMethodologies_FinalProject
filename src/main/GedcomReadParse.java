@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.stream.Stream;
 import org.nocrala.tools.texttablefmt.Table;
 import java.io.PrintStream;
+import java.util.HashMap;
 public class GedcomReadParse {
 
     ArrayList<Family> families = new ArrayList<>();
