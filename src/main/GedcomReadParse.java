@@ -377,7 +377,7 @@ public class GedcomReadParse {
                 table.addCell(i.gender.toString());
                 table.addCell(i.dateOfBirth.toString());
                 table.addCell(String.valueOf(i.age));
-                if(i.alive == true) {
+                if(i.alive) {
                     table.addCell("True");
                 }
                 else {
@@ -485,8 +485,8 @@ public class GedcomReadParse {
             fileOut.println(us21.render());
             //us-21 changes ends @sr
             
-            /*
-            us-22 testcases start @pp
+
+            //us-22 testcases start @pp
             if(checkIndividualId()){
                 System.out.println("All the Individual Id's are unique");
             }
@@ -499,8 +499,7 @@ public class GedcomReadParse {
             else{
                 System.out.println("All the Family Id's are not unique");
             }
-            //us-22 testcases end @pp 
-            */
+            //us-22 testcases end @pp
 
             //file closed
             reader.close();
