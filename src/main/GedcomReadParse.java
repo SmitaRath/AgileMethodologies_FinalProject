@@ -484,6 +484,23 @@ public class GedcomReadParse {
             fileOut.println("US21 - Correct gender for role");
             fileOut.println(us21.render());
             //us-21 changes ends @sr
+            
+            /*
+            us-22 testcases start @pp
+            if(checkIndividualId()){
+                System.out.println("All the Individual Id's are unique");
+            }
+            else{
+                System.out.println("All the Individual ID's are not unique");
+            }
+            if(checkFamilyId()){
+                System.out.println("All Family Id's are unique");
+            }
+            else{
+                System.out.println("All the Family Id's are not unique");
+            }
+            //us-22 testcases end @pp 
+            */
 
             //file closed
             reader.close();
