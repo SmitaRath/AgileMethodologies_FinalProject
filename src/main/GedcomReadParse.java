@@ -49,7 +49,32 @@ public class GedcomReadParse {
         return "id not found";
     }
     //us-21 changes ends @sr
-
+    
+    //us-22 changes starts @pp
+    //This method to check whether Id's are unique or not of Individual's
+    boolean checkIndividualId(){
+        HashMap<String, Integer> Id = new HashMap<String, Integer>();
+        for(Individual ind: individuals){
+            if(Id.get(ind.id)!=null){
+                return false;
+            }
+            Id.put(ind.id,1);
+        }
+        return true;
+    }
+    //This method to check whether Id's are unique or not of Families
+    boolean checkFamilyId(){
+        HashMap<String, Integer> Id = new HashMap<String, Integer>();
+        for(Family fam: families){
+            if(Id.get(fam.id)!=null){
+                return false;
+            }
+            Id.put(fam.id,1);
+        }
+        return true;
+    }
+    //us-22 changes ends @pp
+    
     //converting date fromat to yyyy-mm-dd
     String changeDateFormat(String dateVar, Date dataField){
         String dateString;
