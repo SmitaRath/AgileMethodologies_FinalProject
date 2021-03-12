@@ -53,7 +53,7 @@ public class GedcomReadParse {
     
     //us-22 changes starts @pp
     //This method to check whether Id's are unique or not of Individual's
-    boolean checkIndividualId(){
+    public boolean checkIndividualId(){
         HashMap<String, Integer> Id = new HashMap<String, Integer>();
         for(Individual ind: individuals){
             if(Id.get(ind.id)!=null){
@@ -64,7 +64,7 @@ public class GedcomReadParse {
         return true;
     }
     //This method to check whether Id's are unique or not of Families
-    boolean checkFamilyId(){
+    public boolean checkFamilyId(){
         HashMap<String, Integer> Id = new HashMap<String, Integer>();
         for(Family fam: families){
             if(Id.get(fam.id)!=null){
