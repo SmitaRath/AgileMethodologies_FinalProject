@@ -4,9 +4,9 @@ import java.util.Comparator;
 import java.util.Date;
 
 public class Individual{
-    String id=null;
+    public String id=null;
     String name;
-    String gender;
+    public String gender;
     String dateOfBirth;
     Date dobDate;
     int age;
