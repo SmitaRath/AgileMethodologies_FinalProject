@@ -76,7 +76,43 @@ public class GedcomReadParse {
         }
     }
     //us-22 changes ends @pp
-    
+
+    //us-02 changes starts @pp
+    public boolean ValidateBirthBeforeMarriage(Individual ind){
+        String birthYear="";
+        String birthMonth="";
+        String birthDay="";
+        int i;
+        for(i=0;ind.dateOfBirth.charAt(i)!='-';i++){
+            birthYear = birthYear + ind.dateOfBirth.charAt(i);
+        }
+        for(i=i+1;ind.dateOfBirth.charAt(i)!='-';i++){
+            birthMonth = birthMonth + ind.dateOfBirth.charAt(i);
+        }
+        for(i=i+1;i<ind.dateOfBirth.length();i++){
+            birthDay = birthDay + ind.dateOfBirth.charAt(i);
+        }
+        int year = Integer.valueOf(birthYear);
+        int month = Integer.valueOf(birthMonth);
+        int day = Integer.valueOf(birthDay);
+        if(compareBirthWithMarriage(ind, year, month, day)){
+            return true;
+        }
+        return false;
+    }
+    //us-02 changes ends @pp
+
+    //us-02 changes starts @pp
+    public String getMarriageDate(Individual ind){
+        for(Family fam: families){
+            if(fam.husbandId.equals(ind.id) || fam.wifeId.equals(ind.id)){
+                return fam.dateOfMarried;
+            }
+        }
+        return null;
+    }
+    //us-02 changes ends @pp
+
     //converting date fromat to yyyy-mm-dd
     String changeDateFormat(String dateVar, Date dataField){
         String dateString;
@@ -90,6 +126,46 @@ public class GedcomReadParse {
         dateString  = givenDate.getYear() + "-" + month + "-" + day;
          return dateString;
     }
+
+    //us-02 changes start @pp
+    public boolean compareBirthWithMarriage(Individual ind, int year, int month, int day){
+        String marriageYear="";
+        String marriageMonth="";
+        String marriageDay="";
+        int i;
+        for(Family fam: families) {
+            if (fam.husbandId.equals(ind.id) || fam.wifeId.equals(ind.id)) {
+                for(i=0;fam.dateOfMarried.charAt(i)!='-';i++){
+                    marriageYear = marriageYear + fam.dateOfMarried.charAt(i);
+                }
+                for(i=i+1;fam.dateOfMarried.charAt(i)!='-';i++){
+                    marriageMonth = marriageMonth + fam.dateOfMarried.charAt(i);
+                }
+                for(i=i+1;i<fam.dateOfMarried.length();i++){
+                    marriageDay = marriageDay + fam.dateOfMarried.charAt(i);
+                }
+                int myear=Integer.valueOf(marriageYear);
+                int mmonth=Integer.valueOf(marriageMonth);
+                int mday=Integer.valueOf(marriageDay);
+                if(year>myear){
+                    return true;
+                }
+                if(year==myear){
+                    if(month > mmonth){
+                        return true;
+                    }
+                    if(month == mmonth){
+                        if(day >= mday){
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+    //us-02 changes ends @pp
 
     //calculating age of the individual
     int calculateAge(Date dob) {
@@ -353,7 +429,6 @@ public class GedcomReadParse {
                         }
                     }
                 }
-
                 line = reader.readLine();
             }
 
@@ -406,6 +481,10 @@ public class GedcomReadParse {
             checkIndividualId();  //Calling to intialize HashMap
             //us-22 changes end @pp
 
+            //us-02 changes starts @pp
+            Table us02 = new Table(4);
+            //us-02 changes ends @pp
+
             table.addCell("ID");
             table.addCell("Name");
             table.addCell("Gender");
@@ -448,6 +527,13 @@ public class GedcomReadParse {
             us35.addCell("Individual Name");
             us35.addCell("Date of recent birth");
             //us-35 changes ends @kp
+
+            //us-02 changes ends @pp
+            us02.addCell("Individual ID");
+            us02.addCell("BirthDay");
+            us02.addCell("MarriageDate");
+            us02.addCell("Validity");
+            //us-02 changes ends @pp
 
             for(Individual i : individuals) {
                 table.addCell(i.id.toString());
@@ -524,6 +610,15 @@ public class GedcomReadParse {
                     us22.addCell("Unique");
                 }
                 //us-22 ends @pp
+
+                //us-02 changes starts @pp
+                if(ValidateBirthBeforeMarriage(i)){
+                    us02.addCell(i.id);
+                    us02.addCell(i.dateOfBirth);
+                    us02.addCell(getMarriageDate(i));
+                    us02.addCell("Invalid");
+                }
+                //us-02 changes ends @pp
             }
             fileOut.println("Individuals");
             fileOut.println(table.render());
@@ -576,7 +671,7 @@ public class GedcomReadParse {
                     us21.addCell(getGender(i.husbandId));
                 }
 
-                if(!validateGenderForFamily(i.wifeId,"F")){
+                if(!validateGenderForFamily(i.wifeId,"F")) {
                     us21.addCell(i.id);
                     us21.addCell(i.wifeId);
                     us21.addCell("Wife");
@@ -630,6 +725,13 @@ public class GedcomReadParse {
                 fileOut.println(us35.render());
             }
             //us-35 changes ends @kp
+
+            //us-02 changes starts @pp
+            System.out.println("US02 - Birth before Marriage");
+            System.out.println(us02.render());
+            fileOut.println("US02 - Birth before Marriage");
+            fileOut.println(us02.render());
+            //us-02 changes ends @pp
 
             //file closed
             reader.close();
