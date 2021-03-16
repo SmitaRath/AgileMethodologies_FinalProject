@@ -729,8 +729,8 @@ public class GedcomReadParse {
             //us-02 changes starts @pp
             System.out.println("US02 - Birth before Marriage");
             System.out.println(us02.render());
-            fileOut.println("US35 - Birth before Marriage");
-            fileOut.println(us35.render());
+            fileOut.println("US02 - Birth before Marriage");
+            fileOut.println(us02.render());
             //us-02 changes ends @pp
 
             //file closed
