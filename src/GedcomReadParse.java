@@ -1,21 +1,26 @@
+package main;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.stream.Stream;
 import org.nocrala.tools.texttablefmt.Table;
 import java.io.PrintStream;
+import java.util.HashMap;
 public class GedcomReadParse {
 
     ArrayList<Family> families = new ArrayList<>();
-    ArrayList<Individual> individuals = new ArrayList<>();
+    public ArrayList<Individual> individuals = new ArrayList<>();
     DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
 
     //method to check the tag is valid or not
@@ -28,13 +33,134 @@ public class GedcomReadParse {
     }
 
     //method to retrieve name from id from individuals
-    String getIndividualName(String id){
+    String getIndividualName(String id) {
         for(Individual ind: individuals){
             if(ind.id.equals(id))
                 return ind.name;
         }
         return "id not found";
     }
+
+    //us-21 changes starts @sr
+    //method to retrieve gender from id from individuals
+    String getGender(String id) {
+        for(Individual ind: individuals){
+            if(ind.id.equals(id))
+                return ind.gender;
+        }
+        return "id not found";
+    }
+    //us-21 changes ends @sr
+    
+    //us-22 changes starts @pp
+    //This method to check whether Id's are unique or not of Individual's
+    HashMap<String, Integer> IndividualId = new HashMap<String, Integer>();
+    public void checkIndividualId() {
+        for(Individual ind: individuals){
+            if(IndividualId.get(ind.id)!=null){
+                IndividualId.put(ind.id,2);
+            }
+            else if(IndividualId.get(ind.id)==null)
+                IndividualId.put(ind.id,1);
+        }
+    }
+    //This method to check whether Id's are unique or not of Families
+    HashMap<String, Integer> FamilyId = new HashMap<String, Integer>();
+    public void checkFamilyId() {
+        for(Family fam: families){
+            if(FamilyId.get(fam.id)!=null){
+                FamilyId.put(fam.id,2);
+            }
+            if(FamilyId.get(fam.id)==null)
+                FamilyId.put(fam.id,1);
+        }
+    }
+    //us-22 changes ends @pp
+
+    //us-02 changes starts @pp
+    public boolean ValidateBirthBeforeMarriage(Individual ind){
+        String birthYear="";
+        String birthMonth="";
+        String birthDay="";
+        int i;
+        for(i=0;ind.dateOfBirth.charAt(i)!='-';i++){
+            birthYear = birthYear + ind.dateOfBirth.charAt(i);
+        }
+        for(i=i+1;ind.dateOfBirth.charAt(i)!='-';i++){
+            birthMonth = birthMonth + ind.dateOfBirth.charAt(i);
+        }
+        for(i=i+1;i<ind.dateOfBirth.length();i++){
+            birthDay = birthDay + ind.dateOfBirth.charAt(i);
+        }
+        int year = Integer.valueOf(birthYear);
+        int month = Integer.valueOf(birthMonth);
+        int day = Integer.valueOf(birthDay);
+        if(compareBirthWithMarriage(ind, year, month, day)){
+            return true;
+        }
+        return false;
+    }
+    //us-02 changes ends @pp
+    
+    
+    
+    // User stories in s03 @AS
+
+public boolean birthBeforeDeath(Individual ind){
+
+    String birthYear="";
+
+    String birthMonth="";
+
+    String birthDay="";
+
+    int i;
+
+    for(i=0;ind.dateOfBirth.charAt(i)!='-';i++){
+
+        birthYear = birthYear + ind.dateOfBirth.charAt(i);
+
+    }
+
+    for(i=i+1;ind.dateOfBirth.charAt(i)!='-';i++){
+
+        birthMonth = birthMonth + ind.dateOfBirth.charAt(i);
+
+    }
+
+    for(i=i+1;i<ind.dateOfBirth.length();i++){
+
+        birthDay = birthDay + ind.dateOfBirth.charAt(i);
+
+    }
+
+    int year = Integer.valueOf(birthYear);
+
+    int month = Integer.valueOf(birthMonth);
+
+    int day = Integer.valueOf(birthDay);
+
+    if(compareBirthWithDeath(ind, year, month, day)){
+
+        return true;
+
+    }
+
+    return false;
+
+}
+// US-03 changes ends here
+
+    //us-02 changes starts @pp
+    public String getMarriageDate(Individual ind){
+        for(Family fam: families){
+            if(fam.husbandId.equals(ind.id) || fam.wifeId.equals(ind.id)){
+                return fam.dateOfMarried;
+            }
+        }
+        return null;
+    }
+    //us-02 changes ends @pp
 
     //converting date fromat to yyyy-mm-dd
     String changeDateFormat(String dateVar, Date dataField){
@@ -47,8 +173,48 @@ public class GedcomReadParse {
         month = givenDate.getMonthValue()<10?"0"+givenDate.getMonthValue():""+givenDate.getMonthValue();
         day = givenDate.getDayOfMonth()<10?"0"+givenDate.getDayOfMonth():""+givenDate.getDayOfMonth();
         dateString  = givenDate.getYear() + "-" + month + "-" + day;
-        return dateString;
+         return dateString;
     }
+
+    //us-02 changes start @pp
+    public boolean compareBirthWithMarriage(Individual ind, int year, int month, int day){
+        String marriageYear="";
+        String marriageMonth="";
+        String marriageDay="";
+        int i;
+        for(Family fam: families) {
+            if (fam.husbandId.equals(ind.id) || fam.wifeId.equals(ind.id)) {
+                for(i=0;fam.dateOfMarried.charAt(i)!='-';i++){
+                    marriageYear = marriageYear + fam.dateOfMarried.charAt(i);
+                }
+                for(i=i+1;fam.dateOfMarried.charAt(i)!='-';i++){
+                    marriageMonth = marriageMonth + fam.dateOfMarried.charAt(i);
+                }
+                for(i=i+1;i<fam.dateOfMarried.length();i++){
+                    marriageDay = marriageDay + fam.dateOfMarried.charAt(i);
+                }
+                int myear=Integer.valueOf(marriageYear);
+                int mmonth=Integer.valueOf(marriageMonth);
+                int mday=Integer.valueOf(marriageDay);
+                if(year>myear){
+                    return true;
+                }
+                if(year==myear){
+                    if(month > mmonth){
+                        return true;
+                    }
+                    if(month == mmonth){
+                        if(day >= mday){
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+    //us-02 changes ends @pp
 
     //calculating age of the individual
     int calculateAge(Date dob) {
@@ -56,8 +222,159 @@ public class GedcomReadParse {
         ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
         LocalDate givenDate = zone.toLocalDate();
         Period period = Period.between(givenDate, LocalDate.now());
+
         return period.getYears();
     }
+
+    // us-35 changes starts @KP
+    long calculateDays(Date dob) {
+        System.out.println(dob);
+        Instant instant = dob.toInstant();
+        ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
+        LocalDate givenDate = zone.toLocalDate();
+      //  Period period = Period.between(givenDate, LocalDate.now());
+        long p2 = ChronoUnit.DAYS.between(givenDate, LocalDate.now());
+       // Period.ofDays(30);
+        return p2;
+    }
+    // us-35 changes ends @KP
+
+
+    // us-07 changes starts @KP
+    // calculates age between date of birth and date of death
+    int differenceBetweenTwoAge(Date dob, Date deathDate) {
+        Instant instantDob = dob.toInstant();
+        Instant instantDeathDate = deathDate.toInstant();
+        ZonedDateTime zoneDob = instantDob.atZone(ZoneId.systemDefault());
+        ZonedDateTime zoneDeathDate = instantDeathDate.atZone(ZoneId.systemDefault());
+        LocalDate givenDobDate = zoneDob.toLocalDate();
+        LocalDate givenDeathDate = zoneDeathDate.toLocalDate();
+        Period period = Period.between(givenDobDate, givenDeathDate);
+        return period.getYears();
+    }
+    // us-07 changes ends @KP
+
+    //us-01 changes starts @sr
+    //us01 dates before current date
+    public boolean validateDate(Date dateField, String dateStr){
+        if(!(dateStr.equals("NA") || dateStr.equals("INVALID DATE"))) {
+            Date today = new Date();
+            if (today.before(dateField))
+                return false;
+        }
+        return true;
+        
+    }
+    
+//US-03 changes start @AS
+
+public boolean compareBirthWithDeath(Individual ind, int year, int month, int day){
+
+    String deathYear="";
+
+    String deathMonth="";
+
+    String deathDay="";
+
+    int i;
+
+    		for(i=0;ind.death.charAt(i)!='-';i++){
+    			deathYear = deathYear + ind.death.charAt(i);
+    		}
+
+            for(i=i+1;ind.death.charAt(i)!='-';i++){
+
+                deathMonth = deathMonth + ind.death.charAt(i);
+
+            }
+
+            for(i=i+1;i<indddeath.length();i++){
+
+                deathDay = deathDay + ind.death.charAt(i);
+
+            }
+
+            int dyear=Integer.valueOf(deathYear);
+
+            int dmonth=Integer.valueOf(deathMonth);
+
+            int dday=Integer.valueOf(deathDay);
+
+            if(year>dyear){
+
+                return true;
+
+            }
+
+            if(year==dyear){
+
+                if(month > dmonth){
+
+                    return true;
+
+                }
+
+                if(month == dmonth){
+
+                    if(day >= dday){
+
+                        return true;
+
+                    }
+
+                }
+
+            }
+
+            return false;
+
+        
+
+    }
+
+    return false;
+
+}
+// end of US-03
+
+    //Method to validate date
+    public Date validateDate(String dateField){
+        formatter.setLenient(false);
+        Date returnDateField;
+        try{
+            returnDateField=formatter.parse(dateField);
+        }
+        catch(ParseException e){
+            returnDateField=null;
+        }
+        return returnDateField;
+    }
+
+    //us-01 changes ends @sr
+
+    //us-21 changes starts @sr
+    public boolean validateGenderForFamily(String id,String expectedGender){
+        if(!getGender(id).equals(expectedGender))
+            return false;
+        return true;
+    }
+    //us-21 changes ends @sr
+
+    /*us-22 changes starts @pp*/
+    //Validating whether the given IndividualId is unique or not
+    public boolean validateIdForIndividual(String id){
+        if(IndividualId.get(id) == 2)
+            return true;
+        return false;
+    }
+
+    //Validating whether the given FamilyId is unique or not
+    public boolean validateIdForFamily(String id) {
+        if (FamilyId.get(id)==2)
+            return true;
+        return false;
+    }
+    /*us-22 changes end @pp*/
 
     // method to read GEDCOM FILE
     public void readGEDCOMFILE() {
@@ -121,9 +438,16 @@ public class GedcomReadParse {
                         //if BIRT tag exist checking date of birth with level and tag
                         if (splitString.length>2 && splitString[1].equals("DATE") && splitString[0].equals("2")) {
                             ind.dateOfBirth = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-                            ind.dobDate = formatter.parse(ind.dateOfBirth);
-                            ind.dateOfBirth = changeDateFormat(ind.dateOfBirth,ind.dobDate);
-                            ind.age = calculateAge(ind.dobDate);
+
+                            //us-01 changes starts @sr
+                            ind.dobDate=validateDate(ind.dateOfBirth);
+                            if (ind.dobDate==null)
+                                ind.dateOfBirth="INVALID DATE";
+                            else {
+                                ind.dateOfBirth = changeDateFormat(ind.dateOfBirth, ind.dobDate);
+                                ind.age = calculateAge(ind.dobDate);
+                            }
+                            //us-01 changes ends @sr
                         }
                     }
 
@@ -138,11 +462,16 @@ public class GedcomReadParse {
                         splitString = line.split(" ");
                         //checking DATE tag for death date with level and tag
                         if (splitString.length>2 && splitString[1].equals("DATE") && splitString[0].equals("2")) {
-                            {
                                 ind.death = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-                                ind.deathDate = formatter.parse(ind.death);
-                                ind.death=changeDateFormat(ind.death,ind.deathDate);
-                            }
+                                //us-01 changes starts @sr
+                                ind.deathDate = validateDate(ind.death);
+                                if (ind.deathDate == null || ind.dobDate == null)
+                                    ind.death = "INVALID DATE";
+                                else {   // us-07 changes starts @KP
+                                    ind.death = changeDateFormat(ind.death, ind.deathDate);
+                                    differenceBetweenTwoAge(ind.dobDate, ind.deathDate);
+                                }
+                                //us-01 changes ends @sr // us-07 changes ends @KP
                         }
                     }
 
@@ -151,12 +480,12 @@ public class GedcomReadParse {
                         ind.child = "{'" + splitString[2].replaceAll("@","") + "'}";
                     }
 
-                    if (splitString.length>2 && splitString[1].equals("FAMS") && splitString[0].equals("1")) {
+                    if (splitString.length>2 && splitString[1].equals("FAMS") && splitString[0].equals("1") && ind.spouse.equals("NA")) {
                         ind.spouse = "{'" + splitString[2].replaceAll("@","") + "'}";
                     }
                 }
 
-                // ------ Family Code logic ------ //
+                // ------ main.Family Code logic ------ //
                 // Checking for FAM tag for family at level 0
                 if (splitString.length > 2 && splitString[2].equals("FAM") && splitString[0].equals("0")) {
                     //if already data is present in the fam object adding to array list
@@ -191,10 +520,16 @@ public class GedcomReadParse {
                         line = reader.readLine();
                         splitString = line.split(" ");
                         //if BIRT tag exist checking date of birth with level and tag
-                        if (splitString.length > 2 && splitString[1].equals("DATE") && splitString[0].equals("2")) {
+                        if (splitString.length > 2 && splitString[1].equals("DATE") && splitString[0].equals("2"))
+                        {
                             family.dateOfMarried = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-                            family.marrriedDate = formatter.parse(family.dateOfMarried);
+                            //us-01 changes starts @sr
+                            family.marrriedDate=validateDate(family.dateOfMarried);
+                            if(family.marrriedDate==null)
+                                family.dateOfMarried="INVALID DATE";
+                            else
                             family.dateOfMarried = changeDateFormat(family.dateOfMarried ,family.marrriedDate);
+                            //us-01 changes ends @sr
                         }
                     }
 
@@ -205,12 +540,16 @@ public class GedcomReadParse {
                         //if BIRT tag exist checking date of birth with level and tag
                         if (splitString.length > 2 && splitString[1].equals("DATE") && splitString[0].equals("2")) {
                             family.dateOfDivided = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-                            family.dividedDate = formatter.parse(family.dateOfDivided);
+                            //us-01 changes starts @sr
+                            family.dividedDate=validateDate(family.dateOfDivided);
+                            if(family.dividedDate==null)
+                                family.dateOfDivided="INVALID DATE";
+                            else
                             family.dateOfDivided = changeDateFormat(family.dateOfDivided ,family.dividedDate);
+                            //us-01 changes starts @sr
                         }
                     }
                 }
-
                 line = reader.readLine();
             }
 
@@ -236,12 +575,41 @@ public class GedcomReadParse {
                 i.wifeName = getIndividualName(i.wifeId);
             }
 
-            // Sorting using Unique Identifier for Individual and Family
+            // Sorting using Unique Identifier for main.Individual and main.Family
             Collections.sort(families, Family.familyIdComparator);
             Collections.sort(individuals, Individual.IDComparator);
 
             // Table library
             Table table = new Table(9);
+            //us-01 changes starts @sr
+            Table us01 = new Table (3);
+            //us-01 changes ends @sr
+
+            //us-07 changes starts @kp
+            Table us07 = new Table (4);
+            //us-07 changes ends @kp
+
+            //us-21 changes starts @sr
+            Table us21 = new Table (5);
+            //us-21 changes ends @sr
+            //US-03@AS
+
+            Table us03 = new Table(4);
+           // end of US-03 
+
+            //us-35 changes starts @kp
+            Table us35 = new Table (3);
+            //us-35 changes ends @kp
+
+            //us-22 changes starts @pp
+            Table us22 = new Table(3);
+            checkIndividualId();  //Calling to intialize HashMap
+            //us-22 changes end @pp
+
+            //us-02 changes starts @pp
+            Table us02 = new Table(4);
+            //us-02 changes ends @pp
+
             table.addCell("ID");
             table.addCell("Name");
             table.addCell("Gender");
@@ -252,13 +620,63 @@ public class GedcomReadParse {
             table.addCell("Child");
             table.addCell("Spouse");
 
-            for(Individual i : individuals){
+            //us-01 changes starts @sr
+            us01.addCell("Individual/Family ID");
+            us01.addCell("Field Name");
+            us01.addCell("Value");
+            //us-01 changes ends @sr
+
+            //us-21 changes starts @sr
+            us21.addCell("Family ID");
+            us21.addCell("Individual ID");
+            us21.addCell("Role");
+            us21.addCell("Expected Gender");
+            us21.addCell("GEDCOM Gender");
+            //us-21 changes ends @sr
+
+            //us-07 changes starts @kp
+            us07.addCell("Individual ID");
+            us07.addCell("Individual Name");
+            us07.addCell("Birth/Death");
+            us07.addCell("Date shouln't be greater than 150 year or less than 0");
+            //us-07 changes ends @kp
+
+            //us-22 changes starts @pp
+            us22.addCell("Individual ID");
+            us22.addCell("Individual Name");
+            us22.addCell("Unique ID or not");
+            //us-22 changes ends @pp
+
+            //us-35 changes starts @kp
+            us35.addCell("Individual ID");
+            us35.addCell("Individual Name");
+            us35.addCell("Date of recent birth");
+            //us-35 changes ends @kp
+
+            //us-02 changes ends @pp
+            us02.addCell("Individual ID");
+            us02.addCell("BirthDay");
+            us02.addCell("MarriageDate");
+            us02.addCell("Validity");
+            //us-02 changes ends @pp
+//us-03 changes ends @AS
+
+us03.addCell("Individual ID");
+
+us03.addCell("BirthDay");
+
+us03.addCell("DeathDate");
+
+us03.addCell("Validity");
+
+//us-03 changes ends @AS
+            for(Individual i : individuals) {
                 table.addCell(i.id.toString());
                 table.addCell(i.name.toString());
                 table.addCell(i.gender.toString());
                 table.addCell(i.dateOfBirth.toString());
                 table.addCell(String.valueOf(i.age));
-                if(i.alive == true) {
+                if(i.alive) {
                     table.addCell("True");
                 }
                 else {
@@ -267,6 +685,91 @@ public class GedcomReadParse {
                 table.addCell(i.death.toString());
                 table.addCell(i.child.toString());
                 table.addCell(i.spouse.toString());
+
+                //us-01 changes starts @sr
+
+                if(!validateDate(i.dobDate,i.dateOfBirth)) {
+                    us01.addCell(i.id);
+                    us01.addCell("BirthDay");
+                    us01.addCell(i.dateOfBirth);
+                }
+
+
+                if(!validateDate(i.deathDate,i.death)){
+                    us01.addCell(i.id);
+                    us01.addCell("Death");
+                    us01.addCell(i.death);
+                }
+
+                //us-01 changes ends @sr
+
+                //us-07 changes starts @kp
+                int birthAge = calculateAge(i.dobDate);
+                System.out.println("Birth age" + birthAge);
+                if( birthAge > 150 || birthAge < 0) {
+                    us07.addCell(i.id);
+                    us07.addCell(i.name);
+                    us07.addCell("Birth");
+                    us07.addCell(i.dateOfBirth);
+                }
+                if(i.deathDate != null) {
+                    int deathAge = differenceBetweenTwoAge(i.dobDate, i.deathDate);
+                    if (deathAge > 150 || deathAge < 0) {
+                        us07.addCell(i.id);
+                        us07.addCell(i.name);
+                        us07.addCell("Death");
+                        us07.addCell(i.death);
+                    }
+                }
+                //us-35 changes ends @kp
+
+
+                //us-35 changes starts @kp
+                if(calculateDays(i.dobDate) <= 30) {
+                    us35.addCell(i.id);
+                    us35.addCell(i.name);
+                    us35.addCell(i.dateOfBirth);
+                }
+                //us-35 changes ends @kp
+
+                //us-22 changes starts @pp
+                if(validateIdForIndividual(i.id)){
+                    us22.addCell(i.id);
+                    us22.addCell(i.name);
+                    us22.addCell("Not Unique");
+                }
+                else
+                {
+                    us22.addCell(i.id);
+                    us22.addCell(i.name);
+                    us22.addCell("Unique");
+                }
+                //us-22 ends @pp
+
+                //us-02 changes starts @pp
+                if(ValidateBirthBeforeMarriage(i)){
+                    us02.addCell(i.id);
+                    us02.addCell(i.dateOfBirth);
+                    us02.addCell(getMarriageDate(i));
+                    us02.addCell("Invalid");
+                }
+                //us-02 changes ends @pp
+                
+                //us-03 changes starts @AS
+
+if(ValidateBirthBeforeDeath(i)){
+
+    us03.addCell(i.id);
+
+    us03.addCell(i.dateOfBirth);
+
+    us03.addCell(i.death);
+
+    us03.addCell("Invalid");
+
+}
+
+//us-03 changes ends @AS
             }
             fileOut.println("Individuals");
             fileOut.println(table.render());
@@ -283,6 +786,8 @@ public class GedcomReadParse {
             table1.addCell("Wife Name");
             table1.addCell("Children");
 
+
+
             for(Family i : families){
                 table1.addCell(i.id.toString());
                 table1.addCell(i.dateOfMarried.toString());
@@ -292,12 +797,103 @@ public class GedcomReadParse {
                 table1.addCell(i.wifeId);
                 table1.addCell(i.wifeName.toString());
                 table1.addCell(i.printChildren());
+
+                //us-01 changes starts @sr
+
+                if(!validateDate(i.marrriedDate,i.dateOfMarried)) {
+                    us01.addCell(i.id);
+                    us01.addCell("Married");
+                    us01.addCell(i.dateOfMarried);
+                }
+
+                if(!validateDate(i.dividedDate,i.dateOfDivided)){
+                    us01.addCell(i.id);
+                    us01.addCell("Divorced");
+                    us01.addCell(i.dateOfDivided);
+                }
+                //us-01 changes ends @sr
+
+                //us-21 changes starts @sr
+                if(!validateGenderForFamily(i.husbandId,"M")){
+                    us21.addCell(i.id);
+                    us21.addCell(i.husbandId);
+                    us21.addCell("Husband");
+                    us21.addCell("M");
+                    us21.addCell(getGender(i.husbandId));
+                }
+
+                if(!validateGenderForFamily(i.wifeId,"F")) {
+                    us21.addCell(i.id);
+                    us21.addCell(i.wifeId);
+                    us21.addCell("Wife");
+                    us21.addCell("F");
+                    us21.addCell(getGender(i.wifeId));
+                }
+                //us-21 changes ends @sr
             }
 
             fileOut.println("Families");
             fileOut.println(table1.render());
             System.out.println("Families");
             System.out.println(table1.render());
+
+            //us-01 changes starts @sr
+            System.out.println("US01 - Dates before Current Date");
+            System.out.println(us01.render());
+            fileOut.println("US01 - Dates before Current Date");
+            fileOut.println(us01.render());
+            //us-01 changes ends @sr
+
+            //us-07 changes starts @sr
+            System.out.println("US07 - Less than 150 years old");
+            System.out.println(us07.render());
+            fileOut.println("US07 - Less than 150 years old");
+            fileOut.println(us07.render());
+            //us-01 changes ends @sr
+
+
+            //us-21 changes starts @sr
+            System.out.println("US21 - Correct gender for role");
+            System.out.println(us21.render());
+            fileOut.println("US21 - Correct gender for role");
+            fileOut.println(us21.render());
+            //us-21 changes ends @sr
+            
+
+            //us-22 changes start @pp
+            System.out.println("US22 - Unique Id's");
+            System.out.println(us22.render());
+            fileOut.println("US22 - Unique Id's");
+            fileOut.println(us21.render());
+            //us-22 changes end @pp
+            //us-03 changes starts @AS
+
+        System.out.println("US03 - Death before Birth");
+
+     System.out.println(us03.render());
+
+      fileOut.println("US03 - Death before Birth");
+
+        fileOut.println(us03.render());
+
+//us-03 changes ends @AS
+
+
+            //us-35 changes starts @kp
+            if(us35.render() != null) {
+                System.out.println("US35 - List recent births");
+                System.out.println(us35.render());
+                fileOut.println("US35 - List recent births");
+                fileOut.println(us35.render());
+            }
+            //us-35 changes ends @kp
+
+            //us-02 changes starts @pp
+            System.out.println("US02 - Birth before Marriage");
+            System.out.println(us02.render());
+            fileOut.println("US02 - Birth before Marriage");
+            fileOut.println(us02.render());
+            //us-02 changes ends @pp
 
             //file closed
             reader.close();
@@ -307,8 +903,6 @@ public class GedcomReadParse {
         }
         catch (IOException e) {
             e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
     }
-}
+    
