@@ -234,7 +234,7 @@ public class GedcomReadParse {
         return returnDateField;
     }
 
-    //Validate Date
+    //Validate Date created by @pp
     public boolean validateDate(int year, int month, int day){
         if(year<=0||month<=0||day<=0||day>31||month>12)
             return false;
@@ -276,6 +276,7 @@ public class GedcomReadParse {
         return false;
     }
     /*us-22 changes end @pp*/
+
     // method to read GEDCOM FILE
     public void readGEDCOMFILE() {
         BufferedReader reader;
