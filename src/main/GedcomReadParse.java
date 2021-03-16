@@ -348,6 +348,7 @@ public class GedcomReadParse {
                                     ind.death = "INVALID DATE";
                                 else {   // us-07 changes starts @KP
                                     ind.death = changeDateFormat(ind.death, ind.deathDate);
+                                    ind.age=differenceBetweenTwoAge(ind.dobDate, ind.deathDate);
                                     differenceBetweenTwoAge(ind.dobDate, ind.deathDate);
                                 }
                                 //us-01 changes ends @sr // us-07 changes ends @KP
