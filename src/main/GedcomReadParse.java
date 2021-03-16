@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -19,7 +20,7 @@ import java.util.HashMap;
 public class GedcomReadParse {
 
     ArrayList<Family> families = new ArrayList<>();
-    ArrayList<Individual> individuals = new ArrayList<>();
+    public ArrayList<Individual> individuals = new ArrayList<>();
     DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
 
     //method to check the tag is valid or not
@@ -32,7 +33,7 @@ public class GedcomReadParse {
     }
 
     //method to retrieve name from id from individuals
-    String getIndividualName(String id){
+    String getIndividualName(String id) {
         for(Individual ind: individuals){
             if(ind.id.equals(id))
                 return ind.name;
@@ -42,7 +43,7 @@ public class GedcomReadParse {
 
     //us-21 changes starts @sr
     //method to retrieve gender from id from individuals
-    String getGender(String id){
+    String getGender(String id) {
         for(Individual ind: individuals){
             if(ind.id.equals(id))
                 return ind.gender;
@@ -53,7 +54,7 @@ public class GedcomReadParse {
     
     //us-22 changes starts @pp
     //This method to check whether Id's are unique or not of Individual's
-    public boolean checkIndividualId(){
+    boolean checkIndividualId() {
         HashMap<String, Integer> Id = new HashMap<String, Integer>();
         for(Individual ind: individuals){
             if(Id.get(ind.id)!=null){
@@ -64,7 +65,7 @@ public class GedcomReadParse {
         return true;
     }
     //This method to check whether Id's are unique or not of Families
-    public boolean checkFamilyId(){
+    boolean checkFamilyId() {
         HashMap<String, Integer> Id = new HashMap<String, Integer>();
         for(Family fam: families){
             if(Id.get(fam.id)!=null){
@@ -87,7 +88,7 @@ public class GedcomReadParse {
         month = givenDate.getMonthValue()<10?"0"+givenDate.getMonthValue():""+givenDate.getMonthValue();
         day = givenDate.getDayOfMonth()<10?"0"+givenDate.getDayOfMonth():""+givenDate.getDayOfMonth();
         dateString  = givenDate.getYear() + "-" + month + "-" + day;
-        return dateString;
+         return dateString;
     }
 
     //calculating age of the individual
@@ -96,8 +97,37 @@ public class GedcomReadParse {
         ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
         LocalDate givenDate = zone.toLocalDate();
         Period period = Period.between(givenDate, LocalDate.now());
+
         return period.getYears();
     }
+
+    // us-35 changes starts @KP
+    long calculateDays(Date dob) {
+        System.out.println(dob);
+        Instant instant = dob.toInstant();
+        ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
+        LocalDate givenDate = zone.toLocalDate();
+      //  Period period = Period.between(givenDate, LocalDate.now());
+        long p2 = ChronoUnit.DAYS.between(givenDate, LocalDate.now());
+       // Period.ofDays(30);
+        return p2;
+    }
+    // us-35 changes ends @KP
+
+
+    // us-07 changes starts @KP
+    // calculates age between date of birth and date of death
+    int differenceBetweenTwoAge(Date dob, Date deathDate) {
+        Instant instantDob = dob.toInstant();
+        Instant instantDeathDate = deathDate.toInstant();
+        ZonedDateTime zoneDob = instantDob.atZone(ZoneId.systemDefault());
+        ZonedDateTime zoneDeathDate = instantDeathDate.atZone(ZoneId.systemDefault());
+        LocalDate givenDobDate = zoneDob.toLocalDate();
+        LocalDate givenDeathDate = zoneDeathDate.toLocalDate();
+        Period period = Period.between(givenDobDate, givenDeathDate);
+        return period.getYears();
+    }
+    // us-07 changes ends @KP
 
     //us-01 changes starts @sr
     //us01 dates before current date
@@ -198,7 +228,7 @@ public class GedcomReadParse {
 
                             //us-01 changes starts @sr
                             ind.dobDate=validateDate(ind.dateOfBirth);
-                            if(ind.dobDate==null)
+                            if (ind.dobDate==null)
                                 ind.dateOfBirth="INVALID DATE";
                             else {
                                 ind.dateOfBirth = changeDateFormat(ind.dateOfBirth, ind.dobDate);
@@ -219,16 +249,16 @@ public class GedcomReadParse {
                         splitString = line.split(" ");
                         //checking DATE tag for death date with level and tag
                         if (splitString.length>2 && splitString[1].equals("DATE") && splitString[0].equals("2")) {
-                            {
                                 ind.death = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
                                 //us-01 changes starts @sr
-                                ind.deathDate=validateDate(ind.death);
-                                if(ind.deathDate==null)
-                                    ind.death="INVALID DATE";
-                                else
-                                ind.death=changeDateFormat(ind.death,ind.deathDate);
-                                //us-01 changes ends @sr
-                            }
+                                ind.deathDate = validateDate(ind.death);
+                                if (ind.deathDate == null || ind.dobDate == null)
+                                    ind.death = "INVALID DATE";
+                                else {   // us-07 changes starts @KP
+                                    ind.death = changeDateFormat(ind.death, ind.deathDate);
+                                    differenceBetweenTwoAge(ind.dobDate, ind.deathDate);
+                                }
+                                //us-01 changes ends @sr // us-07 changes ends @KP
                         }
                     }
 
@@ -343,9 +373,17 @@ public class GedcomReadParse {
             Table us01 = new Table (3);
             //us-01 changes ends @sr
 
+            //us-07 changes starts @kp
+            Table us07 = new Table (4);
+            //us-07 changes ends @kp
+
             //us-21 changes starts @sr
             Table us21 = new Table (5);
             //us-21 changes ends @sr
+
+            //us-35 changes starts @kp
+            Table us35 = new Table (3);
+            //us-35 changes ends @kp
 
             table.addCell("ID");
             table.addCell("Name");
@@ -371,13 +409,26 @@ public class GedcomReadParse {
             us21.addCell("GEDCOM Gender");
             //us-21 changes ends @sr
 
-            for(Individual i : individuals){
+            //us-07 changes starts @kp
+            us07.addCell("Individual ID");
+            us07.addCell("Individual Name");
+            us07.addCell("Birth/Death");
+            us07.addCell("Date shouln't be greater than 150 year or less than 0");
+            //us-07 changes ends @kp
+
+            //us-35 changes starts @kp
+            us35.addCell("Individual ID");
+            us35.addCell("Individual Name");
+            us35.addCell("Date of recent birth");
+            //us-35 changes ends @kp
+
+            for(Individual i : individuals) {
                 table.addCell(i.id.toString());
                 table.addCell(i.name.toString());
                 table.addCell(i.gender.toString());
                 table.addCell(i.dateOfBirth.toString());
                 table.addCell(String.valueOf(i.age));
-                if(i.alive) {
+                if(i.alive == true) {
                     table.addCell("True");
                 }
                 else {
@@ -403,6 +454,35 @@ public class GedcomReadParse {
                 }
 
                 //us-01 changes ends @sr
+
+                //us-07 changes starts @kp
+                int birthAge = calculateAge(i.dobDate);
+                System.out.println("Birth age" + birthAge);
+                if( birthAge > 150 || birthAge < 0) {
+                    us07.addCell(i.id);
+                    us07.addCell(i.name);
+                    us07.addCell("Birth");
+                    us07.addCell(i.dateOfBirth);
+                }
+                if(i.deathDate != null) {
+                    int deathAge = differenceBetweenTwoAge(i.dobDate, i.deathDate);
+                    if (deathAge > 150 || deathAge < 0) {
+                        us07.addCell(i.id);
+                        us07.addCell(i.name);
+                        us07.addCell("Death");
+                        us07.addCell(i.death);
+                    }
+                }
+                //us-35 changes ends @kp
+
+
+                //us-35 changes starts @kp
+                if(calculateDays(i.dobDate) <= 30) {
+                    us35.addCell(i.id);
+                    us35.addCell(i.name);
+                    us35.addCell(i.dateOfBirth);
+                }
+                //us-35 changes ends @kp
             }
             fileOut.println("Individuals");
             fileOut.println(table.render());
@@ -477,6 +557,13 @@ public class GedcomReadParse {
             fileOut.println(us01.render());
             //us-01 changes ends @sr
 
+            //us-07 changes starts @sr
+            System.out.println("US07 - Less than 150 years old");
+            System.out.println(us07.render());
+            fileOut.println("US07 - Less than 150 years old");
+            fileOut.println(us07.render());
+            //us-01 changes ends @sr
+
 
             //us-21 changes starts @sr
             System.out.println("US21 - Correct gender for role");
@@ -485,8 +572,8 @@ public class GedcomReadParse {
             fileOut.println(us21.render());
             //us-21 changes ends @sr
             
-
-            //us-22 testcases start @pp
+            /*
+            us-22 testcases start @pp
             if(checkIndividualId()){
                 System.out.println("All the Individual Id's are unique");
             }
@@ -499,7 +586,17 @@ public class GedcomReadParse {
             else{
                 System.out.println("All the Family Id's are not unique");
             }
-            //us-22 testcases end @pp
+            //us-22 testcases end @pp 
+            */
+
+            //us-35 changes starts @kp
+            if(us35.render() != null) {
+                System.out.println("US35 - List recent births");
+                System.out.println(us35.render());
+                fileOut.println("US35 - List recent births");
+                fileOut.println(us35.render());
+            }
+            //us-35 changes ends @kp
 
             //file closed
             reader.close();
