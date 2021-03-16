@@ -733,7 +733,7 @@ public class GedcomReadParse {
             System.out.println("US22 - Unique Id's");
             System.out.println(us22.render());
             fileOut.println("US22 - Unique Id's");
-            fileOut.println(us21.render());
+            fileOut.println(us22.render());
             //us-22 changes end @pp
 
 
