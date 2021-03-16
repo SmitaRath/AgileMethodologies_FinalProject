@@ -54,26 +54,26 @@ public class GedcomReadParse {
     
     //us-22 changes starts @pp
     //This method to check whether Id's are unique or not of Individual's
-    boolean checkIndividualId() {
-        HashMap<String, Integer> Id = new HashMap<String, Integer>();
+    HashMap<String, Integer> IndividualId = new HashMap<String, Integer>();
+    public void checkIndividualId() {
         for(Individual ind: individuals){
-            if(Id.get(ind.id)!=null){
-                return false;
+            if(IndividualId.get(ind.id)!=null){
+                IndividualId.put(ind.id,2);
             }
-            Id.put(ind.id,1);
+            if(IndividualId.get(ind.id)==null)
+                IndividualId.put(ind.id,1);
         }
-        return true;
     }
     //This method to check whether Id's are unique or not of Families
-    boolean checkFamilyId() {
-        HashMap<String, Integer> Id = new HashMap<String, Integer>();
+    HashMap<String, Integer> FamilyId = new HashMap<String, Integer>();
+    public void checkFamilyId() {
         for(Family fam: families){
-            if(Id.get(fam.id)!=null){
-                return false;
+            if(FamilyId.get(fam.id)!=null){
+                FamilyId.put(fam.id,2);
             }
-            Id.put(fam.id,1);
+            if(FamilyId.get(fam.id)==null)
+                FamilyId.put(fam.id,1);
         }
-        return true;
     }
     //us-22 changes ends @pp
     
@@ -428,7 +428,7 @@ public class GedcomReadParse {
                 table.addCell(i.gender.toString());
                 table.addCell(i.dateOfBirth.toString());
                 table.addCell(String.valueOf(i.age));
-                if(i.alive == true) {
+                if(i.alive) {
                     table.addCell("True");
                 }
                 else {
