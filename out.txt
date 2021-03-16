@@ -9,7 +9,7 @@ Individuals
 |I5|Jacob /Williams/    |M     |1990-06-12|30 |True |NA        |{'F3'}|{'F4'}|
 |I6|Andrew /Miller/     |M     |1958-07-13|62 |True |NA        |NA    |{'F2'}|
 |I7|Daniel /Miller/     |M     |2005-08-14|15 |True |NA        |{'F2'}|NA    |
-|I8|Natalie /Jones/     |F     |1988-06-19|32 |True |NA        |NA    |{'F4'}|
+|I8|Natalie /Jones/     |F     |2017-06-19|3  |True |NA        |NA    |{'F4'}|
 |I9|Sofia /Williams/    |F     |2020-08-09|0  |True |NA        |{'F4'}|NA    |
 +--+--------------------+------+----------+---+-----+----------+------+------+
 Families
@@ -49,6 +49,12 @@ US22 - Unique Id's
 |F1       |I1           |Wife   |F              |M            |
 +---------+-------------+-------+---------------+-------------+
 US35 - List recent births
++-------------+--------------------+--------------------+
+|Individual ID|Individual Name     |Date of recent birth|
++-------------+--------------------+--------------------+
+|I1           |Elizabeth /Peterson/|2022-08-07          |
++-------------+--------------------+--------------------+
+US35 - Birth before Marriage
 +-------------+--------------------+--------------------+
 |Individual ID|Individual Name     |Date of recent birth|
 +-------------+--------------------+--------------------+
