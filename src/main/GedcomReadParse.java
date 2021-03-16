@@ -51,7 +51,7 @@ public class GedcomReadParse {
         return "id not found";
     }
     //us-21 changes ends @sr
-    
+
     //us-22 changes starts @pp
     //This method to check whether Id's are unique or not of Individual's
     HashMap<String, Integer> IndividualId = new HashMap<String, Integer>();
@@ -126,7 +126,7 @@ public class GedcomReadParse {
         month = givenDate.getMonthValue()<10?"0"+givenDate.getMonthValue():""+givenDate.getMonthValue();
         day = givenDate.getDayOfMonth()<10?"0"+givenDate.getDayOfMonth():""+givenDate.getDayOfMonth();
         dateString  = givenDate.getYear() + "-" + month + "-" + day;
-         return dateString;
+        return dateString;
     }
 
     //us-02 changes start @pp
@@ -204,9 +204,9 @@ public class GedcomReadParse {
         Instant instant = dob.toInstant();
         ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
         LocalDate givenDate = zone.toLocalDate();
-      //  Period period = Period.between(givenDate, LocalDate.now());
+        //  Period period = Period.between(givenDate, LocalDate.now());
         long p2 = ChronoUnit.DAYS.between(givenDate, LocalDate.now());
-       // Period.ofDays(30);
+        // Period.ofDays(30);
         System.out.println("dob" + p2);
         return p2;
     }
@@ -361,16 +361,16 @@ public class GedcomReadParse {
                         splitString = line.split(" ");
                         //checking DATE tag for death date with level and tag
                         if (splitString.length>2 && splitString[1].equals("DATE") && splitString[0].equals("2")) {
-                                ind.death = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-                                //us-01 changes starts @sr
-                                ind.deathDate = validateDate(ind.death);
-                                if (ind.deathDate == null || ind.dobDate == null)
-                                    ind.death = "INVALID DATE";
-                                else {   // us-07 changes starts @KP
-                                    ind.death = changeDateFormat(ind.death, ind.deathDate);
-                                    differenceBetweenTwoAge(ind.dobDate, ind.deathDate);
-                                }
-                                //us-01 changes ends @sr // us-07 changes ends @KP
+                            ind.death = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
+                            //us-01 changes starts @sr
+                            ind.deathDate = validateDate(ind.death);
+                            if (ind.deathDate == null || ind.dobDate == null)
+                                ind.death = "INVALID DATE";
+                            else {   // us-07 changes starts @KP
+                                ind.death = changeDateFormat(ind.death, ind.deathDate);
+                                differenceBetweenTwoAge(ind.dobDate, ind.deathDate);
+                            }
+                            //us-01 changes ends @sr // us-07 changes ends @KP
                         }
                     }
 
@@ -427,7 +427,7 @@ public class GedcomReadParse {
                             if(family.marrriedDate==null)
                                 family.dateOfMarried="INVALID DATE";
                             else
-                            family.dateOfMarried = changeDateFormat(family.dateOfMarried ,family.marrriedDate);
+                                family.dateOfMarried = changeDateFormat(family.dateOfMarried ,family.marrriedDate);
                             //us-01 changes ends @sr
                         }
                     }
@@ -444,7 +444,7 @@ public class GedcomReadParse {
                             if(family.dividedDate==null)
                                 family.dateOfDivided="INVALID DATE";
                             else
-                            family.dateOfDivided = changeDateFormat(family.dateOfDivided ,family.dividedDate);
+                                family.dateOfDivided = changeDateFormat(family.dateOfDivided ,family.dividedDate);
                             //us-01 changes starts @sr
                         }
                     }
@@ -728,13 +728,13 @@ public class GedcomReadParse {
             fileOut.println("US21 - Correct gender for role");
             fileOut.println(us21.render());
             //us-21 changes ends @sr
-            
+
 
             //us-22 changes start @pp
             System.out.println("US22 - Unique Id's");
             System.out.println(us22.render());
             fileOut.println("US22 - Unique Id's");
-            fileOut.println(us21.render());
+            fileOut.println(us22.render());
             //us-22 changes end @pp
 
 
