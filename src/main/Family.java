@@ -63,7 +63,4 @@ public class Family{
         return str;
     }
 
-    public String name() {
-        return "Kandasamy";
-    }
 }
