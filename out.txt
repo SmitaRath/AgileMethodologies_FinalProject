@@ -3,7 +3,7 @@ Individuals
 |ID|Name                |Gender|Birthday  |Age|Alive|Death     |Child |Spouse|
 +--+--------------------+------+----------+---+-----+----------+------+------+
 |I1|Elizabeth /Peterson/|M     |2022-08-07|-1 |False|1998-06-15|NA    |{'F1'}|
-|I2|Michael /Smith/     |F     |1920-10-10|100|False|1990-02-11|NA    |{'F1'}|
+|I1|Michael /Smith/     |F     |1920-10-10|100|False|1990-02-11|NA    |{'F1'}|
 |I3|Linda /Smith/       |F     |1960-06-05|60 |True |NA        |{'F1'}|{'F2'}|
 |I4|Timothy /Williams/  |M     |1965-09-13|55 |False|1995-10-17|NA    |{'F3'}|
 |I5|Jacob /Williams/    |M     |1990-06-12|30 |True |NA        |{'F3'}|{'F4'}|
@@ -16,7 +16,7 @@ Families
 +--+----------+----------+----------+------------------+-------+--------------------+--------+
 |ID|Married   |Divorced  |Husband ID|Husband Name      |Wife ID|Wife Name           |Children|
 +--+----------+----------+----------+------------------+-------+--------------------+--------+
-|F1|1955-08-05|1980-12-15|I2        |Michael /Smith/   |I1     |Elizabeth /Peterson/|{'I3'}  |
+|F1|1955-08-05|1980-12-15|I2        |id not found      |I1     |Elizabeth /Peterson/|{'I3'}  |
 |F2|2000-09-14|NA        |I6        |Andrew /Miller/   |I3     |Linda /Smith/       |{'I7'}  |
 |F3|1988-07-17|NA        |I4        |Timothy /Williams/|I3     |Linda /Smith/       |{'I5'}  |
 |F4|2016-08-15|NA        |I5        |Jacob /Williams/  |I8     |Natalie /Jones/     |{'I9'}  |
@@ -38,7 +38,14 @@ US21 - Correct gender for role
 +---------+-------------+-------+---------------+-------------+
 |Family ID|Individual ID|Role   |Expected Gender|GEDCOM Gender|
 +---------+-------------+-------+---------------+-------------+
-|F1       |I2           |Husband|M              |F            |
+|F1       |I2           |Husband|M              |id not found |
+|F1       |I1           |Wife   |F              |M            |
++---------+-------------+-------+---------------+-------------+
+US22 - Unique Id's
++---------+-------------+-------+---------------+-------------+
+|Family ID|Individual ID|Role   |Expected Gender|GEDCOM Gender|
++---------+-------------+-------+---------------+-------------+
+|F1       |I2           |Husband|M              |id not found |
 |F1       |I1           |Wife   |F              |M            |
 +---------+-------------+-------+---------------+-------------+
 US35 - List recent births

@@ -60,7 +60,7 @@ public class GedcomReadParse {
             if(IndividualId.get(ind.id)!=null){
                 IndividualId.put(ind.id,2);
             }
-            if(IndividualId.get(ind.id)==null)
+            else if(IndividualId.get(ind.id)==null)
                 IndividualId.put(ind.id,1);
         }
     }
@@ -162,6 +162,22 @@ public class GedcomReadParse {
         return true;
     }
     //us-21 changes ends @sr
+
+    /*us-22 changes starts @pp*/
+    //Validating whether the given IndividualId is unique or not
+    public boolean validateIdForIndividual(String id){
+        if(IndividualId.get(id) == 2)
+            return true;
+        return false;
+    }
+
+    //Validating whether the given FamilyId is unique or not
+    public boolean validateIdForFamily(String id) {
+        if (FamilyId.get(id)==2)
+            return true;
+        return false;
+    }
+    /*us-22 changes end @pp*/
 
     // method to read GEDCOM FILE
     public void readGEDCOMFILE() {
@@ -385,6 +401,11 @@ public class GedcomReadParse {
             Table us35 = new Table (3);
             //us-35 changes ends @kp
 
+            //us-22 changes starts @pp
+            Table us22 = new Table(3);
+            checkIndividualId();  //Calling to intialize HashMap
+            //us-22 changes end @pp
+
             table.addCell("ID");
             table.addCell("Name");
             table.addCell("Gender");
@@ -415,6 +436,12 @@ public class GedcomReadParse {
             us07.addCell("Birth/Death");
             us07.addCell("Date shouln't be greater than 150 year or less than 0");
             //us-07 changes ends @kp
+
+            //us-22 changes starts @pp
+            us22.addCell("Individual ID");
+            us22.addCell("Individual Name");
+            us22.addCell("Unique ID or not");
+            //us-22 changes ends @pp
 
             //us-35 changes starts @kp
             us35.addCell("Individual ID");
@@ -483,6 +510,14 @@ public class GedcomReadParse {
                     us35.addCell(i.dateOfBirth);
                 }
                 //us-35 changes ends @kp
+
+                //us-22 changes starts @pp
+                if(validateIdForIndividual(i.id)){
+                    us22.addCell(i.id);
+                    us22.addCell(i.name);
+                    us22.addCell("Not Unique");
+                }
+                //us-22 ends @pp
             }
             fileOut.println("Individuals");
             fileOut.println(table.render());
@@ -572,22 +607,14 @@ public class GedcomReadParse {
             fileOut.println(us21.render());
             //us-21 changes ends @sr
             
-            /*
-            us-22 testcases start @pp
-            if(checkIndividualId()){
-                System.out.println("All the Individual Id's are unique");
-            }
-            else{
-                System.out.println("All the Individual ID's are not unique");
-            }
-            if(checkFamilyId()){
-                System.out.println("All Family Id's are unique");
-            }
-            else{
-                System.out.println("All the Family Id's are not unique");
-            }
-            //us-22 testcases end @pp 
-            */
+
+            //us-22 changes start @pp
+            System.out.println("US22 - Unique Id's");
+            System.out.println(us22.render());
+            fileOut.println("US22 - Unique Id's");
+            fileOut.println(us21.render());
+            //us-22 changes end @pp
+
 
             //us-35 changes starts @kp
             if(us35.render() != null) {
