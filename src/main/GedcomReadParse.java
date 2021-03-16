@@ -496,7 +496,7 @@ public class GedcomReadParse {
             // Table library
             Table table = new Table(9);
             //us-01 changes starts @sr
-            Table us01 = new Table (4);
+            Table us01 = new Table (5);
             //us-01 changes ends @sr
 
             //us-07 changes starts @kp
@@ -504,7 +504,7 @@ public class GedcomReadParse {
             //us-07 changes ends @kp
 
             //us-21 changes starts @sr
-            Table us21 = new Table (6);
+            Table us21 = new Table (7);
             //us-21 changes ends @sr
 
             //us-35 changes starts @kp
@@ -533,6 +533,7 @@ public class GedcomReadParse {
 
             //us-01 changes starts @sr
             us01.addCell("Individual/Family ID");
+            us01.addCell("Type");
             us01.addCell("TAG Name");
             us01.addCell("Value");
             us01.addCell("Line No");
@@ -541,6 +542,7 @@ public class GedcomReadParse {
             //us-21 changes starts @sr
             us21.addCell("Family ID");
             us21.addCell("Individual ID");
+            us21.addCell("Type");
             us21.addCell("Role");
             us21.addCell("Expected Gender");
             us21.addCell("GEDCOM Gender");
@@ -592,6 +594,7 @@ public class GedcomReadParse {
 
                 if(!validateDate(i.dobDate,i.dateOfBirth)) {
                     us01.addCell(i.id);
+                    us01.addCell("Individual");
                     us01.addCell("BIRT");
                     us01.addCell(i.dateOfBirth);
                     us01.addCell(String.valueOf(i.dobLineNo));
@@ -600,6 +603,7 @@ public class GedcomReadParse {
 
                 if(!validateDate(i.deathDate,i.death)){
                     us01.addCell(i.id);
+                    us01.addCell("Individual");
                     us01.addCell("DEAT");
                     us01.addCell(i.death);
                     us01.addCell(String.valueOf(i.deathLineNo));
@@ -683,6 +687,7 @@ public class GedcomReadParse {
 
                 if(!validateDate(i.marrriedDate,i.dateOfMarried)) {
                     us01.addCell(i.id);
+                    us01.addCell("Family");
                     us01.addCell("MARR");
                     us01.addCell(i.dateOfMarried);
                     us01.addCell(String.valueOf(i.dateOfMarriedidLineNo));
@@ -691,6 +696,7 @@ public class GedcomReadParse {
 
                 if(!validateDate(i.dividedDate,i.dateOfDivided)){
                     us01.addCell(i.id);
+                    us01.addCell("Family");
                     us01.addCell("DIV");
                     us01.addCell(i.dateOfDivided);
                     us01.addCell(String.valueOf(i.dateOfDividedLineNo));
@@ -701,6 +707,7 @@ public class GedcomReadParse {
                 if(!validateGenderForFamily(i.husbandId,"M")){
                     us21.addCell(i.id);
                     us21.addCell(i.husbandId);
+                    us21.addCell("Individual");
                     us21.addCell("Husband");
                     us21.addCell("M");
                     ind = getIndividualData(i.husbandId);
@@ -711,6 +718,7 @@ public class GedcomReadParse {
                 if(!validateGenderForFamily(i.wifeId,"F")) {
                     us21.addCell(i.id);
                     us21.addCell(i.wifeId);
+                    us21.addCell("Individual");
                     us21.addCell("Wife");
                     us21.addCell("F");
                     ind = getIndividualData(i.wifeId);
