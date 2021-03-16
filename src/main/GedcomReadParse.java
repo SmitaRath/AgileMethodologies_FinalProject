@@ -590,7 +590,6 @@ public class GedcomReadParse {
 
                 //us-07 changes starts @kp
                 int birthAge = calculateAge(i.dobDate);
-                System.out.println("Birth age" + birthAge);
                 if( birthAge > 150 || birthAge < 0) {
                     us07.addCell(i.id);
                     us07.addCell(i.name);
