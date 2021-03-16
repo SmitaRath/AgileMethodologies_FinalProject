@@ -6,9 +6,9 @@ Individuals
 |I2|Michael /Smith/     |F     |1920-10-10|100|False|1990-02-11|NA    |{'F1'}|
 |I3|Linda /Smith/       |F     |2021-03-05|0  |True |NA        |{'F1'}|{'F2'}|
 |I4|Timothy /Williams/  |M     |1935-09-13|85 |False|2095-10-17|NA    |{'F3'}|
-|I5|Pinak /Pathak/      |M     |1997-12-22|23 |True |NA        |NA    |{'F1'}|
 |I5|Jacob /Williams/    |M     |1990-06-12|30 |True |NA        |{'F3'}|{'F4'}|
 |I6|Andrew /Miller/     |M     |1958-07-13|62 |True |NA        |NA    |{'F2'}|
+|I7|Pinak /Pathak/      |M     |1997-12-22|23 |True |NA        |NA    |{'F1'}|
 |I7|Daniel /Miller/     |M     |2005-08-14|15 |True |NA        |{'F2'}|NA    |
 |I8|Natalie /Jones/     |F     |2017-06-19|3  |True |NA        |NA    |{'F4'}|
 |I9|Sofia /Williams/    |F     |2020-08-09|0  |True |NA        |{'F4'}|NA    |
@@ -20,7 +20,7 @@ Families
 |F1|1955-08-05|1980-12-15|I2        |Michael /Smith/   |I1     |Elizabeth /Peterson/|{'I3'}  |
 |F1|1988-07-17|NA        |I4        |Timothy /Williams/|I3     |Linda /Smith/       |{'I5'}  |
 |F2|2000-09-14|NA        |I6        |Andrew /Miller/   |I3     |Linda /Smith/       |{'I7'}  |
-|F4|2016-08-15|NA        |I5        |Pinak /Pathak/    |I8     |Natalie /Jones/     |{'I9'}  |
+|F4|2016-08-15|NA        |I5        |Jacob /Williams/  |I8     |Natalie /Jones/     |{'I9'}  |
 +--+----------+----------+----------+------------------+-------+--------------------+--------+
 US01 - Dates before Current Date
 +--------------------+----------+----------+
@@ -48,8 +48,8 @@ US22 - Unique Id's
 +-----------------------+-----------------+
 |Individual or Family ID|Unique IDs or not|
 +-----------------------+-----------------+
-|I5                     |Not Unique       |
-|I5                     |Not Unique       |
+|I7                     |Not Unique       |
+|I7                     |Not Unique       |
 |F1                     |Not Unique       |
 |F1                     |Not Unique       |
 +-----------------------+-----------------+
