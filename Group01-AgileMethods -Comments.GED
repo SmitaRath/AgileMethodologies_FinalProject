@@ -19,7 +19,7 @@
 1 NAME Linda /Smith/
 1 SEX F
 1 BIRT
-2 DATE 5 JUN 1960
+2 DATE 5 MAR 2021          ----------------------------------------- changed for us35
 1 FAMS @F2@
 1 FAMS @F3@
 1 FAMC @F1@
@@ -27,9 +27,9 @@
 1 NAME Timothy /Williams/
 1 SEX M
 1 BIRT
-2 DATE 13 SEP 1965
+2 DATE 13 SEP 1935       ------------------------------------------------- changed for us07
 1 DEAT Y
-2 DATE 17 OCT 1995
+2 DATE 17 OCT 2095      ------------------------------------------------- changed for us07
 1 FAMS @F3@
 0 @I5@ INDI
 1 NAME Jacob /Williams/
