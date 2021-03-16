@@ -169,6 +169,23 @@ public class GedcomReadParse {
         }
         return false;
     }
+    
+    //Validate Date created by @pp
+    public boolean validateDate(int year, int month, int day){
+        if(year<=0||month<=0||day<=0||day>31||month>12)
+            return false;
+        if(month==2){
+            if(year%4==0&&day>29)
+                return false;
+            if(year%4!=0&&day>28)
+                return false;
+        }
+        if(month%2==0&&month!=8){
+            if(day>30)
+                return false;
+        }
+        return true;
+    }
     //us-02 changes ends @pp
 
     //calculating age of the individual
@@ -233,24 +250,6 @@ public class GedcomReadParse {
         }
         return returnDateField;
     }
-
-    //Validate Date
-    public boolean validateDate(int year, int month, int day){
-        if(year<=0||month<=0||day<=0||day>31||month>12)
-            return false;
-        if(month==2){
-            if(year%4==0&&day>29)
-                return false;
-            if(year%4!=0&&day>28)
-                return false;
-        }
-        if(month%2==0&&month!=8){
-            if(day>30)
-                return false;
-        }
-        return true;
-    }
-
     //us-01 changes ends @sr
 
     //us-21 changes starts @sr
