@@ -517,6 +517,12 @@ public class GedcomReadParse {
                     us22.addCell(i.name);
                     us22.addCell("Not Unique");
                 }
+                else
+                {
+                    us22.addCell(i.id);
+                    us22.addCell(i.name);
+                    us22.addCell("Unique");
+                }
                 //us-22 ends @pp
             }
             fileOut.println("Individuals");
