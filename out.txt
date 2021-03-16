@@ -17,8 +17,8 @@ Families
 |ID|Married   |Divorced  |Husband ID|Husband Name      |Wife ID|Wife Name           |Children|
 +--+----------+----------+----------+------------------+-------+--------------------+--------+
 |F1|1955-08-05|1980-12-15|I2        |id not found      |I1     |Elizabeth /Peterson/|{'I3'}  |
+|F1|1988-07-17|NA        |I4        |Timothy /Williams/|I3     |Linda /Smith/       |{'I5'}  |
 |F2|2000-09-14|NA        |I6        |Andrew /Miller/   |I3     |Linda /Smith/       |{'I7'}  |
-|F3|1988-07-17|NA        |I4        |Timothy /Williams/|I3     |Linda /Smith/       |{'I5'}  |
 |F4|2016-08-15|NA        |I5        |Jacob /Williams/  |I8     |Natalie /Jones/     |{'I9'}  |
 +--+----------+----------+----------+------------------+-------+--------------------+--------+
 US01 - Dates before Current Date
