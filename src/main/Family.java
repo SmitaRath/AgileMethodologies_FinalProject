@@ -6,13 +6,18 @@ import java.util.Date;
 
 public class Family{
     String id;
+    int idLineNo;
     String husbandId;
+    int husbandidLineNo;
     String husbandName;
     String wifeId;
+    int wifeidLineNo;
     String wifeName;
     String dateOfMarried;
+    int dateOfMarriedidLineNo;
     Date marrriedDate;
     String dateOfDivided;
+    int dateOfDividedLineNo;
     Date dividedDate;
     ArrayList<String> child;
     String divorced;

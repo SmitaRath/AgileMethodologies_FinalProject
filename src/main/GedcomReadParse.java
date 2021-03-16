@@ -43,12 +43,12 @@ public class GedcomReadParse {
 
     //us-21 changes starts @sr
     //method to retrieve gender from id from individuals
-    String getGender(String id) {
+    Individual getIndividualData(String id) {
         for(Individual ind: individuals){
             if(ind.id.equals(id))
-                return ind.gender;
+                return ind;
         }
-        return "id not found";
+        return null;
     }
     //us-21 changes ends @sr
     
@@ -254,7 +254,7 @@ public class GedcomReadParse {
 
     //us-21 changes starts @sr
     public boolean validateGenderForFamily(String id,String expectedGender){
-        if(!getGender(id).equals(expectedGender))
+        if(!getIndividualData(id).gender.equals(expectedGender))
             return false;
         return true;
     }
@@ -280,11 +280,9 @@ public class GedcomReadParse {
         BufferedReader reader;
         String[] splitString;
         GedcomEntry e1;
-        int counter = 0;
+        int counter = 1;
         Individual ind = new Individual();
         Family family = new Family();
-        String day;
-        String month;
 
         try {
             PrintStream fileOut = new PrintStream("./out.txt");
@@ -313,12 +311,14 @@ public class GedcomReadParse {
                     ind = new Individual();
                     //splitting @ from INDI attr
                     ind.id = splitString[1].replaceAll("@","");
+                    ind.idLineNo=counter;
                     //fecthing the name of the INDI
                     line = reader.readLine();
                     splitString=line.split(" ");
                     if (splitString.length>2 && splitString[1].equals("NAME") && splitString[0].equals("1"))
                         ind.name = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-
+                        counter++;
+                        ind.nameLineNo=counter;
 
                 }
                 //if tags occured after INDI tag
@@ -328,6 +328,7 @@ public class GedcomReadParse {
                     //fetching gender with level 1
                     if (splitString.length>2 && splitString[1].equals("SEX") && splitString[0].equals("1")) {
                         ind.gender = splitString[2];
+                        ind.genderLineNo=counter;
                     }
 
                     //fetching BIRT with level 1
@@ -337,7 +338,8 @@ public class GedcomReadParse {
                         //if BIRT tag exist checking date of birth with level and tag
                         if (splitString.length>2 && splitString[1].equals("DATE") && splitString[0].equals("2")) {
                             ind.dateOfBirth = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-
+                            counter++;
+                            ind.dobLineNo=counter;
                             //us-01 changes starts @sr
                             ind.dobDate=validateDate(ind.dateOfBirth);
                             if (ind.dobDate==null)
@@ -362,6 +364,8 @@ public class GedcomReadParse {
                         //checking DATE tag for death date with level and tag
                         if (splitString.length>2 && splitString[1].equals("DATE") && splitString[0].equals("2")) {
                                 ind.death = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
+                                counter++;
+                                ind.deathLineNo=counter;
                                 //us-01 changes starts @sr
                                 ind.deathDate = validateDate(ind.death);
                                 if (ind.deathDate == null || ind.dobDate == null)
@@ -378,10 +382,12 @@ public class GedcomReadParse {
                     //checking whether the individual is child or spouse in the family
                     else if (splitString.length>2 && splitString[1].equals("FAMC") && splitString[0].equals("1")) {
                         ind.child = "{'" + splitString[2].replaceAll("@","") + "'}";
+                        ind.childLineNo=counter;
                     }
 
                     if (splitString.length>2 && splitString[1].equals("FAMS") && splitString[0].equals("1") && ind.spouse.equals("NA")) {
                         ind.spouse = "{'" + splitString[2].replaceAll("@","") + "'}";
+                        ind.spouseLineNo=counter;
                     }
                 }
 
@@ -397,17 +403,20 @@ public class GedcomReadParse {
                     }
                     family = new Family();
                     family.id = splitString[1].replaceAll("@","");
+                    family.idLineNo=counter;
                 }
 
                 if(!(family.id == null)) {
                     // fetching husband with level 1 adding into the list
                     if (splitString.length > 2 && splitString[1].equals("HUSB") && splitString[0].equals("1")) {
                         family.husbandId = splitString[2].replaceAll("@","");
+                        family.husbandidLineNo=counter;
                     }
 
                     // fetching wife with level 1 adding into the list
                     else if (splitString.length > 2 && splitString[1].equals("WIFE") && splitString[0].equals("1")) {
                         family.wifeId = splitString[2].replaceAll("@","");
+                        family.wifeidLineNo=counter;
                     }
 
                     // fetching children with level 1 adding into the list
@@ -423,6 +432,8 @@ public class GedcomReadParse {
                         if (splitString.length > 2 && splitString[1].equals("DATE") && splitString[0].equals("2"))
                         {
                             family.dateOfMarried = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
+                            counter++;
+                            family.dateOfMarriedidLineNo=counter;
                             //us-01 changes starts @sr
                             family.marrriedDate=validateDate(family.dateOfMarried);
                             if(family.marrriedDate==null)
@@ -440,6 +451,8 @@ public class GedcomReadParse {
                         //if BIRT tag exist checking date of birth with level and tag
                         if (splitString.length > 2 && splitString[1].equals("DATE") && splitString[0].equals("2")) {
                             family.dateOfDivided = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
+                            counter++;
+                            family.dateOfDividedLineNo=counter;
                             //us-01 changes starts @sr
                             family.dividedDate=validateDate(family.dateOfDivided);
                             if(family.dividedDate==null)
@@ -451,6 +464,7 @@ public class GedcomReadParse {
                     }
                 }
                 line = reader.readLine();
+                counter++;
             }
 
 
@@ -482,7 +496,7 @@ public class GedcomReadParse {
             // Table library
             Table table = new Table(9);
             //us-01 changes starts @sr
-            Table us01 = new Table (3);
+            Table us01 = new Table (4);
             //us-01 changes ends @sr
 
             //us-07 changes starts @kp
@@ -490,7 +504,7 @@ public class GedcomReadParse {
             //us-07 changes ends @kp
 
             //us-21 changes starts @sr
-            Table us21 = new Table (5);
+            Table us21 = new Table (6);
             //us-21 changes ends @sr
 
             //us-35 changes starts @kp
@@ -521,6 +535,7 @@ public class GedcomReadParse {
             us01.addCell("Individual/Family ID");
             us01.addCell("Field Name");
             us01.addCell("Value");
+            us01.addCell("Line No");
             //us-01 changes ends @sr
 
             //us-21 changes starts @sr
@@ -529,6 +544,7 @@ public class GedcomReadParse {
             us21.addCell("Role");
             us21.addCell("Expected Gender");
             us21.addCell("GEDCOM Gender");
+            us21.addCell("Line No");
             //us-21 changes ends @sr
 
             //us-07 changes starts @kp
@@ -578,6 +594,7 @@ public class GedcomReadParse {
                     us01.addCell(i.id);
                     us01.addCell("BirthDay");
                     us01.addCell(i.dateOfBirth);
+                    us01.addCell(String.valueOf(i.dobLineNo));
                 }
 
 
@@ -585,6 +602,7 @@ public class GedcomReadParse {
                     us01.addCell(i.id);
                     us01.addCell("Death");
                     us01.addCell(i.death);
+                    us01.addCell(String.valueOf(i.deathLineNo));
                 }
 
                 //us-01 changes ends @sr
@@ -667,12 +685,15 @@ public class GedcomReadParse {
                     us01.addCell(i.id);
                     us01.addCell("Married");
                     us01.addCell(i.dateOfMarried);
+                    us01.addCell(String.valueOf(i.dateOfMarriedidLineNo));
+
                 }
 
                 if(!validateDate(i.dividedDate,i.dateOfDivided)){
                     us01.addCell(i.id);
                     us01.addCell("Divorced");
                     us01.addCell(i.dateOfDivided);
+                    us01.addCell(String.valueOf(i.dateOfDividedLineNo));
                 }
                 //us-01 changes ends @sr
 
@@ -682,7 +703,9 @@ public class GedcomReadParse {
                     us21.addCell(i.husbandId);
                     us21.addCell("Husband");
                     us21.addCell("M");
-                    us21.addCell(getGender(i.husbandId));
+                    ind = getIndividualData(i.husbandId);
+                    us21.addCell((ind.gender));
+                    us21.addCell(String.valueOf(ind.genderLineNo));
                 }
 
                 if(!validateGenderForFamily(i.wifeId,"F")) {
@@ -690,7 +713,9 @@ public class GedcomReadParse {
                     us21.addCell(i.wifeId);
                     us21.addCell("Wife");
                     us21.addCell("F");
-                    us21.addCell(getGender(i.wifeId));
+                    ind = getIndividualData(i.wifeId);
+                    us21.addCell((ind.gender));
+                    us21.addCell(String.valueOf(ind.genderLineNo));
                 }
                 //us-21 changes ends @sr
 
