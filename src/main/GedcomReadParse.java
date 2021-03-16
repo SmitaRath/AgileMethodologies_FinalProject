@@ -19,7 +19,7 @@ import java.util.HashMap;
 public class GedcomReadParse {
 
     ArrayList<Family> families = new ArrayList<>();
-    ArrayList<Individual> individuals = new ArrayList<>();
+    public ArrayList<Individual> individuals = new ArrayList<>();
     DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
 
     //method to check the tag is valid or not
