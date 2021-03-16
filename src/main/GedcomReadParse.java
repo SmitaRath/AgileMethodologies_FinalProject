@@ -88,7 +88,7 @@ public class GedcomReadParse {
         month = givenDate.getMonthValue()<10?"0"+givenDate.getMonthValue():""+givenDate.getMonthValue();
         day = givenDate.getDayOfMonth()<10?"0"+givenDate.getDayOfMonth():""+givenDate.getDayOfMonth();
         dateString  = givenDate.getYear() + "-" + month + "-" + day;
-        return dateString;
+         return dateString;
     }
 
     //calculating age of the individual
@@ -249,7 +249,6 @@ public class GedcomReadParse {
                         splitString = line.split(" ");
                         //checking DATE tag for death date with level and tag
                         if (splitString.length>2 && splitString[1].equals("DATE") && splitString[0].equals("2")) {
-                            {
                                 ind.death = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
                                 //us-01 changes starts @sr
                                 ind.deathDate = validateDate(ind.death);
@@ -429,7 +428,7 @@ public class GedcomReadParse {
                 table.addCell(i.gender.toString());
                 table.addCell(i.dateOfBirth.toString());
                 table.addCell(String.valueOf(i.age));
-                if(i.alive) {
+                if(i.alive == true) {
                     table.addCell("True");
                 }
                 else {
