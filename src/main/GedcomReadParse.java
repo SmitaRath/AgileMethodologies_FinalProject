@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Array;
 import java.sql.SQLOutput;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -21,6 +22,7 @@ public class GedcomReadParse {
 
     ArrayList<Family> families = new ArrayList<>();
     public ArrayList<Individual> individuals = new ArrayList<>();
+    ArrayList<String> errorAnomalyData = new ArrayList<>();
     DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
 
     //method to check the tag is valid or not
@@ -283,6 +285,7 @@ public class GedcomReadParse {
         int counter = 1;
         Individual ind = new Individual();
         Family family = new Family();
+        String errString="";
 
         try {
             PrintStream fileOut = new PrintStream("./out.txt");
@@ -495,17 +498,10 @@ public class GedcomReadParse {
 
             // Table library
             Table table = new Table(9);
-            //us-01 changes starts @sr
-            Table us01 = new Table (5);
-            //us-01 changes ends @sr
 
             //us-07 changes starts @kp
             Table us07 = new Table (4);
             //us-07 changes ends @kp
-
-            //us-21 changes starts @sr
-            Table us21 = new Table (7);
-            //us-21 changes ends @sr
 
             //us-35 changes starts @kp
             Table us35 = new Table (3);
@@ -531,23 +527,6 @@ public class GedcomReadParse {
             table.addCell("Child");
             table.addCell("Spouse");
 
-            //us-01 changes starts @sr
-            us01.addCell("Individual/Family ID");
-            us01.addCell("Type");
-            us01.addCell("TAG Name");
-            us01.addCell("Value");
-            us01.addCell("Line No");
-            //us-01 changes ends @sr
-
-            //us-21 changes starts @sr
-            us21.addCell("Family ID");
-            us21.addCell("Individual ID");
-            us21.addCell("Type");
-            us21.addCell("Role");
-            us21.addCell("Expected Gender");
-            us21.addCell("GEDCOM Gender");
-            us21.addCell("Line No");
-            //us-21 changes ends @sr
 
             //us-07 changes starts @kp
             us07.addCell("Individual ID");
@@ -593,20 +572,19 @@ public class GedcomReadParse {
                 //us-01 changes starts @sr
 
                 if(!validateDate(i.dobDate,i.dateOfBirth)) {
-                    us01.addCell(i.id);
-                    us01.addCell("Individual");
-                    us01.addCell("BIRT");
-                    us01.addCell(i.dateOfBirth);
-                    us01.addCell(String.valueOf(i.dobLineNo));
+                    errString = "Error : INDIVDUAL :US01 : "+ " Line no: " + i.dobLineNo +
+                             " ID: "  + i.id + ":"+
+                            " BirthDay " + i.dateOfBirth +
+                            " occurs in the future";
+                    errorAnomalyData.add(errString);
                 }
 
 
                 if(!validateDate(i.deathDate,i.death)){
-                    us01.addCell(i.id);
-                    us01.addCell("Individual");
-                    us01.addCell("DEAT");
-                    us01.addCell(i.death);
-                    us01.addCell(String.valueOf(i.deathLineNo));
+                    errString = "Error : INDIVDUAL :US01 : " + "Line no: " + i.deathLineNo +
+                            " Id: " + i.id +":" +
+                            " Death " + i.death +
+                            " occurs in the future";
                 }
 
                 //us-01 changes ends @sr
@@ -686,44 +664,41 @@ public class GedcomReadParse {
                 //us-01 changes starts @sr
 
                 if(!validateDate(i.marrriedDate,i.dateOfMarried)) {
-                    us01.addCell(i.id);
-                    us01.addCell("Family");
-                    us01.addCell("MARR");
-                    us01.addCell(i.dateOfMarried);
-                    us01.addCell(String.valueOf(i.dateOfMarriedidLineNo));
+                    errString = "Error : FAMILY :US01 : " + " Line no :" + i.dateOfMarriedidLineNo
+                              + " ID: " + i.id +":"
+                            + " Marriage Date " + i.dateOfMarried +
+                            " occurs in the future";
 
                 }
 
                 if(!validateDate(i.dividedDate,i.dateOfDivided)){
-                    us01.addCell(i.id);
-                    us01.addCell("Family");
-                    us01.addCell("DIV");
-                    us01.addCell(i.dateOfDivided);
-                    us01.addCell(String.valueOf(i.dateOfDividedLineNo));
+                    errString = "Error : FAMILY :US01 : " + " Line no :" + i.dateOfDividedLineNo
+                            + " ID: " + i.id +":"
+                            + " Divided Date " + i.dateOfDivided +
+                            " occurs in the future";
+                    errorAnomalyData.add(errString);
                 }
                 //us-01 changes ends @sr
 
                 //us-21 changes starts @sr
                 if(!validateGenderForFamily(i.husbandId,"M")){
-                    us21.addCell(i.id);
-                    us21.addCell(i.husbandId);
-                    us21.addCell("Individual");
-                    us21.addCell("Husband");
-                    us21.addCell("M");
                     ind = getIndividualData(i.husbandId);
-                    us21.addCell((ind.gender));
-                    us21.addCell(String.valueOf(ind.genderLineNo));
+                    errString = "Error : INDIVIDUAL :US21 : "
+                            + " Line no :" + ind.genderLineNo
+                            + " Husband's Id :" + i.husbandId +":"
+                            + " in family: " + i.id + ":"
+                            + " is " + ind.gender;
+                    errorAnomalyData.add(errString);
                 }
 
                 if(!validateGenderForFamily(i.wifeId,"F")) {
-                    us21.addCell(i.id);
-                    us21.addCell(i.wifeId);
-                    us21.addCell("Individual");
-                    us21.addCell("Wife");
-                    us21.addCell("F");
                     ind = getIndividualData(i.wifeId);
-                    us21.addCell((ind.gender));
-                    us21.addCell(String.valueOf(ind.genderLineNo));
+                    errString = "Error : INDIVIDUAL :US21 : "
+                            + " Line No: " + ind.genderLineNo
+                            + " Wife's Id :" + i.wifeId +":"
+                            + " in family: " + i.id + ":"
+                            + " is " + ind.gender;
+                    errorAnomalyData.add(errString);
                 }
                 //us-21 changes ends @sr
 
@@ -740,12 +715,6 @@ public class GedcomReadParse {
             System.out.println("Families");
             System.out.println(table1.render());
 
-            //us-01 changes starts @sr
-            System.out.println("US01 - Dates before Current Date");
-            System.out.println(us01.render());
-            fileOut.println("US01 - Dates before Current Date");
-            fileOut.println(us01.render());
-            //us-01 changes ends @sr
 
             //us-07 changes starts @sr
             System.out.println("US07 - Less than 150 years old");
@@ -753,14 +722,6 @@ public class GedcomReadParse {
             fileOut.println("US07 - Less than 150 years old");
             fileOut.println(us07.render());
             //us-01 changes ends @sr
-
-
-            //us-21 changes starts @sr
-            System.out.println("US21 - Correct gender for role");
-            System.out.println(us21.render());
-            fileOut.println("US21 - Correct gender for role");
-            fileOut.println(us21.render());
-            //us-21 changes ends @sr
             
 
             //us-22 changes start @pp
@@ -786,6 +747,11 @@ public class GedcomReadParse {
             fileOut.println("US02 - Birth before Marriage");
             fileOut.println(us02.render());
             //us-02 changes ends @pp
+
+            for(String str:errorAnomalyData){
+                fileOut.println(str);
+                System.out.println(str);
+            }
 
             //file closed
             reader.close();
