@@ -689,10 +689,10 @@ public class GedcomReadParse {
 
                 //us-22 changes starts @pp
                 if(validateIdForIndividual(i.id)){
-                    errString = "Error : INDIVDUAL :US22 : "+ " Line no: " +
-                            " ID: "  + i.id + ":"+
-                            " The Individual ID is not unique";
-                    errorAnomalyDataUS22.add(errString);
+                    errString = "Error: INDIVDUAL: US22 : "+ "Line no: " + i.idLineNo +
+                            " : ID: "  + i.id + " : "+
+                            "The Individual ID is not unique";
+                    errorAnomalyData.add(errString);
                 }
                 //us-22 ends @pp
 
