@@ -5,15 +5,15 @@ import java.util.Comparator;
 import java.util.Date;
 
 public class Family{
-    String id;
+    public String id;
     int idLineNo;
-    String husbandId;
+    public String husbandId;
     int husbandidLineNo;
     String husbandName;
-    String wifeId;
+    public String wifeId;
     int wifeidLineNo;
     String wifeName;
-    String dateOfMarried;
+    public String dateOfMarried;
     int dateOfMarriedidLineNo;
     Date marrriedDate;
     String dateOfDivided;
