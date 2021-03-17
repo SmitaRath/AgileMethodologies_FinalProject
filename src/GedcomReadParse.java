@@ -76,6 +76,7 @@ public class GedcomReadParse {
         }
     }
     //us-22 changes ends @pp
+
     // US-03 changes starts@AS
     public boolean ValidateBirth(Individual ind){
         String birthYear="";
@@ -111,37 +112,39 @@ public class GedcomReadParse {
         int i;
         if(ind.alive)
             return false;
-                for (i = 0; ind.death.charAt(i) != '-'; i++) {
-                    marriageYear = marriageYear + ind.death.charAt(i);
+        for (i = 0; ind.death.charAt(i) != '-'; i++) {
+            marriageYear = marriageYear + ind.death.charAt(i);
+        }
+        for (i = i + 1; ind.death.charAt(i) != '-'; i++) {
+            marriageMonth = marriageMonth + ind.death.charAt(i);
+        }
+        for (i = i + 1; i < ind.death.length(); i++) {
+            marriageDay = marriageDay + ind.death.charAt(i);
+        }
+        int myear = Integer.valueOf(marriageYear);
+        int mmonth = Integer.valueOf(marriageMonth);
+        int mday = Integer.valueOf(marriageDay);
+        if(validateDate(myear,mmonth,mday)){
+            if (year > myear) {
+                return true;
+            }
+            if (year == myear) {
+                if (month > mmonth) {
+                    return true;
                 }
-                for (i = i + 1; ind.death.charAt(i) != '-'; i++) {
-                    marriageMonth = marriageMonth + ind.death.charAt(i);
-                }
-                for (i = i + 1; i < ind.death.length(); i++) {
-                    marriageDay = marriageDay + ind.death.charAt(i);
-                }
-                int myear = Integer.valueOf(marriageYear);
-                int mmonth = Integer.valueOf(marriageMonth);
-                int mday = Integer.valueOf(marriageDay);
-                if(validateDate(myear,mmonth,mday)){
-                    if (year > myear) {
+                if (month == mmonth) {
+                    if (day >= mday) {
                         return true;
                     }
-                    if (year == myear) {
-                        if (month > mmonth) {
-                            return true;
-                        }
-                        if (month == mmonth) {
-                            if (day >= mday) {
-                                return true;
-                            }
-                        }
-                    }
-                    return false;
                 }
-                return false;
+            }
+            return false;
         }
-        // us-03 ends @AS
+        return false;
+    }
+    // us-03 ends @AS
+
+
 
     //us-02 changes starts @pp
     public boolean ValidateBirthBeforeMarriage(Individual ind){
@@ -562,7 +565,7 @@ public class GedcomReadParse {
             // Table library
             Table table = new Table(9);
             //us-01 changes starts @sr
-            Table us01 = new Table (4);
+            Table us01 = new Table (5);
             //us-01 changes ends @sr
 
             //us-07 changes starts @kp
@@ -570,7 +573,7 @@ public class GedcomReadParse {
             //us-07 changes ends @kp
 
             //us-21 changes starts @sr
-            Table us21 = new Table (6);
+            Table us21 = new Table (7);
             //us-21 changes ends @sr
 
             //us-35 changes starts @kp
@@ -586,6 +589,7 @@ public class GedcomReadParse {
             //us-02 changes starts @pp
             Table us02 = new Table(4);
             //us-02 changes ends @pp
+
             // us-03 changes starts @AS
             Table us03 = new Table(4);
             // us-03 changes ends @AS
@@ -602,6 +606,7 @@ public class GedcomReadParse {
 
             //us-01 changes starts @sr
             us01.addCell("Individual/Family ID");
+            us01.addCell("Type");
             us01.addCell("TAG Name");
             us01.addCell("Value");
             us01.addCell("Line No");
@@ -610,6 +615,7 @@ public class GedcomReadParse {
             //us-21 changes starts @sr
             us21.addCell("Family ID");
             us21.addCell("Individual ID");
+            us21.addCell("Type");
             us21.addCell("Role");
             us21.addCell("Expected Gender");
             us21.addCell("GEDCOM Gender");
@@ -640,17 +646,13 @@ public class GedcomReadParse {
             us02.addCell("MarriageDate");
             us02.addCell("Validity");
             //us-02 changes ends @pp
+
             // US-03 changes starts @AS
             us03.addCell("Individual ID");
             us03.addCell("BirthDay");
             us03.addCell("DeathDate");
             us03.addCell("Validity");
             // us-03 changes ends @AS
-
-
-
-
-
 
             for(Individual i : individuals) {
                 table.addCell(i.id.toString());
@@ -672,6 +674,7 @@ public class GedcomReadParse {
 
                 if(!validateDate(i.dobDate,i.dateOfBirth)) {
                     us01.addCell(i.id);
+                    us01.addCell("Individual");
                     us01.addCell("BIRT");
                     us01.addCell(i.dateOfBirth);
                     us01.addCell(String.valueOf(i.dobLineNo));
@@ -680,6 +683,7 @@ public class GedcomReadParse {
 
                 if(!validateDate(i.deathDate,i.death)){
                     us01.addCell(i.id);
+                    us01.addCell("Individual");
                     us01.addCell("DEAT");
                     us01.addCell(i.death);
                     us01.addCell(String.valueOf(i.deathLineNo));
@@ -731,6 +735,7 @@ public class GedcomReadParse {
                     us02.addCell("Invalid");
                 }
                 //us-02 changes ends @pp
+
                 //US-03 Changes starts @AS
                 if(ValidateBirth(i)){
                     us03.addCell(i.id);
@@ -771,6 +776,7 @@ public class GedcomReadParse {
 
                 if(!validateDate(i.marrriedDate,i.dateOfMarried)) {
                     us01.addCell(i.id);
+                    us01.addCell("Family");
                     us01.addCell("MARR");
                     us01.addCell(i.dateOfMarried);
                     us01.addCell(String.valueOf(i.dateOfMarriedidLineNo));
@@ -779,6 +785,7 @@ public class GedcomReadParse {
 
                 if(!validateDate(i.dividedDate,i.dateOfDivided)){
                     us01.addCell(i.id);
+                    us01.addCell("Family");
                     us01.addCell("DIV");
                     us01.addCell(i.dateOfDivided);
                     us01.addCell(String.valueOf(i.dateOfDividedLineNo));
@@ -789,6 +796,7 @@ public class GedcomReadParse {
                 if(!validateGenderForFamily(i.husbandId,"M")){
                     us21.addCell(i.id);
                     us21.addCell(i.husbandId);
+                    us21.addCell("Individual");
                     us21.addCell("Husband");
                     us21.addCell("M");
                     ind = getIndividualData(i.husbandId);
@@ -799,6 +807,7 @@ public class GedcomReadParse {
                 if(!validateGenderForFamily(i.wifeId,"F")) {
                     us21.addCell(i.id);
                     us21.addCell(i.wifeId);
+                    us21.addCell("Individual");
                     us21.addCell("Wife");
                     us21.addCell("F");
                     ind = getIndividualData(i.wifeId);
@@ -813,7 +822,6 @@ public class GedcomReadParse {
                     us22.addCell("Not Unique");
                 }
                 //us-22 changes ends @pp
-
             }
 
             fileOut.println("Families");
@@ -872,6 +880,7 @@ public class GedcomReadParse {
             System.out.println("US03 Death before Birth");
             System.out.println(us03.render());
             //us-03 changes ends @AS
+
             //file closed
             reader.close();
         }
@@ -882,5 +891,4 @@ public class GedcomReadParse {
             e.printStackTrace();
         }
     }
-}
-    
+}   
