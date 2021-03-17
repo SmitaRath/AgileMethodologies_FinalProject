@@ -1,10 +1,10 @@
 0 NOTE https://github.com/SmitaRath/AgileMethodologies_FinalProject
 0 @I7@ INDI
-1 NAME Pinak /Pathak/
+1 NAME Andre /Swarts/
 1 SEX M
 1 BIRT
 2 DATE 22 DEC 1997
-1 FAMS @F1@
+1 FAMS @F10@
 0 @I1@ INDI
 1 NAME Elizabeth /Peterson/
 1 SEX M
@@ -17,7 +17,7 @@
 1 NAME Michael /Smith/
 1 SEX F
 1 BIRT
-2 DATE 10 OCT 1920
+2 DATE 10 OCT 1820
 1 DEAT Y
 2 DATE 11 FEB 1990
 1 FAMS @F1@
