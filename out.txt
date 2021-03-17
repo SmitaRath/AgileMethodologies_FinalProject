@@ -54,5 +54,5 @@ US02 - Birth before Marriage
 |I8           |2017-06-19|2016-08-15  |Invalid |
 +-------------+----------+------------+--------+
 Error : INDIVDUAL :US01 :  Line no: 12 ID: I1: BirthDay 2022-08-07 occurs in the future
-Error : INDIVIDUAL :US21 :  Line no :18 Husband's Id :I2: in family: F1: is F
-Error : INDIVIDUAL :US21 :  Line No: 10 Wife's Id :I1: in family: F1: is M
+Error : INDIVIDUAL :US21 :  Line no :18 Husband's Id :I2: in family: F1: Gender is F
+Error : INDIVIDUAL :US21 :  Line No: 10 Wife's Id :I1: in family: F1: Gender is M
