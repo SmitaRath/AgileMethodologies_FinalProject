@@ -649,10 +649,10 @@ public class GedcomReadParse {
                 if(i.deathDate != null) {
                     int deathAge = differenceBetweenTwoAge(i.dobDate, i.deathDate);
                     if (deathAge > 150) {
-                        errString = "Error: INDIVIDUAL: US07: " + i.deathLineNo + ": " +
+                        errString = "Error: In US07 for INDIVIDUAL at Line no: " + i.deathLineNo + "; ID: " +
                                 i.id +
-                                ": Deathday " + i.death +
-                                " Death date should be less than 150 years after birth for dead people";
+                                "; Deathday " + i.death +
+                                "; Death date should be less than 150 years after birth for dead people";
                         errorAnomalyData.add(errString);
                     }
                 }
