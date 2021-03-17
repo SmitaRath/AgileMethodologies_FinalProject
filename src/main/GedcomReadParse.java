@@ -20,7 +20,7 @@ import java.io.PrintStream;
 import java.util.HashMap;
 public class GedcomReadParse {
 
-    ArrayList<Family> families = new ArrayList<>();
+    public ArrayList<Family> families = new ArrayList<>();
     public ArrayList<Individual> individuals = new ArrayList<>();
     ArrayList<String> errorAnomalyData = new ArrayList<>();
     DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
