@@ -10,7 +10,7 @@ public class Individual{
     int nameLineNo;
     public String gender;
     int genderLineNo;
-    String dateOfBirth;
+    public String dateOfBirth;
     int dobLineNo;
     Date dobDate;
     int age;
