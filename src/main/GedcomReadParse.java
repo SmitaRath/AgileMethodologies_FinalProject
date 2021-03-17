@@ -22,6 +22,7 @@ public class GedcomReadParse {
 
     public ArrayList<Family> families = new ArrayList<>();
     public ArrayList<Individual> individuals = new ArrayList<>();
+    ArrayList<String> successAnomalyData = new ArrayList<>();
     ArrayList<String> errorAnomalyData = new ArrayList<>();
     ArrayList<String> errorAnomalyDataUS22 = new ArrayList<>();
     ArrayList<String> errorAnomalyDataUS02 = new ArrayList<>();
@@ -397,7 +398,6 @@ public class GedcomReadParse {
                 //if tags occured after INDI tag
                 if(!(ind.id==null)) {
 
-
                     //fetching gender with level 1
                     if (splitString.length>2 && splitString[1].equals("SEX") && splitString[0].equals("1")) {
                         ind.gender = splitString[2];
@@ -596,20 +596,6 @@ public class GedcomReadParse {
             table.addCell("Child");
             table.addCell("Spouse");
 
-
-            //us-07 changes starts @kp
-            us07.addCell("Individual ID");
-            us07.addCell("Individual Name");
-            us07.addCell("Birth/Death");
-            us07.addCell("Date shouln't be greater than 150 year or less than 0");
-            //us-07 changes ends @kp
-
-            //us-35 changes starts @kp
-            us35.addCell("Individual ID");
-            us35.addCell("Individual Name");
-            us35.addCell("Date of recent birth");
-            //us-35 changes ends @kp
-
             // US-03 changes starts @AS
             us03.addCell("Individual ID");
             us03.addCell("BirthDay");
@@ -656,30 +642,33 @@ public class GedcomReadParse {
 
                 //us-07 changes starts @kp
                 int birthAge = calculateAge(i.dobDate);
-                if( birthAge > 150 || birthAge < 0) {
-                    us07.addCell(i.id);
-                    us07.addCell(i.name);
-                    us07.addCell("Birth");
-                    us07.addCell(i.dateOfBirth);
+                if(birthAge > 150) {
+                    errString = "Error in US07; INDIVIDUAL at "+ "Line no: " + i.dobLineNo +
+                            "; ID: "  + i.id +
+                            "; BirthDay: " + i.dateOfBirth +
+                            ", Current date should be less than 150 years after birth for all living people";
+                    errorAnomalyData.add(errString);
                 }
                 if(i.deathDate != null) {
                     int deathAge = differenceBetweenTwoAge(i.dobDate, i.deathDate);
-                    if (deathAge > 150 || deathAge < 0) {
-                        us07.addCell(i.id);
-                        us07.addCell(i.name);
-                        us07.addCell("Death");
-                        us07.addCell(i.death);
+                    if (deathAge > 150) {
+                        errString = "Error in US07; INDIVIDUAL at "+ "Line no: " + i.deathLineNo +
+                                "; ID: "  + i.id +
+                                "; Deathday: " + i.death +
+                                ", Death date should be less than 150 years after birth for dead people";
+                        errorAnomalyData.add(errString);
                     }
                 }
-                //us-35 changes ends @kp
+
+                //us-07 changes ends @kp
 
 
                 //us-35 changes starts @kp
                 long noDays = calculateDays(i.dobDate);
                 if( noDays <= 30 && noDays >= 0) {
-                    us35.addCell(i.id);
-                    us35.addCell(i.name);
-                    us35.addCell(i.dateOfBirth);
+                    String successMessage = "";
+                    successMessage = i.id + i.name + i.dateOfBirth;
+                    successAnomalyData.add(successMessage);
                 }
                 //us-35 changes ends @kp
 
@@ -804,16 +793,13 @@ public class GedcomReadParse {
             fileOut.println(us07.render());
             //us-01 changes ends @sr
 
-            //us-35 changes starts @kp
-            if(us35.render() != null) {
-                System.out.println("US35 - List recent births");
-                System.out.println(us35.render());
-                fileOut.println("US35 - List recent births");
-                fileOut.println(us35.render());
-            }
-            //us-35 changes ends @kp
-
             //printing errors sprint1 changes @sr
+            for(String str:successAnomalyData){
+                fileOut.println(str);
+                System.out.println(str);
+            }
+
+            System.out.println("================ ERRORS IN GEDCOM FILE ========================");
             for(String str:errorAnomalyData){
                 fileOut.println(str);
                 System.out.println(str);
