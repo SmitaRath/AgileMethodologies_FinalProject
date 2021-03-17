@@ -30,29 +30,25 @@ US07 - Less than 150 years old
 |I1           |Elizabeth /Peterson/|Death      |1998-06-15                                           |
 |I4           |Timothy /Williams/  |Death      |2095-10-17                                           |
 +-------------+--------------------+-----------+-----------------------------------------------------+
-US22 - Unique Id's
-+-----------------------+-----------------+
-|Individual or Family ID|Unique IDs or not|
-+-----------------------+-----------------+
-|I7                     |Not Unique       |
-|I7                     |Not Unique       |
-|F1                     |Not Unique       |
-|F1                     |Not Unique       |
-+-----------------------+-----------------+
 US35 - List recent births
 +-------------+---------------+--------------------+
 |Individual ID|Individual Name|Date of recent birth|
 +-------------+---------------+--------------------+
 |I3           |Linda /Smith/  |2021-03-05          |
 +-------------+---------------+--------------------+
-US02 - Birth before Marriage
-+-------------+----------+------------+--------+
-|Individual ID|BirthDay  |MarriageDate|Validity|
-+-------------+----------+------------+--------+
-|I1           |2022-08-07|1955-08-05  |Invalid |
-|I3           |2021-03-05|1988-07-17  |Invalid |
-|I8           |2017-06-19|2016-08-15  |Invalid |
-+-------------+----------+------------+--------+
 Error : INDIVDUAL :US01 :  Line no: 12 ID: I1: BirthDay 2022-08-07 occurs in the future
-Error : INDIVIDUAL :US21 :  Line no :18 Husband's Id :I2: in family: F1: Gender is F
-Error : INDIVIDUAL :US21 :  Line No: 10 Wife's Id :I1: in family: F1: Gender is M
+Error : INDIVIDUAL :US21 :  Line no :18 Husband's Id :I2: in family: F1: is F
+Error : INDIVIDUAL :US21 :  Line No: 10 Wife's Id :I1: in family: F1: is M
+Error : INDIVDUAL :US02 :  Line no:  ID: I1: Date of Birth: 2022-08-07:Date of Marriage: 1955-08-05: Birth Occurs After Marriage
+Error : INDIVDUAL :US02 :  Line no:  ID: I3: Date of Birth: 2021-03-05:Date of Marriage: 1988-07-17: Birth Occurs After Marriage
+Error : INDIVDUAL :US02 :  Line no:  ID: I8: Date of Birth: 2017-06-19:Date of Marriage: 2016-08-15: Birth Occurs After Marriage
+Error : INDIVDUAL :US22 :  Line no:  ID: I7: The Individual ID is not unique
+Error : INDIVDUAL :US22 :  Line no:  ID: I7: The Individual ID is not unique
+Error : FAMILY :US22 :  Line no:  ID: F1: This Family ID is not unique
+Error : FAMILY :US22 :  Line no:  ID: F1: This Family ID is not unique
+US03 - Death before Marriage
++-------------+----------+----------+--------+
+|Individual ID|BirthDay  |DeathDate |Validity|
++-------------+----------+----------+--------+
+|I1           |2022-08-07|1998-06-15|Invalid |
++-------------+----------+----------+--------+
