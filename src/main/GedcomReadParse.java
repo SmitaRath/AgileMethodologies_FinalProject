@@ -649,6 +649,7 @@ public class GedcomReadParse {
                             " Id: " + i.id +":" +
                             " Death " + i.death +
                             " occurs in the future";
+                     errorAnomalyData.add(errString);
                 }
 
                 //us-01 changes ends @sr
@@ -745,6 +746,7 @@ public class GedcomReadParse {
                             + " ID: " + i.id +":"
                             + " Marriage Date " + i.dateOfMarried +
                             " occurs in the future";
+                     errorAnomalyData.add(errString);
 
                 }
 
@@ -764,7 +766,7 @@ public class GedcomReadParse {
                             + " Line no :" + ind.genderLineNo
                             + " Husband's Id :" + i.husbandId +":"
                             + " in family: " + i.id + ":"
-                            + " is " + ind.gender;
+                            + " Gender is " + ind.gender;
                     errorAnomalyData.add(errString);
                 }
 
@@ -774,7 +776,7 @@ public class GedcomReadParse {
                             + " Line No: " + ind.genderLineNo
                             + " Wife's Id :" + i.wifeId +":"
                             + " in family: " + i.id + ":"
-                            + " is " + ind.gender;
+                            + "Gender is " + ind.gender;
                     errorAnomalyData.add(errString);
                 }
                 //us-21 changes ends @sr
