@@ -23,6 +23,7 @@ public class GedcomReadParse {
     public ArrayList<Family> families = new ArrayList<>();
     public ArrayList<Individual> individuals = new ArrayList<>();
     ArrayList<String> successAnomalyDataUS35 = new ArrayList<>();
+    ArrayList<String> successAnomalyDataUS36 = new ArrayList<>();
     ArrayList<String> errorAnomalyData = new ArrayList<>();
     ArrayList<String> errorAnomalyDataUS22 = new ArrayList<>();
     ArrayList<String> errorAnomalyDataUS02 = new ArrayList<>();
@@ -652,16 +653,32 @@ public class GedcomReadParse {
 
 
                 //us-35 changes starts @kp
-                long noDays = calculateDays(i.dobDate);
-                if( noDays <= 30 && noDays >= 0) {
-                    String successMessage = "", name = "";
-                    String [] formatName;
-                    formatName = i.name.split("/");
-                    name = formatName[0] + formatName[1];
-                    successMessage = "ID: " + i.id + " NAME: " + name + " Date of Birth: " + i.dateOfBirth + " Birth age in no.Of.Days: " + noDays;
-                    successAnomalyDataUS35.add(successMessage);
+                if(i.dobDate != null) {
+                    long noDays = calculateDays(i.dobDate);
+                    if (noDays <= 30 && noDays >= 0) {
+                        String successMessage = "", name = "";
+                        String[] formatName;
+                        formatName = i.name.split("/");
+                        name = formatName[0] + formatName[1];
+                        successMessage = "ID: " + i.id + " NAME: " + name + " Date of Birth: " + i.dateOfBirth + " Birth age in no.Of.Days: " + noDays;
+                        successAnomalyDataUS35.add(successMessage);
+                    }
                 }
                 //us-35 changes ends @kp
+
+                //us-36 changes starts @kp
+                if(i.deathDate != null) {
+                    long noOfDays = calculateDays(i.deathDate);
+                    if (noOfDays <= 30 && noOfDays >= 0) {
+                        String successMessage = "", name = "";
+                        String[] formatName;
+                        formatName = i.name.split("/");
+                        name = formatName[0] + formatName[1];
+                        successMessage = "ID: " + i.id + " NAME: " + name + " Date of Death: " + i.death + " Death age in no.Of.Days: " + noOfDays;
+                        successAnomalyDataUS36.add(successMessage);
+                    }
+                }
+                //us-36 changes ends @kp
 
                 //us-22 changes starts @pp
                 if(validateIdForIndividual(i.id)){
@@ -775,10 +792,18 @@ public class GedcomReadParse {
             fileOut.println(table1.render());
             System.out.println("Families");
             System.out.println(table1.render());
+            if(!successAnomalyDataUS35.isEmpty()) {
+                System.out.println();
+                System.out.println("US35: List all Recent births");
+                for (String str : successAnomalyDataUS35) {
+                    fileOut.println(str);
+                    System.out.println(str);
+                }
+            }
 
             System.out.println();
-            System.out.println("US35: List all Recent births");
-            for(String str:successAnomalyDataUS35){
+            System.out.println("US36: List all Recent deaths");
+            for(String str:successAnomalyDataUS36){
                 fileOut.println(str);
                 System.out.println(str);
             }
