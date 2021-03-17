@@ -22,13 +22,6 @@ Families
 |F2|2000-09-14|NA        |I6        |Andrew /Miller/   |I3     |Linda /Smith/       |{'I7'}  |
 |F4|2016-08-15|NA        |I5        |Jacob /Williams/  |I8     |Natalie /Jones/     |{'I9'}  |
 +--+----------+----------+----------+------------------+-------+--------------------+--------+
-US01 - Dates before Current Date
-+--------------------+----------+--------+----------+-------+
-|Individual/Family ID|Type      |TAG Name|Value     |Line No|
-+--------------------+----------+--------+----------+-------+
-|I1                  |Individual|BIRT    |2022-08-07|12     |
-|I4                  |Individual|DEAT    |2095-10-17|38     |
-+--------------------+----------+--------+----------+-------+
 US07 - Less than 150 years old
 +-------------+--------------------+-----------+-----------------------------------------------------+
 |Individual ID|Individual Name     |Birth/Death|Date shouln't be greater than 150 year or less than 0|
@@ -37,13 +30,6 @@ US07 - Less than 150 years old
 |I1           |Elizabeth /Peterson/|Death      |1998-06-15                                           |
 |I4           |Timothy /Williams/  |Death      |2095-10-17                                           |
 +-------------+--------------------+-----------+-----------------------------------------------------+
-US21 - Correct gender for role
-+---------+-------------+----------+-------+---------------+-------------+-------+
-|Family ID|Individual ID|Type      |Role   |Expected Gender|GEDCOM Gender|Line No|
-+---------+-------------+----------+-------+---------------+-------------+-------+
-|F1       |I2           |Individual|Husband|M              |F            |18     |
-|F1       |I1           |Individual|Wife   |F              |M            |10     |
-+---------+-------------+----------+-------+---------------+-------------+-------+
 US22 - Unique Id's
 +-----------------------+-----------------+
 |Individual or Family ID|Unique IDs or not|
@@ -67,3 +53,6 @@ US02 - Birth before Marriage
 |I3           |2021-03-05|1988-07-17  |Invalid |
 |I8           |2017-06-19|2016-08-15  |Invalid |
 +-------------+----------+------------+--------+
+Error : INDIVDUAL :US01 :  Line no: 12 ID: I1: BirthDay 2022-08-07 occurs in the future
+Error : INDIVIDUAL :US21 :  Line no :18 Husband's Id :I2: in family: F1: is F
+Error : INDIVIDUAL :US21 :  Line No: 10 Wife's Id :I1: in family: F1: is M
