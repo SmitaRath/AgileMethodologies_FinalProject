@@ -120,4 +120,16 @@ public class GedcomReadParseTest {
         assertEquals(true, g1.validateIdForIndividual(I1.id));
         assertEquals(true, g1.validateIdForFamily(f1.id));
     }
+
+    @Test
+    //Validating function BirthBeforeDeath for us03
+    public void ValidateUS03(){
+        Individual I1 = new Individual();
+        I1.id = "I10";
+        I1.dateOfBirth = "2017-04-27";
+        I1.death = "2016-09-27";
+        I1.alive = false;
+        g1.individuals.add(I1);
+        assertEquals(true, g1.ValidateBirthbeforeDeath(I1));
+    }
 }

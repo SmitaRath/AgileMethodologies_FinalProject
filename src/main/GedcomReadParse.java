@@ -578,10 +578,6 @@ public class GedcomReadParse {
             checkFamilyId();   // Calling to intialize HashMap
             //us-22 changes end @pp
 
-            // us-03 changes starts @AS
-            Table us03 = new Table(4);
-            // us-03 changes ends @AS
-
             table.addCell("ID");
             table.addCell("Name");
             table.addCell("Gender");
@@ -591,13 +587,6 @@ public class GedcomReadParse {
             table.addCell("Death");
             table.addCell("Child");
             table.addCell("Spouse");
-
-            // US-03 changes starts @AS
-            us03.addCell("Individual ID");
-            us03.addCell("BirthDay");
-            us03.addCell("DeathDate");
-            us03.addCell("Validity");
-            // us-03 changes ends @AS
 
             for(Individual i : individuals) {
                 table.addCell(i.id.toString());
@@ -698,10 +687,12 @@ public class GedcomReadParse {
 
                 //US-03 Changes starts @AS
                 if(ValidateBirthbeforeDeath(i)){
-                    us03.addCell(i.id);
-                    us03.addCell(i.dateOfBirth);
-                    us03.addCell(i.death);
-                    us03.addCell("Invalid");
+                    errString = "Error: In US03 for INDIVIDUAL at Line no: "+
+                            i.dobLineNo +","+i.deathLineNo + "; ID: " + i.id + "; "+
+                            "Date of Birth: " + i.dateOfBirth +
+                            "; " + "Date of Death: " + i.death +
+                            "; " + "Birth Occurs After Death";
+                    errorAnomalyData.add(errString);
                 }
                 // US-03 changes ends @AS
             }
@@ -787,16 +778,16 @@ public class GedcomReadParse {
                 //us-02 changes starts @pp
                 if(ValidateBirthBeforeMarriage(i.husbandId, i.dateOfMarried)){
                     errString = "Error: In US02 for INDIVIDUAL at Line no: "+
-                            getIndividual(i.husbandId).dobLineNo + "; ID: " + i.husbandId + "; "+
-                            "Date of Birth: " + getBirthDate(i) +
+                            getIndividual(i.husbandId).dobLineNo + "," + i.dateOfMarriedidLineNo +
+                            "; ID: " + i.husbandId + "; "+ "Date of Birth: " + getBirthDate(i) +
                             "; " + "Date of Marriage: " + i.dateOfMarried +
                             "; " + "Birth Occurs After Marriage";
                     errorAnomalyData.add(errString);
                 }
                 if(ValidateBirthBeforeMarriage(i.wifeId, i.dateOfMarried)){
                     errString = "Error: In US02 for INDIVIDUAL at Line no: "+
-                            getIndividual(i.wifeId).dobLineNo + "; ID: " + i.wifeId + "; "+
-                            "Date of Birth: " + getBirthDate(i) +
+                            getIndividual(i.wifeId).dobLineNo + "," + i.dateOfMarriedidLineNo
+                            +"; ID: " + i.wifeId + "; "+ "Date of Birth: " + getBirthDate(i) +
                             "; " + "Date of Marriage: " + i.dateOfMarried +
                             "; " + "Birth Occurs After Marriage";
                     errorAnomalyData.add(errString);
@@ -830,27 +821,6 @@ public class GedcomReadParse {
                 fileOut.println(str);
                 System.out.println(str);
             }
-
-            //printing errors Sprint1 changes starts @pp
-            /*us-02 Changes starts @pp*/
-            for(String str:errorAnomalyDataUS02){
-                fileOut.println(str);
-                System.out.println(str);
-            }
-            /*us-22 changes starts @pp*/
-            for(String str:errorAnomalyDataUS22){
-                fileOut.println(str);
-                System.out.println(str);
-            }
-            /*us-22 changes ends @pp*/
-            //printing errors Sprint1 changes ends @pp
-
-            //us-03 changes starts @AS
-            System.out.println("US03 Death before Birth");
-            System.out.println(us03.render());
-            fileOut.println("US03 - Death before Marriage");
-            fileOut.println(us03.render());
-            //us-03 changes ends @AS
 
             //file closed
             reader.close();
