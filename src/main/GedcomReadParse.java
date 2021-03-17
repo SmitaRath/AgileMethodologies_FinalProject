@@ -578,10 +578,6 @@ public class GedcomReadParse {
             checkFamilyId();   // Calling to intialize HashMap
             //us-22 changes end @pp
 
-            // us-03 changes starts @AS
-            Table us03 = new Table(4);
-            // us-03 changes ends @AS
-
             table.addCell("ID");
             table.addCell("Name");
             table.addCell("Gender");
@@ -591,13 +587,6 @@ public class GedcomReadParse {
             table.addCell("Death");
             table.addCell("Child");
             table.addCell("Spouse");
-
-            // US-03 changes starts @AS
-            us03.addCell("Individual ID");
-            us03.addCell("BirthDay");
-            us03.addCell("DeathDate");
-            us03.addCell("Validity");
-            // us-03 changes ends @AS
 
             for(Individual i : individuals) {
                 table.addCell(i.id.toString());
@@ -698,10 +687,12 @@ public class GedcomReadParse {
 
                 //US-03 Changes starts @AS
                 if(ValidateBirthbeforeDeath(i)){
-                    us03.addCell(i.id);
-                    us03.addCell(i.dateOfBirth);
-                    us03.addCell(i.death);
-                    us03.addCell("Invalid");
+                    errString = "Error: In US03 for INDIVIDUAL at Line no: "+
+                            i.dobLineNo +","+i.deathLineNo + "; ID: " + i.id + "; "+
+                            "Date of Birth: " + i.dateOfBirth +
+                            "; " + "Date of Death: " + i.death +
+                            "; " + "Birth Occurs After Death";
+                    errorAnomalyData.add(errString);
                 }
                 // US-03 changes ends @AS
             }
