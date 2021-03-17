@@ -787,16 +787,16 @@ public class GedcomReadParse {
                 //us-02 changes starts @pp
                 if(ValidateBirthBeforeMarriage(i.husbandId, i.dateOfMarried)){
                     errString = "Error: In US02 for INDIVIDUAL at Line no: "+
-                            getIndividual(i.husbandId).dobLineNo + "; ID: " + i.husbandId + "; "+
-                            "Date of Birth: " + getBirthDate(i) +
+                            getIndividual(i.husbandId).dobLineNo + "," + i.dateOfMarriedidLineNo +
+                            "; ID: " + i.husbandId + "; "+ "Date of Birth: " + getBirthDate(i) +
                             "; " + "Date of Marriage: " + i.dateOfMarried +
                             "; " + "Birth Occurs After Marriage";
                     errorAnomalyData.add(errString);
                 }
                 if(ValidateBirthBeforeMarriage(i.wifeId, i.dateOfMarried)){
                     errString = "Error: In US02 for INDIVIDUAL at Line no: "+
-                            getIndividual(i.wifeId).dobLineNo + "; ID: " + i.wifeId + "; "+
-                            "Date of Birth: " + getBirthDate(i) +
+                            getIndividual(i.wifeId).dobLineNo + "," + i.dateOfMarriedidLineNo
+                            +"; ID: " + i.wifeId + "; "+ "Date of Birth: " + getBirthDate(i) +
                             "; " + "Date of Marriage: " + i.dateOfMarried +
                             "; " + "Birth Occurs After Marriage";
                     errorAnomalyData.add(errString);
