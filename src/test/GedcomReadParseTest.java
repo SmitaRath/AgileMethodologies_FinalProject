@@ -67,7 +67,7 @@ public class GedcomReadParseTest {
     @Test
     public void calculateDays() {
         Date date1 = new Date("13 MAR 2021");
-        assertEquals(3, g1.calculateDays(date1));
+        assertEquals(4, g1.calculateDays(date1));
         assertNotEquals(10, g1.calculateDays(date1));
     }
 
