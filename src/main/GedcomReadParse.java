@@ -748,6 +748,7 @@ public class GedcomReadParse {
             fileOut.println(us02.render());
             //us-02 changes ends @pp
 
+            //printing errors sprint1 changes @sr
             for(String str:errorAnomalyData){
                 fileOut.println(str);
                 System.out.println(str);
