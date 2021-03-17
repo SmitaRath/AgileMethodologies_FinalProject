@@ -57,7 +57,7 @@ public class GedcomReadParse {
         return null;
     }
     //us-21 changes ends @sr
-    
+
     //us-22 changes starts @pp
     //This method to check whether Id's are unique or not of Individual's
     HashMap<String, Integer> IndividualId = new HashMap<String, Integer>();
@@ -105,33 +105,33 @@ public class GedcomReadParse {
         String marriageMonth="";
         String marriageDay="";
         int i;
-                for (i = 0; marriagedate.charAt(i) != '-'; i++) {
-                    marriageYear = marriageYear + marriagedate.charAt(i);
+        for (i = 0; marriagedate.charAt(i) != '-'; i++) {
+            marriageYear = marriageYear + marriagedate.charAt(i);
+        }
+        for (i = i + 1; marriagedate.charAt(i) != '-'; i++) {
+            marriageMonth = marriageMonth + marriagedate.charAt(i);
+        }
+        for (i = i + 1; i < marriagedate.length(); i++) {
+            marriageDay = marriageDay + marriagedate.charAt(i);
+        }
+        int myear = Integer.valueOf(marriageYear);
+        int mmonth = Integer.valueOf(marriageMonth);
+        int mday = Integer.valueOf(marriageDay);
+        if(validateDate(myear,mmonth,mday)){
+            if (year > myear) {
+                return true;
+            }
+            if (year == myear) {
+                if (month > mmonth) {
+                    return true;
                 }
-                for (i = i + 1; marriagedate.charAt(i) != '-'; i++) {
-                    marriageMonth = marriageMonth + marriagedate.charAt(i);
-                }
-                for (i = i + 1; i < marriagedate.length(); i++) {
-                    marriageDay = marriageDay + marriagedate.charAt(i);
-                }
-                int myear = Integer.valueOf(marriageYear);
-                int mmonth = Integer.valueOf(marriageMonth);
-                int mday = Integer.valueOf(marriageDay);
-                if(validateDate(myear,mmonth,mday)){
-                    if (year > myear) {
+                if (month == mmonth) {
+                    if (day >= mday) {
                         return true;
                     }
-                    if (year == myear) {
-                        if (month > mmonth) {
-                            return true;
-                        }
-                        if (month == mmonth) {
-                            if (day >= mday) {
-                                return true;
-                            }
-                        }
-                    }
                 }
+            }
+        }
         return false;
     }
 
@@ -142,26 +142,26 @@ public class GedcomReadParse {
         String birthDay="";
         int i;
         for(Individual ind : individuals){
-        if(ind.id.equals(id)){
-        for(i=0;ind.dateOfBirth.charAt(i)!='-';i++){
-            birthYear = birthYear + ind.dateOfBirth.charAt(i);
-        }
-        for(i=i+1;ind.dateOfBirth.charAt(i)!='-';i++){
-            birthMonth = birthMonth + ind.dateOfBirth.charAt(i);
-        }
-        for(i=i+1;i<ind.dateOfBirth.length();i++){
-            birthDay = birthDay + ind.dateOfBirth.charAt(i);
-        }
-        int year = Integer.valueOf(birthYear);
-        int month = Integer.valueOf(birthMonth);
-        int day = Integer.valueOf(birthDay);
-        if(validateDate(year,month,day)){
-            if(compareBirthWithMarriage(marriagedate, year, month, day)){
-                return true;
+            if(ind.id.equals(id)){
+                for(i=0;ind.dateOfBirth.charAt(i)!='-';i++){
+                    birthYear = birthYear + ind.dateOfBirth.charAt(i);
+                }
+                for(i=i+1;ind.dateOfBirth.charAt(i)!='-';i++){
+                    birthMonth = birthMonth + ind.dateOfBirth.charAt(i);
+                }
+                for(i=i+1;i<ind.dateOfBirth.length();i++){
+                    birthDay = birthDay + ind.dateOfBirth.charAt(i);
+                }
+                int year = Integer.valueOf(birthYear);
+                int month = Integer.valueOf(birthMonth);
+                int day = Integer.valueOf(birthDay);
+                if(validateDate(year,month,day)){
+                    if(compareBirthWithMarriage(marriagedate, year, month, day)){
+                        return true;
+                    }
+                }
+                return false;
             }
-        }
-        return false;
-        }
         }
         return false;
     }
@@ -202,7 +202,7 @@ public class GedcomReadParse {
         return true;
     }
     //us-02 changes ends @pp
-    
+
     // US-03 changes starts@AS
     public boolean ValidateBirthbeforeDeath(Individual ind){
         String birthYear="";
@@ -351,7 +351,7 @@ public class GedcomReadParse {
         return true;
     }
     //us-21 changes ends @sr
-    
+
     // method to read GEDCOM FILE
     public void readGEDCOMFILE() {
         BufferedReader reader;
@@ -631,7 +631,7 @@ public class GedcomReadParse {
                             " Id: " + i.id +":" +
                             " Death " + i.death +
                             " occurs in the future";
-                     errorAnomalyData.add(errString);
+                    errorAnomalyData.add(errString);
                 }
 
                 //us-01 changes ends @sr
@@ -650,7 +650,7 @@ public class GedcomReadParse {
                     int deathAge = differenceBetweenTwoAge(i.dobDate, i.deathDate);
                     if (deathAge > 150) {
                         errString = "Error: INDIVIDUAL: US07: " + i.deathLineNo + ": " +
-                                 i.id +
+                                i.id +
                                 ": Deathday " + i.death +
                                 " Death date should be less than 150 years after birth for dead people";
                         errorAnomalyData.add(errString);
@@ -689,8 +689,8 @@ public class GedcomReadParse {
 
                 //us-22 changes starts @pp
                 if(validateIdForIndividual(i.id)){
-                    errString = "Error: INDIVDUAL: US22 : "+ "Line no: " + i.idLineNo +
-                            " : ID: "  + i.id + " : "+
+                    errString = "Error: In US22 for INDIVIDUAL at Line no: " + i.idLineNo +
+                            "; ID: "  + i.id + "; "+
                             "The Individual ID is not unique";
                     errorAnomalyData.add(errString);
                 }
@@ -739,7 +739,7 @@ public class GedcomReadParse {
                             + " ID: " + i.id +":"
                             + " Marriage Date " + i.dateOfMarried +
                             " occurs in the future";
-                     errorAnomalyData.add(errString);
+                    errorAnomalyData.add(errString);
 
                 }
 
@@ -773,12 +773,12 @@ public class GedcomReadParse {
                     errorAnomalyData.add(errString);
                 }
                 //us-21 changes ends @sr
-                
+
                 //us-22 changes starts @pp
                 if(validateIdForFamily(i.id)){
-                    errString = "Error: FAMILY:      US22 : " + "Line no: "
-                            + i.idLineNo + " : ID: "
-                            + i.id +" : "
+                    errString = "Error: In US22 for FAMILY at Line no: " +
+                            + i.idLineNo + "; ID: "
+                            + i.id +"; "
                             + "This Family ID is not unique";
                     errorAnomalyData.add(errString);
                 }
@@ -786,19 +786,19 @@ public class GedcomReadParse {
 
                 //us-02 changes starts @pp
                 if(ValidateBirthBeforeMarriage(i.husbandId, i.dateOfMarried)){
-                    errString = "Error: INDIVIDUAL: US02 : "+ "Line no:" +
-                            getIndividual(i.husbandId).dobLineNo + " : ID: "  + i.husbandId + " : "+
+                    errString = "Error: In US02 for INDIVIDUAL at Line no: "+
+                            getIndividual(i.husbandId).dobLineNo + "; ID: " + i.husbandId + "; "+
                             "Date of Birth: " + getBirthDate(i) +
-                            " : " + "Date of Marriage: " + i.dateOfMarried +
-                            " : " + "Birth Occurs After Marriage";
+                            "; " + "Date of Marriage: " + i.dateOfMarried +
+                            "; " + "Birth Occurs After Marriage";
                     errorAnomalyData.add(errString);
                 }
                 if(ValidateBirthBeforeMarriage(i.wifeId, i.dateOfMarried)){
-                    errString = "Error: INDIVDUAL: US02 : "+ "Line no: " +
-                            getIndividual(i.wifeId).dobLineNo + " : ID: " + i.wifeId + " : "+
+                    errString = "Error: In US02 for INDIVIDUAL at Line no: "+
+                            getIndividual(i.wifeId).dobLineNo + "; ID: " + i.wifeId + "; "+
                             "Date of Birth: " + getBirthDate(i) +
-                            " : " + "Date of Marriage: " + i.dateOfMarried +
-                            " : " + "Birth Occurs After Marriage";
+                            "; " + "Date of Marriage: " + i.dateOfMarried +
+                            "; " + "Birth Occurs After Marriage";
                     errorAnomalyData.add(errString);
                 }
                 //us-02 changes ends @pp
@@ -832,17 +832,17 @@ public class GedcomReadParse {
             }
 
             //printing errors Sprint1 changes starts @pp
-                /*us-02 Changes starts @pp*/
+            /*us-02 Changes starts @pp*/
             for(String str:errorAnomalyDataUS02){
                 fileOut.println(str);
                 System.out.println(str);
             }
-              /*us-22 changes starts @pp*/
+            /*us-22 changes starts @pp*/
             for(String str:errorAnomalyDataUS22){
                 fileOut.println(str);
                 System.out.println(str);
             }
-              /*us-22 changes ends @pp*/
+            /*us-22 changes ends @pp*/
             //printing errors Sprint1 changes ends @pp
 
             //us-03 changes starts @AS
