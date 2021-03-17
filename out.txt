@@ -3,7 +3,7 @@ Individuals
 |ID|Name                |Gender|Birthday  |Age|Alive|Death     |Child |Spouse |
 +--+--------------------+------+----------+---+-----+----------+------+-------+
 |I1|Elizabeth /Peterson/|M     |2022-08-07|-24|False|1998-06-15|NA    |{'F1'} |
-|I2|Michael /Smith/     |F     |1820-10-09|169|False|1990-02-11|NA    |{'F1'} |
+|I2|Michael /Smith/     |F     |1820-10-10|169|False|1990-02-11|NA    |{'F1'} |
 |I3|Linda /Smith/       |F     |2021-03-05|0  |True |NA        |{'F1'}|{'F2'} |
 |I4|Timothy /Williams/  |M     |1935-09-13|160|False|2095-10-17|NA    |{'F3'} |
 |I5|Jacob /Williams/    |M     |1990-06-12|30 |True |NA        |{'F3'}|{'F4'} |
@@ -24,7 +24,7 @@ Families
 +--+----------+----------+----------+------------------+-------+--------------------+--------+
 ID: I3 NAME: Linda Smith Date of Birth: 2021-03-05 Birth age in no.Of.Days: 12
 Error : INDIVDUAL :US01 :  Line no: 12 ID: I1: BirthDay 2022-08-07 occurs in the future
-Error: In US07 for INDIVIDUAL at Line no: 20; ID: I2; BirthDay: 1820-10-09; Current date should be less than 150 years after birth for all living people
+Error: In US07 for INDIVIDUAL at Line no: 20; ID: I2; BirthDay: 1820-10-10; Current date should be less than 150 years after birth for all living people
 Error: INDIVIDUAL: US07: 22: I2: Deathday 1990-02-11 Death date should be less than 150 years after birth for dead people
 Error : INDIVDUAL :US01 : Line no: 38 Id: I4: Death 2095-10-17 occurs in the future
 Error: INDIVIDUAL: US07: 38: I4: Deathday 2095-10-17 Death date should be less than 150 years after birth for dead people
