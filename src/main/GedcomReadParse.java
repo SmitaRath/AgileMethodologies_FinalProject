@@ -831,13 +831,6 @@ public class GedcomReadParse {
                 System.out.println(str);
             }
 
-            //us-03 changes starts @AS
-            System.out.println("US03 Death before Birth");
-            System.out.println(us03.render());
-            fileOut.println("US03 - Death before Marriage");
-            fileOut.println(us03.render());
-            //us-03 changes ends @AS
-
             //file closed
             reader.close();
         }
