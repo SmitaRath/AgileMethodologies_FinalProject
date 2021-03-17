@@ -43,15 +43,15 @@ public class GedcomReadParse {
 
     //us-21 changes starts @sr
     //method to retrieve gender from id from individuals
-    String getGender(String id) {
+    Individual getIndividualData(String id) {
         for(Individual ind: individuals){
             if(ind.id.equals(id))
-                return ind.gender;
+                return ind;
         }
-        return "id not found";
+        return null;
     }
     //us-21 changes ends @sr
-    
+
     //us-22 changes starts @pp
     //This method to check whether Id's are unique or not of Individual's
     HashMap<String, Integer> IndividualId = new HashMap<String, Integer>();
@@ -76,6 +76,72 @@ public class GedcomReadParse {
         }
     }
     //us-22 changes ends @pp
+    // US-03 changes starts@AS
+    public boolean ValidateBirth(Individual ind){
+        String birthYear="";
+        String birthMonth="";
+        String birthDay="";
+        int i;
+        for(i=0;ind.dateOfBirth.charAt(i)!='-';i++){
+            birthYear = birthYear + ind.dateOfBirth.charAt(i);
+        }
+        for(i=i+1;ind.dateOfBirth.charAt(i)!='-';i++){
+            birthMonth = birthMonth + ind.dateOfBirth.charAt(i);
+        }
+        for(i=i+1;i<ind.dateOfBirth.length();i++){
+            birthDay = birthDay + ind.dateOfBirth.charAt(i);
+        }
+        int year = Integer.valueOf(birthYear);
+        int month = Integer.valueOf(birthMonth);
+        int day = Integer.valueOf(birthDay);
+        if(validateDate(year,month,day)){
+            if(compareBirthwithdeath(ind, year, month, day)){
+                return true;
+            }
+        }
+        return false;
+    }
+    // US03 changes end
+
+    // us03 start@ AS
+    public boolean compareBirthwithdeath(Individual ind, int year, int month, int day){
+        String marriageYear="";
+        String marriageMonth="";
+        String marriageDay="";
+        int i;
+        if(ind.alive)
+            return false;
+                for (i = 0; ind.death.charAt(i) != '-'; i++) {
+                    marriageYear = marriageYear + ind.death.charAt(i);
+                }
+                for (i = i + 1; ind.death.charAt(i) != '-'; i++) {
+                    marriageMonth = marriageMonth + ind.death.charAt(i);
+                }
+                for (i = i + 1; i < ind.death.length(); i++) {
+                    marriageDay = marriageDay + ind.death.charAt(i);
+                }
+                int myear = Integer.valueOf(marriageYear);
+                int mmonth = Integer.valueOf(marriageMonth);
+                int mday = Integer.valueOf(marriageDay);
+                if(validateDate(myear,mmonth,mday)){
+                    if (year > myear) {
+                        return true;
+                    }
+                    if (year == myear) {
+                        if (month > mmonth) {
+                            return true;
+                        }
+                        if (month == mmonth) {
+                            if (day >= mday) {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+                return false;
+        }
+        // us-03 ends @AS
 
     //us-02 changes starts @pp
     public boolean ValidateBirthBeforeMarriage(Individual ind){
@@ -95,61 +161,14 @@ public class GedcomReadParse {
         int year = Integer.valueOf(birthYear);
         int month = Integer.valueOf(birthMonth);
         int day = Integer.valueOf(birthDay);
-        if(compareBirthWithMarriage(ind, year, month, day)){
-            return true;
+        if(validateDate(year,month,day)){
+            if(compareBirthWithMarriage(ind, year, month, day)){
+                return true;
+            }
         }
         return false;
     }
     //us-02 changes ends @pp
-    
-    
-    
-    // User stories in s03 @AS
-
-public boolean birthBeforeDeath(Individual ind){
-
-    String birthYear="";
-
-    String birthMonth="";
-
-    String birthDay="";
-
-    int i;
-
-    for(i=0;ind.dateOfBirth.charAt(i)!='-';i++){
-
-        birthYear = birthYear + ind.dateOfBirth.charAt(i);
-
-    }
-
-    for(i=i+1;ind.dateOfBirth.charAt(i)!='-';i++){
-
-        birthMonth = birthMonth + ind.dateOfBirth.charAt(i);
-
-    }
-
-    for(i=i+1;i<ind.dateOfBirth.length();i++){
-
-        birthDay = birthDay + ind.dateOfBirth.charAt(i);
-
-    }
-
-    int year = Integer.valueOf(birthYear);
-
-    int month = Integer.valueOf(birthMonth);
-
-    int day = Integer.valueOf(birthDay);
-
-    if(compareBirthWithDeath(ind, year, month, day)){
-
-        return true;
-
-    }
-
-    return false;
-
-}
-// US-03 changes ends here
 
     //us-02 changes starts @pp
     public String getMarriageDate(Individual ind){
@@ -173,7 +192,7 @@ public boolean birthBeforeDeath(Individual ind){
         month = givenDate.getMonthValue()<10?"0"+givenDate.getMonthValue():""+givenDate.getMonthValue();
         day = givenDate.getDayOfMonth()<10?"0"+givenDate.getDayOfMonth():""+givenDate.getDayOfMonth();
         dateString  = givenDate.getYear() + "-" + month + "-" + day;
-         return dateString;
+        return dateString;
     }
 
     //us-02 changes start @pp
@@ -184,35 +203,54 @@ public boolean birthBeforeDeath(Individual ind){
         int i;
         for(Family fam: families) {
             if (fam.husbandId.equals(ind.id) || fam.wifeId.equals(ind.id)) {
-                for(i=0;fam.dateOfMarried.charAt(i)!='-';i++){
+                for (i = 0; fam.dateOfMarried.charAt(i) != '-'; i++) {
                     marriageYear = marriageYear + fam.dateOfMarried.charAt(i);
                 }
-                for(i=i+1;fam.dateOfMarried.charAt(i)!='-';i++){
+                for (i = i + 1; fam.dateOfMarried.charAt(i) != '-'; i++) {
                     marriageMonth = marriageMonth + fam.dateOfMarried.charAt(i);
                 }
-                for(i=i+1;i<fam.dateOfMarried.length();i++){
+                for (i = i + 1; i < fam.dateOfMarried.length(); i++) {
                     marriageDay = marriageDay + fam.dateOfMarried.charAt(i);
                 }
-                int myear=Integer.valueOf(marriageYear);
-                int mmonth=Integer.valueOf(marriageMonth);
-                int mday=Integer.valueOf(marriageDay);
-                if(year>myear){
-                    return true;
-                }
-                if(year==myear){
-                    if(month > mmonth){
+                int myear = Integer.valueOf(marriageYear);
+                int mmonth = Integer.valueOf(marriageMonth);
+                int mday = Integer.valueOf(marriageDay);
+                if(validateDate(myear,mmonth,mday)){
+                    if (year > myear) {
                         return true;
                     }
-                    if(month == mmonth){
-                        if(day >= mday){
+                    if (year == myear) {
+                        if (month > mmonth) {
                             return true;
                         }
+                        if (month == mmonth) {
+                            if (day >= mday) {
+                                return true;
+                            }
+                        }
                     }
+                    return false;
                 }
-                return false;
             }
         }
         return false;
+    }
+
+    //Validate Date created by @pp
+    public boolean validateDate(int year, int month, int day){
+        if(year<=0||month<=0||day<=0||day>31||month>12)
+            return false;
+        if(month==2){
+            if(year%4==0&&day>29)
+                return false;
+            if(year%4!=0&&day>28)
+                return false;
+        }
+        if(month%2==0&&month!=8){
+            if(day>30)
+                return false;
+        }
+        return true;
     }
     //us-02 changes ends @pp
 
@@ -227,14 +265,15 @@ public boolean birthBeforeDeath(Individual ind){
     }
 
     // us-35 changes starts @KP
-    long calculateDays(Date dob) {
-        System.out.println(dob);
+    public long calculateDays(Date dob) {
+        System.out.println("dob" + dob);
         Instant instant = dob.toInstant();
         ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
         LocalDate givenDate = zone.toLocalDate();
-      //  Period period = Period.between(givenDate, LocalDate.now());
+        //  Period period = Period.between(givenDate, LocalDate.now());
         long p2 = ChronoUnit.DAYS.between(givenDate, LocalDate.now());
-       // Period.ofDays(30);
+        // Period.ofDays(30);
+        System.out.println("dob" + p2);
         return p2;
     }
     // us-35 changes ends @KP
@@ -242,7 +281,7 @@ public boolean birthBeforeDeath(Individual ind){
 
     // us-07 changes starts @KP
     // calculates age between date of birth and date of death
-    int differenceBetweenTwoAge(Date dob, Date deathDate) {
+    public int differenceBetweenTwoAge(Date dob, Date deathDate) {
         Instant instantDob = dob.toInstant();
         Instant instantDeathDate = deathDate.toInstant();
         ZonedDateTime zoneDob = instantDob.atZone(ZoneId.systemDefault());
@@ -263,79 +302,7 @@ public boolean birthBeforeDeath(Individual ind){
                 return false;
         }
         return true;
-        
     }
-    
-//US-03 changes start @AS
-
-public boolean compareBirthWithDeath(Individual ind, int year, int month, int day){
-
-    String deathYear="";
-
-    String deathMonth="";
-
-    String deathDay="";
-
-    int i;
-
-    		for(i=0;ind.death.charAt(i)!='-';i++){
-    			deathYear = deathYear + ind.death.charAt(i);
-    		}
-
-            for(i=i+1;ind.death.charAt(i)!='-';i++){
-
-                deathMonth = deathMonth + ind.death.charAt(i);
-
-            }
-
-            for(i=i+1;i<indddeath.length();i++){
-
-                deathDay = deathDay + ind.death.charAt(i);
-
-            }
-
-            int dyear=Integer.valueOf(deathYear);
-
-            int dmonth=Integer.valueOf(deathMonth);
-
-            int dday=Integer.valueOf(deathDay);
-
-            if(year>dyear){
-
-                return true;
-
-            }
-
-            if(year==dyear){
-
-                if(month > dmonth){
-
-                    return true;
-
-                }
-
-                if(month == dmonth){
-
-                    if(day >= dday){
-
-                        return true;
-
-                    }
-
-                }
-
-            }
-
-            return false;
-
-        
-
-    }
-
-    return false;
-
-}
-// end of US-03
 
     //Method to validate date
     public Date validateDate(String dateField){
@@ -349,12 +316,11 @@ public boolean compareBirthWithDeath(Individual ind, int year, int month, int da
         }
         return returnDateField;
     }
-
     //us-01 changes ends @sr
 
     //us-21 changes starts @sr
     public boolean validateGenderForFamily(String id,String expectedGender){
-        if(!getGender(id).equals(expectedGender))
+        if(!getIndividualData(id).gender.equals(expectedGender))
             return false;
         return true;
     }
@@ -375,17 +341,14 @@ public boolean compareBirthWithDeath(Individual ind, int year, int month, int da
         return false;
     }
     /*us-22 changes end @pp*/
-
     // method to read GEDCOM FILE
     public void readGEDCOMFILE() {
         BufferedReader reader;
         String[] splitString;
         GedcomEntry e1;
-        int counter = 0;
+        int counter = 1;
         Individual ind = new Individual();
         Family family = new Family();
-        String day;
-        String month;
 
         try {
             PrintStream fileOut = new PrintStream("./out.txt");
@@ -414,12 +377,14 @@ public boolean compareBirthWithDeath(Individual ind, int year, int month, int da
                     ind = new Individual();
                     //splitting @ from INDI attr
                     ind.id = splitString[1].replaceAll("@","");
+                    ind.idLineNo=counter;
                     //fecthing the name of the INDI
                     line = reader.readLine();
                     splitString=line.split(" ");
                     if (splitString.length>2 && splitString[1].equals("NAME") && splitString[0].equals("1"))
                         ind.name = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-
+                    counter++;
+                    ind.nameLineNo=counter;
 
                 }
                 //if tags occured after INDI tag
@@ -429,6 +394,7 @@ public boolean compareBirthWithDeath(Individual ind, int year, int month, int da
                     //fetching gender with level 1
                     if (splitString.length>2 && splitString[1].equals("SEX") && splitString[0].equals("1")) {
                         ind.gender = splitString[2];
+                        ind.genderLineNo=counter;
                     }
 
                     //fetching BIRT with level 1
@@ -438,7 +404,8 @@ public boolean compareBirthWithDeath(Individual ind, int year, int month, int da
                         //if BIRT tag exist checking date of birth with level and tag
                         if (splitString.length>2 && splitString[1].equals("DATE") && splitString[0].equals("2")) {
                             ind.dateOfBirth = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-
+                            counter++;
+                            ind.dobLineNo=counter;
                             //us-01 changes starts @sr
                             ind.dobDate=validateDate(ind.dateOfBirth);
                             if (ind.dobDate==null)
@@ -462,26 +429,31 @@ public boolean compareBirthWithDeath(Individual ind, int year, int month, int da
                         splitString = line.split(" ");
                         //checking DATE tag for death date with level and tag
                         if (splitString.length>2 && splitString[1].equals("DATE") && splitString[0].equals("2")) {
-                                ind.death = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-                                //us-01 changes starts @sr
-                                ind.deathDate = validateDate(ind.death);
-                                if (ind.deathDate == null || ind.dobDate == null)
-                                    ind.death = "INVALID DATE";
-                                else {   // us-07 changes starts @KP
-                                    ind.death = changeDateFormat(ind.death, ind.deathDate);
-                                    differenceBetweenTwoAge(ind.dobDate, ind.deathDate);
-                                }
-                                //us-01 changes ends @sr // us-07 changes ends @KP
+                            ind.death = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
+                            counter++;
+                            ind.deathLineNo=counter;
+                            //us-01 changes starts @sr
+                            ind.deathDate = validateDate(ind.death);
+                            if (ind.deathDate == null || ind.dobDate == null)
+                                ind.death = "INVALID DATE";
+                            else {   // us-07 changes starts @KP
+                                ind.death = changeDateFormat(ind.death, ind.deathDate);
+                                ind.age=differenceBetweenTwoAge(ind.dobDate, ind.deathDate);
+                                differenceBetweenTwoAge(ind.dobDate, ind.deathDate);
+                            }
+                            //us-01 changes ends @sr // us-07 changes ends @KP
                         }
                     }
 
                     //checking whether the individual is child or spouse in the family
                     else if (splitString.length>2 && splitString[1].equals("FAMC") && splitString[0].equals("1")) {
                         ind.child = "{'" + splitString[2].replaceAll("@","") + "'}";
+                        ind.childLineNo=counter;
                     }
 
                     if (splitString.length>2 && splitString[1].equals("FAMS") && splitString[0].equals("1") && ind.spouse.equals("NA")) {
                         ind.spouse = "{'" + splitString[2].replaceAll("@","") + "'}";
+                        ind.spouseLineNo=counter;
                     }
                 }
 
@@ -497,17 +469,20 @@ public boolean compareBirthWithDeath(Individual ind, int year, int month, int da
                     }
                     family = new Family();
                     family.id = splitString[1].replaceAll("@","");
+                    family.idLineNo=counter;
                 }
 
                 if(!(family.id == null)) {
                     // fetching husband with level 1 adding into the list
                     if (splitString.length > 2 && splitString[1].equals("HUSB") && splitString[0].equals("1")) {
                         family.husbandId = splitString[2].replaceAll("@","");
+                        family.husbandidLineNo=counter;
                     }
 
                     // fetching wife with level 1 adding into the list
                     else if (splitString.length > 2 && splitString[1].equals("WIFE") && splitString[0].equals("1")) {
                         family.wifeId = splitString[2].replaceAll("@","");
+                        family.wifeidLineNo=counter;
                     }
 
                     // fetching children with level 1 adding into the list
@@ -523,12 +498,14 @@ public boolean compareBirthWithDeath(Individual ind, int year, int month, int da
                         if (splitString.length > 2 && splitString[1].equals("DATE") && splitString[0].equals("2"))
                         {
                             family.dateOfMarried = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
+                            counter++;
+                            family.dateOfMarriedidLineNo=counter;
                             //us-01 changes starts @sr
                             family.marrriedDate=validateDate(family.dateOfMarried);
                             if(family.marrriedDate==null)
                                 family.dateOfMarried="INVALID DATE";
                             else
-                            family.dateOfMarried = changeDateFormat(family.dateOfMarried ,family.marrriedDate);
+                                family.dateOfMarried = changeDateFormat(family.dateOfMarried ,family.marrriedDate);
                             //us-01 changes ends @sr
                         }
                     }
@@ -540,17 +517,20 @@ public boolean compareBirthWithDeath(Individual ind, int year, int month, int da
                         //if BIRT tag exist checking date of birth with level and tag
                         if (splitString.length > 2 && splitString[1].equals("DATE") && splitString[0].equals("2")) {
                             family.dateOfDivided = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
+                            counter++;
+                            family.dateOfDividedLineNo=counter;
                             //us-01 changes starts @sr
                             family.dividedDate=validateDate(family.dateOfDivided);
                             if(family.dividedDate==null)
                                 family.dateOfDivided="INVALID DATE";
                             else
-                            family.dateOfDivided = changeDateFormat(family.dateOfDivided ,family.dividedDate);
+                                family.dateOfDivided = changeDateFormat(family.dateOfDivided ,family.dividedDate);
                             //us-01 changes starts @sr
                         }
                     }
                 }
                 line = reader.readLine();
+                counter++;
             }
 
 
@@ -582,7 +562,7 @@ public boolean compareBirthWithDeath(Individual ind, int year, int month, int da
             // Table library
             Table table = new Table(9);
             //us-01 changes starts @sr
-            Table us01 = new Table (3);
+            Table us01 = new Table (4);
             //us-01 changes ends @sr
 
             //us-07 changes starts @kp
@@ -590,25 +570,25 @@ public boolean compareBirthWithDeath(Individual ind, int year, int month, int da
             //us-07 changes ends @kp
 
             //us-21 changes starts @sr
-            Table us21 = new Table (5);
+            Table us21 = new Table (6);
             //us-21 changes ends @sr
-            //US-03@AS
-
-            Table us03 = new Table(4);
-           // end of US-03 
 
             //us-35 changes starts @kp
             Table us35 = new Table (3);
             //us-35 changes ends @kp
 
             //us-22 changes starts @pp
-            Table us22 = new Table(3);
+            Table us22 = new Table(2);
             checkIndividualId();  //Calling to intialize HashMap
+            checkFamilyId();   // Calling to intialize HashMap
             //us-22 changes end @pp
 
             //us-02 changes starts @pp
             Table us02 = new Table(4);
             //us-02 changes ends @pp
+            // us-03 changes starts @AS
+            Table us03 = new Table(4);
+            // us-03 changes ends @AS
 
             table.addCell("ID");
             table.addCell("Name");
@@ -622,8 +602,9 @@ public boolean compareBirthWithDeath(Individual ind, int year, int month, int da
 
             //us-01 changes starts @sr
             us01.addCell("Individual/Family ID");
-            us01.addCell("Field Name");
+            us01.addCell("TAG Name");
             us01.addCell("Value");
+            us01.addCell("Line No");
             //us-01 changes ends @sr
 
             //us-21 changes starts @sr
@@ -632,6 +613,7 @@ public boolean compareBirthWithDeath(Individual ind, int year, int month, int da
             us21.addCell("Role");
             us21.addCell("Expected Gender");
             us21.addCell("GEDCOM Gender");
+            us21.addCell("Line No");
             //us-21 changes ends @sr
 
             //us-07 changes starts @kp
@@ -642,9 +624,8 @@ public boolean compareBirthWithDeath(Individual ind, int year, int month, int da
             //us-07 changes ends @kp
 
             //us-22 changes starts @pp
-            us22.addCell("Individual ID");
-            us22.addCell("Individual Name");
-            us22.addCell("Unique ID or not");
+            us22.addCell("Individual or Family ID");
+            us22.addCell("Unique IDs or not");
             //us-22 changes ends @pp
 
             //us-35 changes starts @kp
@@ -659,17 +640,18 @@ public boolean compareBirthWithDeath(Individual ind, int year, int month, int da
             us02.addCell("MarriageDate");
             us02.addCell("Validity");
             //us-02 changes ends @pp
-//us-03 changes ends @AS
+            // US-03 changes starts @AS
+            us03.addCell("Individual ID");
+            us03.addCell("BirthDay");
+            us03.addCell("DeathDate");
+            us03.addCell("Validity");
+            // us-03 changes ends @AS
 
-us03.addCell("Individual ID");
 
-us03.addCell("BirthDay");
 
-us03.addCell("DeathDate");
 
-us03.addCell("Validity");
 
-//us-03 changes ends @AS
+
             for(Individual i : individuals) {
                 table.addCell(i.id.toString());
                 table.addCell(i.name.toString());
@@ -690,22 +672,23 @@ us03.addCell("Validity");
 
                 if(!validateDate(i.dobDate,i.dateOfBirth)) {
                     us01.addCell(i.id);
-                    us01.addCell("BirthDay");
+                    us01.addCell("BIRT");
                     us01.addCell(i.dateOfBirth);
+                    us01.addCell(String.valueOf(i.dobLineNo));
                 }
 
 
                 if(!validateDate(i.deathDate,i.death)){
                     us01.addCell(i.id);
-                    us01.addCell("Death");
+                    us01.addCell("DEAT");
                     us01.addCell(i.death);
+                    us01.addCell(String.valueOf(i.deathLineNo));
                 }
 
                 //us-01 changes ends @sr
 
                 //us-07 changes starts @kp
                 int birthAge = calculateAge(i.dobDate);
-                System.out.println("Birth age" + birthAge);
                 if( birthAge > 150 || birthAge < 0) {
                     us07.addCell(i.id);
                     us07.addCell(i.name);
@@ -725,7 +708,8 @@ us03.addCell("Validity");
 
 
                 //us-35 changes starts @kp
-                if(calculateDays(i.dobDate) <= 30) {
+                long noDays = calculateDays(i.dobDate);
+                if( noDays <= 30 && noDays >= 0) {
                     us35.addCell(i.id);
                     us35.addCell(i.name);
                     us35.addCell(i.dateOfBirth);
@@ -735,14 +719,7 @@ us03.addCell("Validity");
                 //us-22 changes starts @pp
                 if(validateIdForIndividual(i.id)){
                     us22.addCell(i.id);
-                    us22.addCell(i.name);
                     us22.addCell("Not Unique");
-                }
-                else
-                {
-                    us22.addCell(i.id);
-                    us22.addCell(i.name);
-                    us22.addCell("Unique");
                 }
                 //us-22 ends @pp
 
@@ -754,22 +731,14 @@ us03.addCell("Validity");
                     us02.addCell("Invalid");
                 }
                 //us-02 changes ends @pp
-                
-                //us-03 changes starts @AS
-
-if(ValidateBirthBeforeDeath(i)){
-
-    us03.addCell(i.id);
-
-    us03.addCell(i.dateOfBirth);
-
-    us03.addCell(i.death);
-
-    us03.addCell("Invalid");
-
-}
-
-//us-03 changes ends @AS
+                //US-03 Changes starts @AS
+                if(ValidateBirth(i)){
+                    us03.addCell(i.id);
+                    us03.addCell(i.dateOfBirth);
+                    us03.addCell(i.death);
+                    us03.addCell("Invalid");
+                }
+                // US-03 changes ends @AS
             }
             fileOut.println("Individuals");
             fileOut.println(table.render());
@@ -802,14 +771,17 @@ if(ValidateBirthBeforeDeath(i)){
 
                 if(!validateDate(i.marrriedDate,i.dateOfMarried)) {
                     us01.addCell(i.id);
-                    us01.addCell("Married");
+                    us01.addCell("MARR");
                     us01.addCell(i.dateOfMarried);
+                    us01.addCell(String.valueOf(i.dateOfMarriedidLineNo));
+
                 }
 
                 if(!validateDate(i.dividedDate,i.dateOfDivided)){
                     us01.addCell(i.id);
-                    us01.addCell("Divorced");
+                    us01.addCell("DIV");
                     us01.addCell(i.dateOfDivided);
+                    us01.addCell(String.valueOf(i.dateOfDividedLineNo));
                 }
                 //us-01 changes ends @sr
 
@@ -819,7 +791,9 @@ if(ValidateBirthBeforeDeath(i)){
                     us21.addCell(i.husbandId);
                     us21.addCell("Husband");
                     us21.addCell("M");
-                    us21.addCell(getGender(i.husbandId));
+                    ind = getIndividualData(i.husbandId);
+                    us21.addCell((ind.gender));
+                    us21.addCell(String.valueOf(ind.genderLineNo));
                 }
 
                 if(!validateGenderForFamily(i.wifeId,"F")) {
@@ -827,9 +801,19 @@ if(ValidateBirthBeforeDeath(i)){
                     us21.addCell(i.wifeId);
                     us21.addCell("Wife");
                     us21.addCell("F");
-                    us21.addCell(getGender(i.wifeId));
+                    ind = getIndividualData(i.wifeId);
+                    us21.addCell((ind.gender));
+                    us21.addCell(String.valueOf(ind.genderLineNo));
                 }
                 //us-21 changes ends @sr
+
+                //us-22 changes starts @pp
+                if(validateIdForFamily(i.id)){
+                    us22.addCell(i.id);
+                    us22.addCell("Not Unique");
+                }
+                //us-22 changes ends @pp
+
             }
 
             fileOut.println("Families");
@@ -858,25 +842,14 @@ if(ValidateBirthBeforeDeath(i)){
             fileOut.println("US21 - Correct gender for role");
             fileOut.println(us21.render());
             //us-21 changes ends @sr
-            
+
 
             //us-22 changes start @pp
             System.out.println("US22 - Unique Id's");
             System.out.println(us22.render());
             fileOut.println("US22 - Unique Id's");
-            fileOut.println(us21.render());
+            fileOut.println(us22.render());
             //us-22 changes end @pp
-            //us-03 changes starts @AS
-
-        System.out.println("US03 - Death before Birth");
-
-     System.out.println(us03.render());
-
-      fileOut.println("US03 - Death before Birth");
-
-        fileOut.println(us03.render());
-
-//us-03 changes ends @AS
 
 
             //us-35 changes starts @kp
@@ -895,6 +868,10 @@ if(ValidateBirthBeforeDeath(i)){
             fileOut.println(us02.render());
             //us-02 changes ends @pp
 
+            //us-03 changes starts @AS
+            System.out.println("US03 Death before Birth");
+            System.out.println(us03.render());
+            //us-03 changes ends @AS
             //file closed
             reader.close();
         }
@@ -905,4 +882,5 @@ if(ValidateBirthBeforeDeath(i)){
             e.printStackTrace();
         }
     }
+}
     
