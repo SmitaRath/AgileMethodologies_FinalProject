@@ -843,15 +843,6 @@ public class GedcomReadParse {
                 System.out.println(str);
             }
             
-            //US-03 Changes starts @AS
-                if(ValidateBirth(i)){
-                    us03.addCell(i.id);
-                    us03.addCell(i.dateOfBirth);
-                    us03.addCell(i.death);
-                    us03.addCell("Invalid");
-                }
-                // US-03 changes ends @AS
-
             //file closed
             reader.close();
         }
