@@ -5,16 +5,23 @@ import java.util.Date;
 
 public class Individual{
     public String id=null;
+    int idLineNo;
     String name;
+    int nameLineNo;
     public String gender;
+    int genderLineNo;
     String dateOfBirth;
+    int dobLineNo;
     Date dobDate;
     int age;
     boolean alive=true;
     String death;
+    int deathLineNo;
     Date deathDate;
     String child;
+    int childLineNo;
     String spouse;
+    int spouseLineNo;
 
     public Individual() {
         this.id = null;
