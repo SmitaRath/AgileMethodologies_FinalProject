@@ -23,6 +23,8 @@ public class GedcomReadParse {
     public ArrayList<Family> families = new ArrayList<>();
     public ArrayList<Individual> individuals = new ArrayList<>();
     ArrayList<String> errorAnomalyData = new ArrayList<>();
+    ArrayList<String> errorAnomalyDataUS22 = new ArrayList<>();
+    ArrayList<String> errorAnomalyDataUS02 = new ArrayList<>();
     DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
 
     //method to check the tag is valid or not
@@ -53,7 +55,7 @@ public class GedcomReadParse {
         return null;
     }
     //us-21 changes ends @sr
-    
+
     //us-22 changes starts @pp
     //This method to check whether Id's are unique or not of Individual's
     HashMap<String, Integer> IndividualId = new HashMap<String, Integer>();
@@ -78,8 +80,8 @@ public class GedcomReadParse {
         }
     }
     //us-22 changes ends @pp
-    
-   // US-03 changes starts@AS
+
+    // US-03 changes starts@AS
     public boolean ValidateBirth(Individual ind){
         String birthYear="";
         String birthMonth="";
@@ -196,7 +198,7 @@ public class GedcomReadParse {
         month = givenDate.getMonthValue()<10?"0"+givenDate.getMonthValue():""+givenDate.getMonthValue();
         day = givenDate.getDayOfMonth()<10?"0"+givenDate.getDayOfMonth():""+givenDate.getDayOfMonth();
         dateString  = givenDate.getYear() + "-" + month + "-" + day;
-         return dateString;
+        return dateString;
     }
 
     //us-02 changes start @pp
@@ -239,7 +241,7 @@ public class GedcomReadParse {
         }
         return false;
     }
-    
+
     //Validate Date created by @pp
     public boolean validateDate(int year, int month, int day){
         if(year<=0||month<=0||day<=0||day>31||month>12)
@@ -274,9 +276,9 @@ public class GedcomReadParse {
         Instant instant = dob.toInstant();
         ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
         LocalDate givenDate = zone.toLocalDate();
-      //  Period period = Period.between(givenDate, LocalDate.now());
+        //  Period period = Period.between(givenDate, LocalDate.now());
         long p2 = ChronoUnit.DAYS.between(givenDate, LocalDate.now());
-       // Period.ofDays(30);
+        // Period.ofDays(30);
         System.out.println("dob" + p2);
         return p2;
     }
@@ -388,8 +390,8 @@ public class GedcomReadParse {
                     splitString=line.split(" ");
                     if (splitString.length>2 && splitString[1].equals("NAME") && splitString[0].equals("1"))
                         ind.name = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-                        counter++;
-                        ind.nameLineNo=counter;
+                    counter++;
+                    ind.nameLineNo=counter;
 
                 }
                 //if tags occured after INDI tag
@@ -434,19 +436,19 @@ public class GedcomReadParse {
                         splitString = line.split(" ");
                         //checking DATE tag for death date with level and tag
                         if (splitString.length>2 && splitString[1].equals("DATE") && splitString[0].equals("2")) {
-                                ind.death = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
-                                counter++;
-                                ind.deathLineNo=counter;
-                                //us-01 changes starts @sr
-                                ind.deathDate = validateDate(ind.death);
-                                if (ind.deathDate == null || ind.dobDate == null)
-                                    ind.death = "INVALID DATE";
-                                else {   // us-07 changes starts @KP
-                                    ind.death = changeDateFormat(ind.death, ind.deathDate);
-                                    ind.age=differenceBetweenTwoAge(ind.dobDate, ind.deathDate);
-                                    differenceBetweenTwoAge(ind.dobDate, ind.deathDate);
-                                }
-                                //us-01 changes ends @sr // us-07 changes ends @KP
+                            ind.death = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
+                            counter++;
+                            ind.deathLineNo=counter;
+                            //us-01 changes starts @sr
+                            ind.deathDate = validateDate(ind.death);
+                            if (ind.deathDate == null || ind.dobDate == null)
+                                ind.death = "INVALID DATE";
+                            else {   // us-07 changes starts @KP
+                                ind.death = changeDateFormat(ind.death, ind.deathDate);
+                                ind.age=differenceBetweenTwoAge(ind.dobDate, ind.deathDate);
+                                differenceBetweenTwoAge(ind.dobDate, ind.deathDate);
+                            }
+                            //us-01 changes ends @sr // us-07 changes ends @KP
                         }
                     }
 
@@ -510,7 +512,7 @@ public class GedcomReadParse {
                             if(family.marrriedDate==null)
                                 family.dateOfMarried="INVALID DATE";
                             else
-                            family.dateOfMarried = changeDateFormat(family.dateOfMarried ,family.marrriedDate);
+                                family.dateOfMarried = changeDateFormat(family.dateOfMarried ,family.marrriedDate);
                             //us-01 changes ends @sr
                         }
                     }
@@ -529,7 +531,7 @@ public class GedcomReadParse {
                             if(family.dividedDate==null)
                                 family.dateOfDivided="INVALID DATE";
                             else
-                            family.dateOfDivided = changeDateFormat(family.dateOfDivided ,family.dividedDate);
+                                family.dateOfDivided = changeDateFormat(family.dateOfDivided ,family.dividedDate);
                             //us-01 changes starts @sr
                         }
                     }
@@ -576,16 +578,11 @@ public class GedcomReadParse {
             //us-35 changes ends @kp
 
             //us-22 changes starts @pp
-            Table us22 = new Table(2);
             checkIndividualId();  //Calling to intialize HashMap
             checkFamilyId();   // Calling to intialize HashMap
             //us-22 changes end @pp
 
-            //us-02 changes starts @pp
-            Table us02 = new Table(4);
-            //us-02 changes ends @pp
-            
-             // us-03 changes starts @AS
+            // us-03 changes starts @AS
             Table us03 = new Table(4);
             // us-03 changes ends @AS
 
@@ -607,25 +604,13 @@ public class GedcomReadParse {
             us07.addCell("Date shouln't be greater than 150 year or less than 0");
             //us-07 changes ends @kp
 
-            //us-22 changes starts @pp
-            us22.addCell("Individual or Family ID");
-            us22.addCell("Unique IDs or not");
-            //us-22 changes ends @pp
-
             //us-35 changes starts @kp
             us35.addCell("Individual ID");
             us35.addCell("Individual Name");
             us35.addCell("Date of recent birth");
             //us-35 changes ends @kp
 
-            //us-02 changes ends @pp
-            us02.addCell("Individual ID");
-            us02.addCell("BirthDay");
-            us02.addCell("MarriageDate");
-            us02.addCell("Validity");
-            //us-02 changes ends @pp
-            
-             // US-03 changes starts @AS
+            // US-03 changes starts @AS
             us03.addCell("Individual ID");
             us03.addCell("BirthDay");
             us03.addCell("DeathDate");
@@ -652,7 +637,7 @@ public class GedcomReadParse {
 
                 if(!validateDate(i.dobDate,i.dateOfBirth)) {
                     errString = "Error : INDIVDUAL :US01 : "+ " Line no: " + i.dobLineNo +
-                             " ID: "  + i.id + ":"+
+                            " ID: "  + i.id + ":"+
                             " BirthDay " + i.dateOfBirth +
                             " occurs in the future";
                     errorAnomalyData.add(errString);
@@ -664,7 +649,6 @@ public class GedcomReadParse {
                             " Id: " + i.id +":" +
                             " Death " + i.death +
                             " occurs in the future";
-                    errorAnomalyData.add(errString);
                 }
 
                 //us-01 changes ends @sr
@@ -700,20 +684,24 @@ public class GedcomReadParse {
 
                 //us-22 changes starts @pp
                 if(validateIdForIndividual(i.id)){
-                    us22.addCell(i.id);
-                    us22.addCell("Not Unique");
+                    errString = "Error : INDIVDUAL :US22 : "+ " Line no: " +
+                            " ID: "  + i.id + ":"+
+                            " The Individual ID is not unique";
+                    errorAnomalyDataUS22.add(errString);
                 }
                 //us-22 ends @pp
 
                 //us-02 changes starts @pp
                 if(ValidateBirthBeforeMarriage(i)){
-                    us02.addCell(i.id);
-                    us02.addCell(i.dateOfBirth);
-                    us02.addCell(getMarriageDate(i));
-                    us02.addCell("Invalid");
+                    errString = "Error : INDIVDUAL :US02 : "+ " Line no: " +
+                            " ID: "  + i.id + ":"+
+                            " Date of Birth: " + i.dateOfBirth +
+                            ":" + "Date of Marriage: " + getMarriageDate(i) +
+                            ":" + " Birth Occurs After Marriage";
+                    errorAnomalyDataUS02.add(errString);
                 }
                 //us-02 changes ends @pp
-                
+
                 //US-03 Changes starts @AS
                 if(ValidateBirth(i)){
                     us03.addCell(i.id);
@@ -754,10 +742,10 @@ public class GedcomReadParse {
 
                 if(!validateDate(i.marrriedDate,i.dateOfMarried)) {
                     errString = "Error : FAMILY :US01 : " + " Line no :" + i.dateOfMarriedidLineNo
-                              + " ID: " + i.id +":"
+                            + " ID: " + i.id +":"
                             + " Marriage Date " + i.dateOfMarried +
                             " occurs in the future";
-                    errorAnomalyData.add(errString);
+
                 }
 
                 if(!validateDate(i.dividedDate,i.dateOfDivided)){
@@ -776,7 +764,7 @@ public class GedcomReadParse {
                             + " Line no :" + ind.genderLineNo
                             + " Husband's Id :" + i.husbandId +":"
                             + " in family: " + i.id + ":"
-                            + " Gender is " + ind.gender;
+                            + " is " + ind.gender;
                     errorAnomalyData.add(errString);
                 }
 
@@ -786,15 +774,17 @@ public class GedcomReadParse {
                             + " Line No: " + ind.genderLineNo
                             + " Wife's Id :" + i.wifeId +":"
                             + " in family: " + i.id + ":"
-                            + " Gender is " + ind.gender;
+                            + " is " + ind.gender;
                     errorAnomalyData.add(errString);
                 }
                 //us-21 changes ends @sr
 
                 //us-22 changes starts @pp
                 if(validateIdForFamily(i.id)){
-                    us22.addCell(i.id);
-                    us22.addCell("Not Unique");
+                    errString = "Error : FAMILY :US22 : " + " Line no: " + " ID: "
+                            + i.id +":"
+                            + " This Family ID is not unique";
+                    errorAnomalyDataUS22.add(errString);
                 }
                 //us-22 changes ends @pp
             }
@@ -811,15 +801,6 @@ public class GedcomReadParse {
             fileOut.println("US07 - Less than 150 years old");
             fileOut.println(us07.render());
             //us-01 changes ends @sr
-            
-
-            //us-22 changes start @pp
-            System.out.println("US22 - Unique Id's");
-            System.out.println(us22.render());
-            fileOut.println("US22 - Unique Id's");
-            fileOut.println(us22.render());
-            //us-22 changes end @pp
-
 
             //us-35 changes starts @kp
             if(us35.render() != null) {
@@ -830,25 +811,33 @@ public class GedcomReadParse {
             }
             //us-35 changes ends @kp
 
-            //us-02 changes starts @pp
-            System.out.println("US02 - Birth before Marriage");
-            System.out.println(us02.render());
-            fileOut.println("US02 - Birth before Marriage");
-            fileOut.println(us02.render());
-            //us-02 changes ends @pp
-
             //printing errors sprint1 changes @sr
             for(String str:errorAnomalyData){
                 fileOut.println(str);
                 System.out.println(str);
             }
-              //us-03 changes starts @AS
+
+            //printing errors Sprint1 changes starts @pp
+                /*us-02 Changes starts @pp*/
+            for(String str:errorAnomalyDataUS02){
+                fileOut.println(str);
+                System.out.println(str);
+            }
+              /*us-22 changes starts @pp*/
+            for(String str:errorAnomalyDataUS22){
+                fileOut.println(str);
+                System.out.println(str);
+            }
+              /*us-22 changes ends @pp*/
+            //printing errors Sprint1 changes ends @pp
+
+            //us-03 changes starts @AS
             System.out.println("US03 Death before Birth");
             System.out.println(us03.render());
             fileOut.println("US03 - Death before Marriage");
             fileOut.println(us03.render());
             //us-03 changes ends @AS
-            
+
             //file closed
             reader.close();
         }
