@@ -76,14 +76,18 @@ public class GedcomReadParseTest {
     public void ValidateUS02(){
         Individual I1 = new Individual();
         I1.id = "I10";
+        Individual I2 = new Individual();
+        I2.id="I11";
         I1.dateOfBirth = "2020-05-13";
+        I2.dateOfBirth = "2003-08-20";
         g1.individuals.add(I1);
+        g1.individuals.add(I2);
         f.husbandId = "I10";
-        f.wifeId = "I7";
+        f.wifeId = "I11";
         f.dateOfMarried = "2003-08-22";
         g1.families.add(f);
-        assertEquals(true, g1.ValidateBirthBeforeMarriage(I1));
-        assertNotEquals(false, g1.ValidateBirthBeforeMarriage(I1));
+        assertEquals(true, g1.ValidateBirthBeforeMarriage(f.husbandId, f.dateOfMarried));
+        assertEquals(false, g1.ValidateBirthBeforeMarriage(f.wifeId, f.dateOfMarried));
     }
 
     @Test
