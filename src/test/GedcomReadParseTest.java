@@ -70,4 +70,50 @@ public class GedcomReadParseTest {
         assertEquals(3, g1.calculateDays(date1));
         assertNotEquals(10, g1.calculateDays(date1));
     }
+
+    @Test
+    /*Validating function ValidateBirthBeforeMarriage for us-02*/
+    public void ValidateUS02(){
+        Individual I1 = new Individual();
+        I1.id = "I10";
+        I1.dateOfBirth = "2020-05-13";
+        g1.individuals.add(I1);
+        f.husbandId = "I10";
+        f.wifeId = "I7";
+        f.dateOfMarried = "2003-08-22";
+        g1.families.add(f);
+        assertEquals(true, g1.ValidateBirthBeforeMarriage(I1));
+        assertNotEquals(false, g1.ValidateBirthBeforeMarriage(I1));
+    }
+
+    @Test
+    /*Validate Date function used for us-02*/
+    public void correctDate(){
+        int year = 2001;
+        int month = 2;
+        int day = 29;
+        assertEquals(false,g1.validateDate(year,month,day));
+        assertEquals(false, g1.validateDate(2016,4,31));
+    }
+
+    @Test
+    //Validate Whether Id's are unique
+    public void ValidateUS22(){
+        Individual I1 = new Individual();
+        I1.id = "I10";
+        Individual I2 = new Individual();
+        I2.id = "I10";
+        Family f1 = new Family();
+        Family f2 = new Family();
+        f1.id = "F10";
+        f2.id = "F10";
+        g1.individuals.add(I1);
+        g1.individuals.add(I2);
+        g1.families.add(f1);
+        g1.families.add(f2);
+        g1.checkIndividualId();
+        g1.checkFamilyId();
+        assertEquals(true, g1.validateIdForIndividual(I1.id));
+        assertEquals(true, g1.validateIdForFamily(f1.id));
+    }
 }
