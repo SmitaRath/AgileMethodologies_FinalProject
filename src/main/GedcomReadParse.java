@@ -22,7 +22,7 @@ public class GedcomReadParse {
 
     public ArrayList<Family> families = new ArrayList<>();
     public ArrayList<Individual> individuals = new ArrayList<>();
-    ArrayList<String> successAnomalyData = new ArrayList<>();
+    ArrayList<String> successAnomalyDataUS35 = new ArrayList<>();
     ArrayList<String> errorAnomalyData = new ArrayList<>();
     ArrayList<String> errorAnomalyDataUS22 = new ArrayList<>();
     ArrayList<String> errorAnomalyDataUS02 = new ArrayList<>();
@@ -569,14 +569,6 @@ public class GedcomReadParse {
             // Table library
             Table table = new Table(9);
 
-            //us-07 changes starts @kp
-            Table us07 = new Table (4);
-            //us-07 changes ends @kp
-
-            //us-35 changes starts @kp
-            Table us35 = new Table (3);
-            //us-35 changes ends @kp
-
             //us-22 changes starts @pp
             checkIndividualId();  //Calling to intialize HashMap
             checkFamilyId();   // Calling to intialize HashMap
@@ -643,32 +635,35 @@ public class GedcomReadParse {
                 //us-07 changes starts @kp
                 int birthAge = calculateAge(i.dobDate);
                 if(birthAge > 150) {
-                    errString = "Error in US07; INDIVIDUAL at "+ "Line no: " + i.dobLineNo +
-                            "; ID: "  + i.id +
+                    errString = "Error: In US07 for INDIVIDUAL at Line no: " + i.dobLineNo + "; ID: "
+                            + i.id +
                             "; BirthDay: " + i.dateOfBirth +
-                            ", Current date should be less than 150 years after birth for all living people";
+                            "; Current date should be less than 150 years after birth for all living people";
                     errorAnomalyData.add(errString);
                 }
+
                 if(i.deathDate != null) {
                     int deathAge = differenceBetweenTwoAge(i.dobDate, i.deathDate);
                     if (deathAge > 150) {
-                        errString = "Error in US07; INDIVIDUAL at "+ "Line no: " + i.deathLineNo +
-                                "; ID: "  + i.id +
-                                "; Deathday: " + i.death +
-                                ", Death date should be less than 150 years after birth for dead people";
+                        errString = "Error: INDIVIDUAL: US07: " + i.deathLineNo + ": " +
+                                 i.id +
+                                ": Deathday " + i.death +
+                                " Death date should be less than 150 years after birth for dead people";
                         errorAnomalyData.add(errString);
                     }
                 }
-
                 //us-07 changes ends @kp
 
 
                 //us-35 changes starts @kp
                 long noDays = calculateDays(i.dobDate);
                 if( noDays <= 30 && noDays >= 0) {
-                    String successMessage = "";
-                    successMessage = i.id + i.name + i.dateOfBirth;
-                    successAnomalyData.add(successMessage);
+                    String successMessage = "", name = "";
+                    String [] formatName;
+                    formatName = i.name.split("/");
+                    name = formatName[0] + formatName[1];
+                    successMessage = "ID: " + i.id + " NAME: " + name + " Date of Birth: " + i.dateOfBirth + " Birth age in no.Of.Days: " + noDays;
+                    successAnomalyDataUS35.add(successMessage);
                 }
                 //us-35 changes ends @kp
 
@@ -785,21 +780,15 @@ public class GedcomReadParse {
             System.out.println("Families");
             System.out.println(table1.render());
 
-
-            //us-07 changes starts @sr
-            System.out.println("US07 - Less than 150 years old");
-            System.out.println(us07.render());
-            fileOut.println("US07 - Less than 150 years old");
-            fileOut.println(us07.render());
-            //us-01 changes ends @sr
-
-            //printing errors sprint1 changes @sr
-            for(String str:successAnomalyData){
+            System.out.println();
+            System.out.println("US35: List all Recent births");
+            for(String str:successAnomalyDataUS35){
                 fileOut.println(str);
                 System.out.println(str);
             }
 
-            System.out.println("================ ERRORS IN GEDCOM FILE ========================");
+            System.out.println();
+            System.out.println("============================== ERRORS IN GEDCOM FILE =======================================");
             for(String str:errorAnomalyData){
                 fileOut.println(str);
                 System.out.println(str);

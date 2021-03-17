@@ -3,7 +3,7 @@ Individuals
 |ID|Name                |Gender|Birthday  |Age|Alive|Death     |Child |Spouse|
 +--+--------------------+------+----------+---+-----+----------+------+------+
 |I1|Elizabeth /Peterson/|M     |2022-08-07|-24|False|1998-06-15|NA    |{'F1'}|
-|I2|Michael /Smith/     |F     |1920-10-10|69 |False|1990-02-11|NA    |{'F1'}|
+|I2|Michael /Smith/     |F     |1820-10-10|169|False|1990-02-11|NA    |{'F1'}|
 |I3|Linda /Smith/       |F     |2021-03-05|0  |True |NA        |{'F1'}|{'F2'}|
 |I4|Timothy /Williams/  |M     |1935-09-13|160|False|2095-10-17|NA    |{'F3'}|
 |I5|Jacob /Williams/    |M     |1990-06-12|30 |True |NA        |{'F3'}|{'F4'}|
@@ -22,13 +22,14 @@ Families
 |F2|2000-09-14|NA        |I6        |Andrew /Miller/   |I3     |Linda /Smith/       |{'I7'}  |
 |F4|2016-08-15|NA        |I5        |Jacob /Williams/  |I8     |Natalie /Jones/     |{'I9'}  |
 +--+----------+----------+----------+------------------+-------+--------------------+--------+
-US07 - Less than 150 years old
-
-I3Linda /Smith/2021-03-05
+ID: I3 NAME: Linda Smith Date of Birth: 2021-03-05 Birth age in no.Of.Days: 12
 Error : INDIVDUAL :US01 :  Line no: 12 ID: I1: BirthDay 2022-08-07 occurs in the future
-Error in US07; INDIVIDUAL at Line no: 38; ID: I4; Deathday: 2095-10-17, Death date should be less than 150 years after birth for dead people
-Error : INDIVIDUAL :US21 :  Line no :18 Husband's Id :I2: in family: F1: is F
-Error : INDIVIDUAL :US21 :  Line No: 10 Wife's Id :I1: in family: F1: is M
+Error: In US07 for INDIVIDUAL at Line no: 20; ID: I2; BirthDay: 1820-10-10; Current date should be less than 150 years after birth for all living people
+Error: INDIVIDUAL: US07: 22: I2: Deathday 1990-02-11 Death date should be less than 150 years after birth for dead people
+Error : INDIVDUAL :US01 : Line no: 38 Id: I4: Death 2095-10-17 occurs in the future
+Error: INDIVIDUAL: US07: 38: I4: Deathday 2095-10-17 Death date should be less than 150 years after birth for dead people
+Error : INDIVIDUAL :US21 :  Line no :18 Husband's Id :I2: in family: F1: Gender is F
+Error : INDIVIDUAL :US21 :  Line No: 10 Wife's Id :I1: in family: F1:Gender is M
 Error : INDIVDUAL :US02 :  Line no:  ID: I1: Date of Birth: 2022-08-07:Date of Marriage: 1955-08-05: Birth Occurs After Marriage
 Error : INDIVDUAL :US02 :  Line no:  ID: I3: Date of Birth: 2021-03-05:Date of Marriage: 1988-07-17: Birth Occurs After Marriage
 Error : INDIVDUAL :US02 :  Line no:  ID: I8: Date of Birth: 2017-06-19:Date of Marriage: 2016-08-15: Birth Occurs After Marriage
