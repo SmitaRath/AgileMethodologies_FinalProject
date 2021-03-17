@@ -696,17 +696,6 @@ public class GedcomReadParse {
                 }
                 //us-22 ends @pp
 
-                //us-02 changes starts @pp
-                if(ValidateBirthBeforeMarriage(i)){
-                    errString = "Error : INDIVDUAL :US02 : "+ " Line no: " +
-                            " ID: "  + i.id + ":"+
-                            " Date of Birth: " + i.dateOfBirth +
-                            ":" + "Date of Marriage: " + getMarriageDate(i) +
-                            ":" + " Birth Occurs After Marriage";
-                    errorAnomalyDataUS02.add(errString);
-                }
-                //us-02 changes ends @pp
-
                 //US-03 Changes starts @AS
                 if(ValidateBirthbeforeDeath(i)){
                     us03.addCell(i.id);
@@ -784,15 +773,35 @@ public class GedcomReadParse {
                     errorAnomalyData.add(errString);
                 }
                 //us-21 changes ends @sr
-
+                
                 //us-22 changes starts @pp
                 if(validateIdForFamily(i.id)){
-                    errString = "Error : FAMILY :US22 : " + " Line no: " + " ID: "
-                            + i.id +":"
-                            + " This Family ID is not unique";
-                    errorAnomalyDataUS22.add(errString);
+                    errString = "Error: FAMILY:      US22 : " + "Line no: "
+                            + i.idLineNo + " : ID: "
+                            + i.id +" : "
+                            + "This Family ID is not unique";
+                    errorAnomalyData.add(errString);
                 }
                 //us-22 changes ends @pp
+
+                //us-02 changes starts @pp
+                if(ValidateBirthBeforeMarriage(i.husbandId, i.dateOfMarried)){
+                    errString = "Error: INDIVIDUAL: US02 : "+ "Line no:" +
+                            getIndividual(i.husbandId).dobLineNo + " : ID: "  + i.husbandId + " : "+
+                            "Date of Birth: " + getBirthDate(i) +
+                            " : " + "Date of Marriage: " + i.dateOfMarried +
+                            " : " + "Birth Occurs After Marriage";
+                    errorAnomalyData.add(errString);
+                }
+                if(ValidateBirthBeforeMarriage(i.wifeId, i.dateOfMarried)){
+                    errString = "Error: INDIVDUAL: US02 : "+ "Line no: " +
+                            getIndividual(i.wifeId).dobLineNo + " : ID: " + i.wifeId + " : "+
+                            "Date of Birth: " + getBirthDate(i) +
+                            " : " + "Date of Marriage: " + i.dateOfMarried +
+                            " : " + "Birth Occurs After Marriage";
+                    errorAnomalyData.add(errString);
+                }
+                //us-02 changes ends @pp
             }
 
             fileOut.println("Families");
