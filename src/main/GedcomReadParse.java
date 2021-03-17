@@ -82,7 +82,7 @@ public class GedcomReadParse {
     //us-22 changes ends @pp
 
     // US-03 changes starts@AS
-    public boolean ValidateBirth(Individual ind){
+    public boolean ValidateBirthbeforeDeath(Individual ind){
         String birthYear="";
         String birthMonth="";
         String birthDay="";
@@ -704,7 +704,7 @@ public class GedcomReadParse {
                 //us-02 changes ends @pp
 
                 //US-03 Changes starts @AS
-                if(ValidateBirth(i)){
+                if(ValidateBirthbeforeDeath(i)){
                     us03.addCell(i.id);
                     us03.addCell(i.dateOfBirth);
                     us03.addCell(i.death);
