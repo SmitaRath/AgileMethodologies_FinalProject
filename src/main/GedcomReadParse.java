@@ -831,20 +831,6 @@ public class GedcomReadParse {
                 System.out.println(str);
             }
 
-            //printing errors Sprint1 changes starts @pp
-            /*us-02 Changes starts @pp*/
-            for(String str:errorAnomalyDataUS02){
-                fileOut.println(str);
-                System.out.println(str);
-            }
-            /*us-22 changes starts @pp*/
-            for(String str:errorAnomalyDataUS22){
-                fileOut.println(str);
-                System.out.println(str);
-            }
-            /*us-22 changes ends @pp*/
-            //printing errors Sprint1 changes ends @pp
-
             //us-03 changes starts @AS
             System.out.println("US03 Death before Birth");
             System.out.println(us03.render());
