@@ -273,14 +273,10 @@ public class GedcomReadParse {
 
     // us-35 changes starts @KP
     public long calculateDays(Date dob) {
-        System.out.println("dob" + dob);
         Instant instant = dob.toInstant();
         ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
         LocalDate givenDate = zone.toLocalDate();
-        //  Period period = Period.between(givenDate, LocalDate.now());
         long p2 = ChronoUnit.DAYS.between(givenDate, LocalDate.now());
-        // Period.ofDays(30);
-        System.out.println("dob" + p2);
         return p2;
     }
     // us-35 changes ends @KP
