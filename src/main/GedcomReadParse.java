@@ -607,7 +607,7 @@ public class GedcomReadParse {
                 //us-01 changes starts @sr
 
                 if(!validateDate(i.dobDate,i.dateOfBirth)) {
-                    errString = "Error : In US01 for INDIVDUAL at Line no: " + i.dobLineNo +
+                    errString = "Error: In US01 for INDIVDUAL at Line no: " + i.dobLineNo +
                             "; ID: "  + i.id + ";"+
                             " BirthDay " + i.dateOfBirth +
                             " occurs in the future";
@@ -616,7 +616,7 @@ public class GedcomReadParse {
 
 
                 if(!validateDate(i.deathDate,i.death)){
-                    errString = "Error :In US01 for INDIVDUAL at Line no: " + i.deathLineNo +
+                    errString = "Error: In US01 for INDIVDUAL at Line no: " + i.deathLineNo +
                             "; Id: " + i.id +";" +
                             " Death " + i.death +
                             " occurs in the future";
@@ -726,7 +726,7 @@ public class GedcomReadParse {
                 //us-01 changes starts @sr
 
                 if(!validateDate(i.marrriedDate,i.dateOfMarried)) {
-                    errString = "Error : In US01 for FAMILY at " + "Line no :" + i.dateOfMarriedidLineNo
+                    errString = "Error: In US01 for FAMILY at " + "Line no :" + i.dateOfMarriedidLineNo
                             + "; ID: " + i.id +";"
                             + " Marriage Date " + i.dateOfMarried +
                             " occurs in the future";
@@ -735,7 +735,7 @@ public class GedcomReadParse {
                 }
 
                 if(!validateDate(i.dividedDate,i.dateOfDivided)){
-                    errString = "Error : In US01 For FAMILY at " + "Line no :" + i.dateOfDividedLineNo
+                    errString = "Error: In US01 For FAMILY at " + "Line no :" + i.dateOfDividedLineNo
                             + "; ID: " + i.id +";"
                             + " Divided Date " + i.dateOfDivided +
                             " occurs in the future";
@@ -746,7 +746,7 @@ public class GedcomReadParse {
                 //us-21 changes starts @sr
                 if(!validateGenderForFamily(i.husbandId,"M")){
                     ind = getIndividualData(i.husbandId);
-                    errString = "Error :In US21 for INDIVIDUAL at "
+                    errString = "Error: In US21 for INDIVIDUAL at "
                             + " Line no: " + ind.genderLineNo
                             + "; Husband's Id :" + i.husbandId +";"
                             + " in family: " + i.id + ""
@@ -756,7 +756,7 @@ public class GedcomReadParse {
 
                 if(!validateGenderForFamily(i.wifeId,"F")) {
                     ind = getIndividualData(i.wifeId);
-                    errString = "Error :In US21 for INDIVIDUAL at "
+                    errString = "Error: In US21 for INDIVIDUAL at "
                             + " Line No: " + ind.genderLineNo
                             + "; Wife's Id :" + i.wifeId +";"
                             + " in family: " + i.id + ""
