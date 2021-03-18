@@ -800,7 +800,9 @@ public class GedcomReadParse {
             System.out.println("Families");
             System.out.println(table1.render());
             if(!successAnomalyDataUS35.isEmpty()) {
+                fileOut.println();
                 System.out.println();
+                fileOut.println("US35: List all Recent births");
                 System.out.println("US35: List all Recent births");
                 for (String str : successAnomalyDataUS35) {
                     fileOut.println(str);
@@ -808,14 +810,18 @@ public class GedcomReadParse {
                 }
             }
 
+            fileOut.println();
             System.out.println();
+            fileOut.println("US36: List all Recent deaths");
             System.out.println("US36: List all Recent deaths");
             for(String str:successAnomalyDataUS36){
                 fileOut.println(str);
                 System.out.println(str);
             }
 
+            fileOut.println();
             System.out.println();
+            fileOut.println("============================== ERRORS IN GEDCOM FILE =======================================");
             System.out.println("============================== ERRORS IN GEDCOM FILE =======================================");
             for(String str:errorAnomalyData){
                 fileOut.println(str);
