@@ -1,16 +1,23 @@
+package main;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 
 public class Family{
-    String id;
-    String husbandId;
+    public String id;
+    int idLineNo;
+    public String husbandId;
+    int husbandidLineNo;
     String husbandName;
-    String wifeId;
+    public String wifeId;
+    int wifeidLineNo;
     String wifeName;
-    String dateOfMarried;
+    public String dateOfMarried;
+    int dateOfMarriedidLineNo;
     Date marrriedDate;
     String dateOfDivided;
+    int dateOfDividedLineNo;
     Date dividedDate;
     ArrayList<String> child;
     String divorced;
@@ -36,7 +43,7 @@ public class Family{
         return str;
     }
 
-    /* Comparator for sorting the list by Family ID */
+    /* Comparator for sorting the list by main.Family ID */
     public static Comparator<Family> familyIdComparator = new Comparator<Family>() {
         public int compare(Family s1, Family s2) {
             String Id1 = s1.id.toUpperCase();
@@ -60,4 +67,5 @@ public class Family{
         }
         return str;
     }
+
 }

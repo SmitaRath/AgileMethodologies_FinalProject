@@ -1,18 +1,27 @@
+package main;
+
 import java.util.Comparator;
 import java.util.Date;
 
 public class Individual{
-    String id=null;
+    public String id=null;
+    int idLineNo;
     String name;
-    String gender;
-    String dateOfBirth;
+    int nameLineNo;
+    public String gender;
+    int genderLineNo;
+    public String dateOfBirth;
+    int dobLineNo;
     Date dobDate;
     int age;
-    boolean alive=true;
-    String death;
+    public boolean alive=true;
+    public String death;
+    int deathLineNo;
     Date deathDate;
     String child;
+    int childLineNo;
     String spouse;
+    int spouseLineNo;
 
     public Individual() {
         this.id = null;
@@ -27,7 +36,7 @@ public class Individual{
 
     @Override
     public String toString() {
-        return "Individual{" +
+        return "main.Individual{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", gender='" + gender + '\'' +
