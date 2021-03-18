@@ -22,8 +22,14 @@ Families
 |F2|2000-09-14|NA        |I6        |Andrew /Miller/   |I3     |Linda /Smith/       |{'I7'}  |
 |F4|2016-08-15|NA        |I5        |Jacob /Williams/  |I8     |Natalie /Jones/     |{'I9'}  |
 +--+----------+----------+----------+------------------+-------+--------------------+--------+
+
+US35: List all Recent births
 ID: I3 NAME: Linda Smith Date of Birth: 2021-03-05 Birth age in no.Of.Days: 12
+
+US36: List all Recent deaths
 ID: I2 NAME: Michael Smith Date of Death: 2021-03-11 Death age in no.Of.Days: 6
+
+============================== ERRORS IN GEDCOM FILE =======================================
 Error: In US01 for INDIVDUAL at Line no: 12; ID: I1; BirthDay 2022-08-07 occurs in the future
 Error: In US03 for INDIVIDUAL at Line no: 12,14; ID: I1; Date of Birth: 2022-08-07; Date of Death: 1998-06-15; Birth Occurs After Death
 Error: In US07 for INDIVIDUAL at Line no: 20; ID: I2; BirthDay: 1820-10-10; Current date should be less than 150 years after birth for all living people
