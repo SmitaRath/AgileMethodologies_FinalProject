@@ -1,18 +1,18 @@
 Individuals
-+--+--------------------+------+----------+---+-----+----------+------+-------+
-|ID|Name                |Gender|Birthday  |Age|Alive|Death     |Child |Spouse |
-+--+--------------------+------+----------+---+-----+----------+------+-------+
-|I1|Elizabeth /Peterson/|M     |2022-08-07|-24|False|1998-06-15|NA    |{'F1'} |
-|I2|Michael /Smith/     |F     |1820-10-10|200|False|2021-03-11|NA    |{'F1'} |
-|I3|Linda /Smith/       |F     |2021-03-05|0  |True |NA        |{'F1'}|{'F2'} |
-|I4|Timothy /Williams/  |M     |1935-09-13|160|False|2095-10-17|NA    |{'F3'} |
-|I5|Jacob /Williams/    |M     |1990-06-12|30 |True |NA        |{'F3'}|{'F4'} |
-|I6|Andrew /Miller/     |M     |1958-07-13|62 |True |NA        |NA    |{'F2'} |
-|I7|Andre /Swarts/      |M     |1997-12-22|23 |True |NA        |NA    |{'F10'}|
-|I7|Daniel /Miller/     |M     |2005-08-14|15 |True |NA        |{'F2'}|NA     |
-|I8|Natalie /Jones/     |F     |2017-06-19|3  |True |NA        |NA    |{'F4'} |
-|I9|Sofia /Williams/    |F     |2020-08-09|0  |True |NA        |{'F4'}|NA     |
-+--+--------------------+------+----------+---+-----+----------+------+-------+
++--+--------------------+------+----------+---+-----+----------+------+------+
+|ID|Name                |Gender|Birthday  |Age|Alive|Death     |Child |Spouse|
++--+--------------------+------+----------+---+-----+----------+------+------+
+|I1|Elizabeth /Peterson/|M     |2022-08-07|-24|False|1998-06-15|NA    |F2    |
+|I2|Michael /Smith/     |F     |1820-10-10|200|False|2021-03-11|NA    |F1    |
+|I3|Linda /Smith/       |F     |2021-03-05|0  |True |NA        |{'F1'}|F2    |
+|I4|Timothy /Williams/  |M     |1935-09-13|160|False|2095-10-17|NA    |F3    |
+|I5|Jacob /Williams/    |M     |1990-06-12|30 |True |NA        |{'F3'}|F4    |
+|I6|Andrew /Miller/     |M     |1958-07-13|62 |True |NA        |NA    |F2    |
+|I7|Andre /Swarts/      |M     |1997-12-22|23 |True |NA        |NA    |F10   |
+|I7|Daniel /Miller/     |M     |2005-08-14|15 |True |NA        |{'F2'}|NA    |
+|I8|Natalie /Jones/     |F     |2017-06-19|3  |True |NA        |NA    |F4    |
+|I9|Sofia /Williams/    |F     |2020-08-09|0  |True |NA        |{'F4'}|NA    |
++--+--------------------+------+----------+---+-----+----------+------+------+
 Families
 +--+----------+----------+----------+------------------+-------+--------------------+--------+
 |ID|Married   |Divorced  |Husband ID|Husband Name      |Wife ID|Wife Name           |Children|
@@ -29,13 +29,15 @@ ID: I3 NAME: Linda Smith Date of Birth: 2021-03-05 Birth age in no.Of.Days: 21
 US36: List all Recent deaths
 ID: I2 NAME: Michael Smith Date of Death: 2021-03-11 Death age in no.Of.Days: 15
 
-US35: List all Male Last Name
+US16: List all Male Last Name
 ID: I1 GENDER: M Last NAME: Peterson
 ID: I4 GENDER: M Last NAME: Williams
 ID: I5 GENDER: M Last NAME: Williams
-ID: I6 GENDER: M Last NAME: Miller
 ID: I7 GENDER: M Last NAME: Swarts
 ID: I7 GENDER: M Last NAME: Miller
+
+ERROR IN US16 WHICH DON'T HAVE SAME FAMILY NAME IS LISTED BELOW 
+Error: In US16 for INDIVIDUAL at Line no: 48; ID: I6 Individual Name: Andrew /Miller/ Family ID: F2 Family Name: Peterson; Family last name should be same for all males in family.
 
 ============================== ERRORS IN GEDCOM FILE =======================================
 Error: In US01 for INDIVDUAL at Line no: 12; ID: I1; BirthDay 2022-08-07 occurs in the future

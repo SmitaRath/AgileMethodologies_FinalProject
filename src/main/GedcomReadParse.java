@@ -461,7 +461,7 @@ public class GedcomReadParse {
                     }
 
                     if (splitString.length>2 && splitString[1].equals("FAMS") && splitString[0].equals("1") && ind.spouse.equals("NA")) {
-                        ind.spouse = "{'" + splitString[2].replaceAll("@","") + "'}";
+                        ind.spouse = splitString[2].replaceAll("@","") ;
                         ind.spouseLineNo=counter;
                     }
                 }

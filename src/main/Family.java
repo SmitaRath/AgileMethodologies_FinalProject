@@ -56,7 +56,7 @@ public class Family{
 
     public String printChildren() {
         String str = "NA";
-        for(int i=0; i < this.child.size(); ++i) {
+        for(int i = 0; i < this.child.size(); ++i) {
             if(i == 0)
                 str = "{'" + this.child.get(i) + "'";
             else
