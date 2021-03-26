@@ -2,8 +2,8 @@ Individuals
 +--+--------------------+------+----------+---+-----+----------+------+------+
 |ID|Name                |Gender|Birthday  |Age|Alive|Death     |Child |Spouse|
 +--+--------------------+------+----------+---+-----+----------+------+------+
-|I1|Elizabeth /Peterson/|M     |2022-08-07|-24|False|1998-06-15|NA    |F2    |
-|I2|Michael /Smith/     |F     |1820-10-10|200|False|2021-03-11|NA    |F1    |
+|I1|Elizabeth /Peterson/|M     |2022-08-07|-72|False|1950-06-15|NA    |F2    |
+|I2|Michael /Smith/     |F     |1820-10-09|200|False|2021-03-11|NA    |F1    |
 |I3|Linda /Smith/       |F     |2021-03-05|0  |True |NA        |{'F1'}|F2    |
 |I4|Timothy /Williams/  |M     |1935-09-13|160|False|2095-10-17|NA    |F3    |
 |I5|Jacob /Williams/    |M     |1990-06-12|30 |True |NA        |{'F3'}|F4    |
@@ -41,8 +41,8 @@ Error: In US16 for INDIVIDUAL at Line no: 48; ID: I6 Individual Name: Andrew /Mi
 
 ============================== ERRORS IN GEDCOM FILE =======================================
 Error: In US01 for INDIVDUAL at Line no: 12; ID: I1; BirthDay 2022-08-07 occurs in the future
-Error: In US03 for INDIVIDUAL at Line no: 12,14; ID: I1; Date of Birth: 2022-08-07; Date of Death: 1998-06-15; Birth Occurs After Death
-Error: In US07 for INDIVIDUAL at Line no: 20; ID: I2; BirthDay: 1820-10-10; Current date should be less than 150 years after birth for all living people
+Error: In US03 for INDIVIDUAL at Line no: 12,14; ID: I1; Date of Birth: 2022-08-07; Date of Death: 1950-06-15; Birth Occurs After Death
+Error: In US07 for INDIVIDUAL at Line no: 20; ID: I2; BirthDay: 1820-10-09; Current date should be less than 150 years after birth for all living people
 Error: In US07 for INDIVIDUAL at Line no: 22; ID: I2; Deathday 2021-03-11; Death date should be less than 150 years after birth for dead people
 Error: In US01 for INDIVDUAL at Line no: 38; Id: I4; Death 2095-10-17 occurs in the future
 Error: In US07 for INDIVIDUAL at Line no: 38; ID: I4; Deathday 2095-10-17; Death date should be less than 150 years after birth for dead people
@@ -52,6 +52,7 @@ Error: In US21 for INDIVIDUAL at  Line no: 18; Husband's Id :I2; in family: F1 G
 Error: In US21 for INDIVIDUAL at  Line No: 10; Wife's Id :I1; in family: F1 Gender is M
 Error: In US22 for FAMILY at Line no: 71; ID: F1; This Family ID is not unique
 Error: In US02 for INDIVIDUAL at Line no: 12,73; ID: I1; Date of Birth: 2022-08-07; Date of Marriage: 1955-08-05; Birth Occurs After Marriage
+Error: In US05 for INDIVIDUAL at Line no: 14,73; ID: I1; Date of death: 1950-06-15; Date of Marriage: 1955-08-05; Death Occurs Before Marriage
 Error: In US22 for FAMILY at Line no: 85; ID: F1; This Family ID is not unique
 Error: In US02 for INDIVIDUAL at Line no: 28,87; ID: I3; Date of Birth: 2021-03-05; Date of Marriage: 1988-07-17; Birth Occurs After Marriage
 Error: In US02 for INDIVIDUAL at Line no: 28,81; ID: I3; Date of Birth: 2021-03-05; Date of Marriage: 2000-09-14; Birth Occurs After Marriage
