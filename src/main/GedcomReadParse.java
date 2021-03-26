@@ -11,13 +11,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
+import java.util.*;
 import java.util.stream.Stream;
 import org.nocrala.tools.texttablefmt.Table;
 import java.io.PrintStream;
-import java.util.HashMap;
+
 public class GedcomReadParse {
 
     public ArrayList<Family> families = new ArrayList<>();
@@ -360,14 +358,14 @@ public class GedcomReadParse {
         int counter = 1;
         Individual ind = new Individual();
         Family family = new Family();
+        Sprint2 sprint2 = new Sprint2();
         String errString="";
 
         try {
             PrintStream fileOut = new PrintStream("./out.txt");
             PrintStream originalOut = System.out;
             //OPENING A FILE
-            reader = new BufferedReader(new FileReader(
-                    "Group01-AgileMethods.GED"));
+            reader = new BufferedReader(new FileReader("Group01-AgileMethods.GED"));
             //READING FIRST LINE
             String line = reader.readLine();
             //VERIFYING IF LINE IS NOT NULL AND DOESNOT CONTAIN only SPACEs
@@ -677,7 +675,7 @@ public class GedcomReadParse {
                 //us-36 changes ends @kp
 
                 //us-22 changes starts @pp
-                if(validateIdForIndividual(i.id)){
+                if(validateIdForIndividual(i.id)) {
                     errString = "Error: In US22 for INDIVIDUAL at Line no: " + i.idLineNo +
                             "; ID: "  + i.id + "; "+
                             "The Individual ID is not unique";
@@ -695,7 +693,14 @@ public class GedcomReadParse {
                     errorAnomalyData.add(errString);
                 }
                 // US-03 changes ends @AS
+
+                // US-16 Change starts @KP
+                if(i.gender.toLowerCase().equals("m")) {
+                    sprint2.US16(i);
+                }
+                // US-16 Change ends @KP
             }
+
             fileOut.println("Individuals");
             fileOut.println(table.render());
             System.out.println("Individuals");
@@ -818,6 +823,8 @@ public class GedcomReadParse {
                 fileOut.println(str);
                 System.out.println(str);
             }
+
+            sprint2.sprint2Output(fileOut);
 
             fileOut.println();
             System.out.println();

@@ -24,10 +24,18 @@ Families
 +--+----------+----------+----------+------------------+-------+--------------------+--------+
 
 US35: List all Recent births
-ID: I3 NAME: Linda Smith Date of Birth: 2021-03-05 Birth age in no.Of.Days: 12
+ID: I3 NAME: Linda Smith Date of Birth: 2021-03-05 Birth age in no.Of.Days: 21
 
 US36: List all Recent deaths
-ID: I2 NAME: Michael Smith Date of Death: 2021-03-11 Death age in no.Of.Days: 6
+ID: I2 NAME: Michael Smith Date of Death: 2021-03-11 Death age in no.Of.Days: 15
+
+US35: List all Male Last Name
+ID: I1 GENDER: M Last NAME: Peterson
+ID: I4 GENDER: M Last NAME: Williams
+ID: I5 GENDER: M Last NAME: Williams
+ID: I6 GENDER: M Last NAME: Miller
+ID: I7 GENDER: M Last NAME: Swarts
+ID: I7 GENDER: M Last NAME: Miller
 
 ============================== ERRORS IN GEDCOM FILE =======================================
 Error: In US01 for INDIVDUAL at Line no: 12; ID: I1; BirthDay 2022-08-07 occurs in the future
