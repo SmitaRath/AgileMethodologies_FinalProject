@@ -798,6 +798,25 @@ public class GedcomReadParse {
                     errorAnomalyData.add(errString);
                 }
                 //us-02 changes ends @pp
+                
+                //us-05 changes starts @pp
+                if(sprint2.ValidateMarriageBeforeDeath(individuals,i.husbandId, i.dateOfMarried)){
+                    errString = "Error: In US05 for INDIVIDUAL at Line no: "+
+                            getIndividual(i.husbandId).deathLineNo + "," + i.dateOfMarriedidLineNo +
+                            "; ID: " + i.husbandId + "; "+ "Date of death: " + sprint2.getDeathDate(individuals,i) +
+                            "; " + "Date of Marriage: " + i.dateOfMarried +
+                            "; " + "Death Occurs Before Marriage";
+                    errorAnomalyData.add(errString);
+                }
+                if(sprint2.ValidateMarriageBeforeDeath(individuals,i.wifeId, i.dateOfMarried)){
+                    errString = "Error: In US05 for INDIVIDUAL at Line no: "+
+                            getIndividual(i.wifeId).deathLineNo + "," + i.dateOfMarriedidLineNo +
+                            "; ID: " + i.wifeId + "; "+ "Date of death: " + sprint2.getDeathDate(individuals,i) +
+                            "; " + "Date of Marriage: " + i.dateOfMarried +
+                            "; " + "Death Occurs Before Marriage";
+                    errorAnomalyData.add(errString);
+                }
+                //us=05 changes ends @pp
             }
 
             fileOut.println("Families");
