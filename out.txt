@@ -63,9 +63,10 @@ ID: I5 GENDER: M Last NAME: Williams
 ID: I7 GENDER: M Last NAME: Swarts
 ID: I7 GENDER: M Last NAME: Miller
 
-ERROR IN US16 WHICH DON'T HAVE SAME FAMILY NAME IS LISTED BELOW 
-Error: In US16 for INDIVIDUAL at Line no: 54; ID: I6 Individual Name: Andrew /Miller/ Family ID: F2 Family Name: Peterson; Family last name should be same for all males in family.
 Error: In US23 for INDIVIDUAL at  Line no: 3; Id :I8; Name :Aishley /Hill/; is not unique 
 Error: In US23 for INDIVIDUAL at  Line no: 31; Id :I3; Name :Aishley /Hill/; is not unique 
 Error: In US23 for INDIVIDUAL at  Line no: 6; Id :I8; Date Of Birth :1997-12-22; is not unique 
 Error: In US23 for INDIVIDUAL at  Line no: 12; Id :I7; Date Of Birth :1997-12-22; is not unique 
+
+ERROR IN US16 WHICH DON'T HAVE SAME FAMILY NAME IS LISTED BELOW 
+Error: In US16 for INDIVIDUAL at Line no: 54; ID: I6 Individual Name: Andrew /Miller/ Family ID: F2 Family Name: Peterson; Family last name should be same for all males in family.

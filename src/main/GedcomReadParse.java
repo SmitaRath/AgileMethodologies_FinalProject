@@ -618,6 +618,11 @@ public class GedcomReadParse {
 
                 //us-01 changes ends @sr
 
+                //us-42 changes starts
+                sprint2.checkIllegitimateDate(i,"BIRT",family);
+                sprint2.checkIllegitimateDate(i,"DEAT",family);
+                //us-42 changes ends
+
                 //us-07 changes starts @kP
                 int birthAge = calculateAge(i.dobDate);
                 if(birthAge > 150) { //if(i.age > 150) should be changed it was giving null pointer exception
@@ -765,6 +770,11 @@ public class GedcomReadParse {
                     errorAnomalyData.add(errString);
                 }
                 //us-21 changes ends @sr
+
+                //us-42 changes starts
+                sprint2.checkIllegitimateDate(ind,"MARR",i);
+                sprint2.checkIllegitimateDate(ind,"Div",i);
+                //us-42 changes ends
 
                 //us-22 changes starts @pp
                 if(validateIdForFamily(i.id)){
