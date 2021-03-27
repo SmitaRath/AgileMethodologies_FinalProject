@@ -320,7 +320,7 @@ public class GedcomReadParse {
     //us-01 changes starts @sr
     //us01 dates before current date
     public boolean validateDate(Date dateField, String dateStr){
-        if(!(dateStr.equals("NA") || dateStr.equals("INVALID DATE"))) {
+        if(!(dateStr.equals("NA") || dateField==null)) {
             Date today = new Date();
             if (today.before(dateField))
                 return false;
@@ -417,9 +417,8 @@ public class GedcomReadParse {
                             ind.dobLineNo=counter;
                             //us-01 changes starts @sr
                             ind.dobDate=validateDate(ind.dateOfBirth);
-                            if (ind.dobDate==null)
-                                ind.dateOfBirth="INVALID DATE";
-                            else {
+                            if (ind.dobDate!=null)
+                            {
                                 ind.dateOfBirth = changeDateFormat(ind.dateOfBirth, ind.dobDate);
                                 ind.age = calculateAge(ind.dobDate);
                             }
@@ -444,7 +443,7 @@ public class GedcomReadParse {
                             //us-01 changes starts @sr
                             ind.deathDate = validateDate(ind.death);
                             if (ind.deathDate == null || ind.dobDate == null)
-                                ind.death = "INVALID DATE";
+                                ind.death = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
                             else {   // us-07 changes starts @KP
                                 ind.death = changeDateFormat(ind.death, ind.deathDate);
                                 ind.age=differenceBetweenTwoAge(ind.dobDate, ind.deathDate);
@@ -511,9 +510,7 @@ public class GedcomReadParse {
                             family.dateOfMarriedidLineNo=counter;
                             //us-01 changes starts @sr
                             family.marrriedDate=validateDate(family.dateOfMarried);
-                            if(family.marrriedDate==null)
-                                family.dateOfMarried="INVALID DATE";
-                            else
+                            if(family.marrriedDate!=null)
                                 family.dateOfMarried = changeDateFormat(family.dateOfMarried ,family.marrriedDate);
                             //us-01 changes ends @sr
                         }
@@ -530,9 +527,7 @@ public class GedcomReadParse {
                             family.dateOfDividedLineNo=counter;
                             //us-01 changes starts @sr
                             family.dividedDate=validateDate(family.dateOfDivided);
-                            if(family.dividedDate==null)
-                                family.dateOfDivided="INVALID DATE";
-                            else
+                            if(family.dividedDate!=null)
                                 family.dateOfDivided = changeDateFormat(family.dateOfDivided ,family.dividedDate);
                             //us-01 changes starts @sr
                         }
@@ -623,9 +618,10 @@ public class GedcomReadParse {
 
                 //us-01 changes ends @sr
 
-                //us-07 changes starts @kp
+                //us-07 changes starts @kP
                 int birthAge = calculateAge(i.dobDate);
-                if(birthAge > 150) {
+                if(birthAge > 150) { //if(i.age > 150) should be changed it was giving null pointer exception
+
                     errString = "Error: In US07 for INDIVIDUAL at Line no: " + i.dobLineNo + "; ID: "
                             + i.id +
                             "; BirthDay: " + i.dateOfBirth +
