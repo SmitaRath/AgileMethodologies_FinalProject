@@ -819,6 +819,13 @@ public class GedcomReadParse {
             fileOut.println(table1.render());
             System.out.println("Families");
             System.out.println(table1.render());
+
+            fileOut.println();
+            System.out.println();
+            fileOut.println("============================== Sprint1 Output =======================================");
+            fileOut.println();
+            System.out.println("============================== Sprint1 Output =======================================");
+            System.out.println();
             if(!successAnomalyDataUS35.isEmpty()) {
                 fileOut.println();
                 System.out.println();
@@ -839,16 +846,28 @@ public class GedcomReadParse {
                 System.out.println(str);
             }
 
-            sprint2.sprint2Output(fileOut);
 
             fileOut.println();
             System.out.println();
-            fileOut.println("============================== ERRORS IN GEDCOM FILE =======================================");
-            System.out.println("============================== ERRORS IN GEDCOM FILE =======================================");
+
             for(String str:errorAnomalyData){
                 fileOut.println(str);
                 System.out.println(str);
             }
+
+            //us-23 sprint2 changes starts @sr
+
+            fileOut.println();
+            fileOut.println("============================== Sprint2 Output =======================================");
+            System.out.println();
+            System.out.println("============================== Sprint2 Output =======================================");
+            fileOut.println();
+            System.out.println();
+
+            sprint2.sprint2Output(fileOut);
+            sprint2.checkUniqueDateOfBirthAndName(individuals);
+            sprint2.sprint2ErrorOutput(fileOut);
+            //us-23 sprint2 changes ends @sr
 
             //file closed
             reader.close();
