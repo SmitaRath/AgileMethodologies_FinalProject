@@ -455,7 +455,7 @@ public class GedcomReadParse {
 
                     //checking whether the individual is child or spouse in the family
                     else if (splitString.length>2 && splitString[1].equals("FAMC") && splitString[0].equals("1")) {
-                        ind.child = "{'" + splitString[2].replaceAll("@","") + "'}";
+                        ind.child = splitString[2].replaceAll("@","");
                         ind.childLineNo=counter;
                     }
 
@@ -594,8 +594,14 @@ public class GedcomReadParse {
                     table.addCell("False");
                 }
                 table.addCell(i.death.toString());
-                table.addCell(i.child.toString());
-                table.addCell(i.spouse.toString());
+                if(!i.child.equals("NA"))
+                    table.addCell("{'"+i.child.toString()+"'}");
+                else
+                    table.addCell(i.child.toString());
+                if(!i.spouse.equals("NA"))
+                    table.addCell("{'" +i.spouse.toString()+"'}");
+                else
+                    table.addCell(i.spouse.toString());
 
                 //us-01 changes starts @sr
 
@@ -620,6 +626,7 @@ public class GedcomReadParse {
 
                 //us-42 changes starts
                 sprint2.checkIllegitimateDate(i,"BIRT",family);
+                if(!(i.death.equals("NA")))
                 sprint2.checkIllegitimateDate(i,"DEAT",family);
                 //us-42 changes ends
 
@@ -773,7 +780,8 @@ public class GedcomReadParse {
 
                 //us-42 changes starts
                 sprint2.checkIllegitimateDate(ind,"MARR",i);
-                sprint2.checkIllegitimateDate(ind,"Div",i);
+                if(!(i.dateOfDivided.equals("NA")))
+                sprint2.checkIllegitimateDate(ind,"DIV",i);
                 //us-42 changes ends
 
                 //us-22 changes starts @pp
