@@ -2,32 +2,59 @@ Individuals
 +--+--------------------+------+----------+---+-----+----------+------+------+
 |ID|Name                |Gender|Birthday  |Age|Alive|Death     |Child |Spouse|
 +--+--------------------+------+----------+---+-----+----------+------+------+
-|I1|Elizabeth /Peterson/|M     |2022-08-07|-24|False|1998-06-15|NA    |F2    |
+|I1|Elizabeth /Peterson/|M     |2022-08-07|-72|False|1950-06-15|NA    |F2    |
 |I2|Michael /Smith/     |F     |1820-10-10|200|False|2021-03-11|NA    |F1    |
-|I3|Linda /Smith/       |F     |2021-03-05|0  |True |NA        |{'F1'}|F2    |
+|I3|Aishley /Hill/      |F     |2021-03-05|0  |True |NA        |{'F1'}|F2    |
 |I4|Timothy /Williams/  |M     |1935-09-13|160|False|2095-10-17|NA    |F3    |
 |I5|Jacob /Williams/    |M     |1990-06-12|30 |True |NA        |{'F3'}|F4    |
 |I6|Andrew /Miller/     |M     |1958-07-13|62 |True |NA        |NA    |F2    |
 |I7|Andre /Swarts/      |M     |1997-12-22|23 |True |NA        |NA    |F10   |
 |I7|Daniel /Miller/     |M     |2005-08-14|15 |True |NA        |{'F2'}|NA    |
+|I8|Aishley /Hill/      |F     |1997-12-22|23 |True |NA        |NA    |F10   |
 |I8|Natalie /Jones/     |F     |2017-06-19|3  |True |NA        |NA    |F4    |
 |I9|Sofia /Williams/    |F     |2020-08-09|0  |True |NA        |{'F4'}|NA    |
 +--+--------------------+------+----------+---+-----+----------+------+------+
 Families
-+--+----------+----------+----------+------------------+-------+--------------------+--------+
-|ID|Married   |Divorced  |Husband ID|Husband Name      |Wife ID|Wife Name           |Children|
-+--+----------+----------+----------+------------------+-------+--------------------+--------+
-|F1|1955-08-05|1980-12-15|I2        |Michael /Smith/   |I1     |Elizabeth /Peterson/|{'I3'}  |
-|F1|1988-07-17|NA        |I4        |Timothy /Williams/|I3     |Linda /Smith/       |{'I5'}  |
-|F2|2000-09-14|NA        |I6        |Andrew /Miller/   |I3     |Linda /Smith/       |{'I7'}  |
-|F4|2016-08-15|NA        |I5        |Jacob /Williams/  |I8     |Natalie /Jones/     |{'I9'}  |
-+--+----------+----------+----------+------------------+-------+--------------------+--------+
++---+----------+----------+----------+------------------+-------+--------------------+--------+
+|ID |Married   |Divorced  |Husband ID|Husband Name      |Wife ID|Wife Name           |Children|
++---+----------+----------+----------+------------------+-------+--------------------+--------+
+|F1 |1955-08-05|1980-12-15|I2        |Michael /Smith/   |I1     |Elizabeth /Peterson/|{'I3'}  |
+|F1 |1988-07-17|NA        |I4        |Timothy /Williams/|I3     |Aishley /Hill/      |{'I5'}  |
+|F10|2018-08-15|NA        |I7        |Andre /Swarts/    |I8     |Aishley /Hill/      |NA      |
+|F2 |2000-09-14|NA        |I6        |Andrew /Miller/   |I3     |Aishley /Hill/      |{'I7'}  |
+|F4 |2016-08-15|NA        |I5        |Jacob /Williams/  |I8     |Aishley /Hill/      |{'I9'}  |
++---+----------+----------+----------+------------------+-------+--------------------+--------+
+
+============================== Sprint1 Output =======================================
+
 
 US35: List all Recent births
-ID: I3 NAME: Linda Smith Date of Birth: 2021-03-05 Birth age in no.Of.Days: 21
+ID: I3 NAME: Aishley Hill Date of Birth: 2021-03-05 Birth age in no.Of.Days: 22
 
 US36: List all Recent deaths
-ID: I2 NAME: Michael Smith Date of Death: 2021-03-11 Death age in no.Of.Days: 15
+ID: I2 NAME: Michael Smith Date of Death: 2021-03-11 Death age in no.Of.Days: 16
+
+Error: In US01 for INDIVDUAL at Line no: 18; ID: I1; BirthDay 2022-08-07 occurs in the future
+Error: In US03 for INDIVIDUAL at Line no: 18,20; ID: I1; Date of Birth: 2022-08-07; Date of Death: 1950-06-15; Birth Occurs After Death
+Error: In US07 for INDIVIDUAL at Line no: 26; ID: I2; BirthDay: 1820-10-10; Current date should be less than 150 years after birth for all living people
+Error: In US07 for INDIVIDUAL at Line no: 28; ID: I2; Deathday 2021-03-11; Death date should be less than 150 years after birth for dead people
+Error: In US01 for INDIVDUAL at Line no: 44; Id: I4; Death 2095-10-17 occurs in the future
+Error: In US07 for INDIVIDUAL at Line no: 44; ID: I4; Deathday 2095-10-17; Death date should be less than 150 years after birth for dead people
+Error: In US22 for INDIVIDUAL at Line no: 8; ID: I7; The Individual ID is not unique
+Error: In US22 for INDIVIDUAL at Line no: 59; ID: I7; The Individual ID is not unique
+Error: In US22 for INDIVIDUAL at Line no: 2; ID: I8; The Individual ID is not unique
+Error: In US22 for INDIVIDUAL at Line no: 65; ID: I8; The Individual ID is not unique
+Error: In US21 for INDIVIDUAL at  Line no: 24; Husband's Id :I2; in family: F1 Gender is F
+Error: In US21 for INDIVIDUAL at  Line No: 16; Wife's Id :I1; in family: F1 Gender is M
+Error: In US22 for FAMILY at Line no: 77; ID: F1; This Family ID is not unique
+Error: In US02 for INDIVIDUAL at Line no: 18,79; ID: I1; Date of Birth: 2022-08-07; Date of Marriage: 1955-08-05; Birth Occurs After Marriage
+Error: In US05 for INDIVIDUAL at Line no: 20,79; ID: I1; Date of death: 1950-06-15; Date of Marriage: 1955-08-05; Death Occurs Before Marriage
+Error: In US22 for FAMILY at Line no: 91; ID: F1; This Family ID is not unique
+Error: In US02 for INDIVIDUAL at Line no: 34,93; ID: I3; Date of Birth: 2021-03-05; Date of Marriage: 1988-07-17; Birth Occurs After Marriage
+Error: In US02 for INDIVIDUAL at Line no: 34,87; ID: I3; Date of Birth: 2021-03-05; Date of Marriage: 2000-09-14; Birth Occurs After Marriage
+
+============================== Sprint2 Output =======================================
+
 
 US16: List all Male Last Name
 ID: I1 GENDER: M Last NAME: Peterson
@@ -37,22 +64,8 @@ ID: I7 GENDER: M Last NAME: Swarts
 ID: I7 GENDER: M Last NAME: Miller
 
 ERROR IN US16 WHICH DON'T HAVE SAME FAMILY NAME IS LISTED BELOW 
-Error: In US16 for INDIVIDUAL at Line no: 48; ID: I6 Individual Name: Andrew /Miller/ Family ID: F2 Family Name: Peterson; Family last name should be same for all males in family.
-
-============================== ERRORS IN GEDCOM FILE =======================================
-Error: In US01 for INDIVDUAL at Line no: 12; ID: I1; BirthDay 2022-08-07 occurs in the future
-Error: In US03 for INDIVIDUAL at Line no: 12,14; ID: I1; Date of Birth: 2022-08-07; Date of Death: 1998-06-15; Birth Occurs After Death
-Error: In US07 for INDIVIDUAL at Line no: 20; ID: I2; BirthDay: 1820-10-10; Current date should be less than 150 years after birth for all living people
-Error: In US07 for INDIVIDUAL at Line no: 22; ID: I2; Deathday 2021-03-11; Death date should be less than 150 years after birth for dead people
-Error: In US01 for INDIVDUAL at Line no: 38; Id: I4; Death 2095-10-17 occurs in the future
-Error: In US07 for INDIVIDUAL at Line no: 38; ID: I4; Deathday 2095-10-17; Death date should be less than 150 years after birth for dead people
-Error: In US22 for INDIVIDUAL at Line no: 2; ID: I7; The Individual ID is not unique
-Error: In US22 for INDIVIDUAL at Line no: 53; ID: I7; The Individual ID is not unique
-Error: In US21 for INDIVIDUAL at  Line no: 18; Husband's Id :I2; in family: F1 Gender is F
-Error: In US21 for INDIVIDUAL at  Line No: 10; Wife's Id :I1; in family: F1 Gender is M
-Error: In US22 for FAMILY at Line no: 71; ID: F1; This Family ID is not unique
-Error: In US02 for INDIVIDUAL at Line no: 12,73; ID: I1; Date of Birth: 2022-08-07; Date of Marriage: 1955-08-05; Birth Occurs After Marriage
-Error: In US22 for FAMILY at Line no: 85; ID: F1; This Family ID is not unique
-Error: In US02 for INDIVIDUAL at Line no: 28,87; ID: I3; Date of Birth: 2021-03-05; Date of Marriage: 1988-07-17; Birth Occurs After Marriage
-Error: In US02 for INDIVIDUAL at Line no: 28,81; ID: I3; Date of Birth: 2021-03-05; Date of Marriage: 2000-09-14; Birth Occurs After Marriage
-Error: In US02 for INDIVIDUAL at Line no: 63,93; ID: I8; Date of Birth: 1990-06-12; Date of Marriage: 2016-08-15; Birth Occurs After Marriage
+Error: In US16 for INDIVIDUAL at Line no: 54; ID: I6 Individual Name: Andrew /Miller/ Family ID: F2 Family Name: Peterson; Family last name should be same for all males in family.
+Error: In US23 for INDIVIDUAL at  Line no: 3; Id :I8; Name :Aishley /Hill/; is not unique 
+Error: In US23 for INDIVIDUAL at  Line no: 31; Id :I3; Name :Aishley /Hill/; is not unique 
+Error: In US23 for INDIVIDUAL at  Line no: 6; Id :I8; Date Of Birth :1997-12-22; is not unique 
+Error: In US23 for INDIVIDUAL at  Line no: 12; Id :I7; Date Of Birth :1997-12-22; is not unique 

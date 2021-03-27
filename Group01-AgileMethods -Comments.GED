@@ -1,4 +1,10 @@
 0 NOTE https://github.com/SmitaRath/AgileMethodologies_FinalProject
+0 @I8@ INDI-----------------------------
+1 NAME Aishley /Hill/
+1 SEX F                                 Added an indivdual for US23
+1 BIRT
+2 DATE 22 DEC 1997
+1 FAMS @F10@----------------------------
 0 @I7@ INDI ----------------------------|
 1 NAME Andre /Swarts/                   |
 1 SEX M                                 |
@@ -94,4 +100,9 @@
 1 HUSB @I5@
 1 WIFE @I8@
 1 CHIL @I9@
+0 @F10@ FAM-----------------------------------------------
+1 MARR                                                   Added family for us23
+2 DATE 15 AUG 2018
+1 HUSB @I7@
+1 WIFE @I8@-----------------------------------------------
 0 TRLR

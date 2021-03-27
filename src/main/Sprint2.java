@@ -16,6 +16,7 @@ public class Sprint2 {
     ArrayList<String> successAnomalyDataUS16 = new ArrayList<>();
     ArrayList<String> errorAnomalyDataUS16 = new ArrayList<>();  // Created error seperate because here we need to display success and error list
     HashMap<String, String> familyLastName = new HashMap<String, String>();
+    ArrayList<String> errorAnomalyData = new ArrayList<>();
 
 //    public Sprint2() {
 //        try {
@@ -148,6 +149,61 @@ public class Sprint2 {
     }
     //US05 changes ends @pp
 
+    //us-23 changes method to check individual and date of birth is unique or not starts @sr
+    public void checkUniqueDateOfBirthAndName(ArrayList<Individual> individuals){
+        String errString="";
+        Individual ind1;
+        Individual ind2;
+        boolean outerNameFlagNotUnique=false;
+        boolean outerDOBFlagNotUnique=false;
+        for(int i=0;i<individuals.size();i++){
+            ind1=individuals.get(i);
+            for(int k=i+1;k<individuals.size();k++){
+                ind2=individuals.get(k);
+                if(ind1.name.equals(ind2.name)){
+                    outerNameFlagNotUnique=true;
+                    errString = "Error: In US23 for INDIVIDUAL at "
+                            + " Line no: " + ind2.nameLineNo
+                            + "; Id :" + ind2.id
+                            + "; Name :" + ind2.name +";"
+                            + " is not unique ";
+                    errorAnomalyData.add(errString);
+                }
+
+                if(ind1.dateOfBirth.equals(ind2.dateOfBirth)) {
+                    outerDOBFlagNotUnique = true;
+                    errString = "Error: In US23 for INDIVIDUAL at "
+                            + " Line no: " + ind2.dobLineNo
+                            + "; Id :" + ind2.id
+                            + "; Date Of Birth :" + ind2.dateOfBirth + ";"
+                            + " is not unique ";
+                    errorAnomalyData.add(errString);
+                }
+            }
+            if(outerNameFlagNotUnique){
+                outerNameFlagNotUnique=false;
+                errString = "Error: In US23 for INDIVIDUAL at "
+                        + " Line no: " + ind1.nameLineNo
+                        + "; Id :" + ind1.id
+                        + "; Name :" + ind1.name +";"
+                        + " is not unique ";
+                errorAnomalyData.add(errString);
+            }
+
+            if(outerDOBFlagNotUnique){
+                outerDOBFlagNotUnique=false;
+                errString = "Error: In US23 for INDIVIDUAL at "
+                        + " Line no: " + ind1.dobLineNo
+                        + "; Id :" + ind1.id
+                        + "; Date Of Birth :" + ind1.dateOfBirth +";"
+                        + " is not unique ";
+                errorAnomalyData.add(errString);
+            }
+        }
+    }
+   //us-23 changes method to check individual and date of birth is unique or not ends @sr
+
+
     public void sprint2Output(PrintStream fileOut) {
 
         fileOut.println();
@@ -169,5 +225,14 @@ public class Sprint2 {
                 System.out.println(str);
             }
         }
+    }
+
+    public void sprint2ErrorOutput(PrintStream fileOut){
+        //us23 changes starts @sr
+        for (String str : errorAnomalyData) {
+            fileOut.println(str);
+            System.out.println(str);
+        }
+        //us23 changes ends @sr
     }
 }
