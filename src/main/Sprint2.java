@@ -201,7 +201,64 @@ public class Sprint2 {
             }
         }
     }
-   //us-23 changes method to check individual and date of birth is unique or not ends @sr
+    //us-42 changes method to check individual and date of birth is unique or not ends @sr
+
+   //us-42 changes method to Reject illegitimate dates starts @sr
+    public void checkIllegitimateDate(Individual ind,String flag,Family family){
+        String errString="";
+        switch(flag) {
+            case "BIRT": {
+                if (ind.dobDate == null) {
+                    errString = "Error: In US42 for INDIVIDUAL at "
+                            + " Line no: " + ind.dobLineNo
+                            + "; Id :" + ind.id
+                            + "; Date Of Birth :" + ind.dateOfBirth + ";"
+                            + " is not legitimate ";
+                    errorAnomalyData.add(errString);
+                }
+            }
+            break;
+
+            case "DEAT": {
+                if (ind.deathDate == null) {
+                    errString = "Error: In US42 for INDIVIDUAL at "
+                            + " Line no: " + ind.deathLineNo
+                            + "; Id :" + ind.id
+                            + "; Death Date :" + ind.death + ";"
+                            + " is not legitimate ";
+                    errorAnomalyData.add(errString);
+                }
+            }
+            break;
+
+            case "MARR": {
+                if (family.marrriedDate == null) {
+                    errString = "Error: In US42 for Family at "
+                            + " Line no: " + family.dateOfMarriedidLineNo
+                            + "; Family Id :" + family.id
+                            + "; Marriage Date :" + family.dateOfMarried + ";"
+                            + " is not legitimate ";
+                    errorAnomalyData.add(errString);
+                }
+            }
+            break;
+
+            case "DIV": {
+                if (family.dividedDate == null) {
+                    errString = "Error: In US42 for Family at "
+                            + " Line no: " + family.dateOfDividedLineNo
+                            + "; Family Id :" + family.id
+                            + "; Divorced Date :" + family.dateOfDivided + ";"
+                            + " is not legitimate ";
+                    errorAnomalyData.add(errString);
+                }
+            }
+            break;
+        }
+
+    }
+    //us-42 changes method to Reject illegitimate dates ends @sr
+
 
 
     public void sprint2Output(PrintStream fileOut) {
@@ -215,6 +272,18 @@ public class Sprint2 {
             System.out.println(str);
         }
 
+    }
+
+    public void sprint2ErrorOutput(PrintStream fileOut){
+        //us23 changes starts @sr
+        fileOut.println();
+        System.out.println();
+        for (String str : errorAnomalyData) {
+            fileOut.println(str);
+            System.out.println(str);
+        }
+        //us23 changes ends @sr
+
         if(!errorAnomalyDataUS16.isEmpty()) {
             fileOut.println();
             fileOut.println("ERROR IN US16 WHICH DON'T HAVE SAME FAMILY NAME IS LISTED BELOW ");
@@ -225,14 +294,5 @@ public class Sprint2 {
                 System.out.println(str);
             }
         }
-    }
-
-    public void sprint2ErrorOutput(PrintStream fileOut){
-        //us23 changes starts @sr
-        for (String str : errorAnomalyData) {
-            fileOut.println(str);
-            System.out.println(str);
-        }
-        //us23 changes ends @sr
     }
 }
