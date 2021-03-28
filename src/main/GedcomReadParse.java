@@ -704,7 +704,7 @@ public class GedcomReadParse {
 
                 // US-16 Change starts @KP
                 if(i.gender.toLowerCase().equals("m")) {
-                    sprint2.US16(i);
+                    sprint2.US16_maleLastName(i);
                 }
                 // US-16 Change ends @KP
             }
@@ -831,6 +831,12 @@ public class GedcomReadParse {
                     errorAnomalyData.add(errString);
                 }
                 //us=05 changes ends @pp
+
+                //US-08 changes starts @KP
+                if(i.child != null) {
+                    sprint2.US08_birthBeforeMarriageOfParents(i, individuals);
+                }
+                //US-08 changes ends @KP
             }
 
             fileOut.println("Families");

@@ -2,7 +2,9 @@ package main;
 
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.time.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -17,6 +19,7 @@ public class Sprint2 {
     ArrayList<String> errorAnomalyDataUS16 = new ArrayList<>();  // Created error seperate because here we need to display success and error list
     HashMap<String, String> familyLastName = new HashMap<String, String>();
     ArrayList<String> errorAnomalyData = new ArrayList<>();
+    String message = "";
 
 //    public Sprint2() {
 //        try {
@@ -26,9 +29,26 @@ public class Sprint2 {
 //        }
 //    }
 
-    public  void US16(Individual i) {
+    // us-08 changes starts @KP
+    // calculates months between two dates
+    public int monthDiffBetweenTwoDate(Date dob, Date divDate) {
+        Instant instantDob = dob.toInstant();
+        Instant instantDivDate = divDate.toInstant();
+        ZonedDateTime zoneDob = instantDob.atZone(ZoneId.systemDefault());
+        ZonedDateTime zoneDeathDate = instantDivDate.atZone(ZoneId.systemDefault());
+        LocalDate givenDobDate = zoneDob.toLocalDate();
+        LocalDate givenDeathDate = zoneDeathDate.toLocalDate();
+        Period period = Period.between(givenDobDate, givenDeathDate);
+        if (period.getYears() > 1)      // If more than year, then it's more than 9 months; sending random no greater than 9
+            return 100;
+
+        return period.getMonths();
+    }
+    // us-08 changes ends @KP
+
+    public  void US16_maleLastName(Individual i) {
         if (i.name != null) {
-            String message = "", lastName = "NA";
+            String lastName = "NA";
             String[] formatName;
             formatName = i.name.split("/");
             if(formatName[1] != null) {
@@ -41,12 +61,12 @@ public class Sprint2 {
                     message = "ID: " + i.id + " GENDER: " + i.gender + " Last NAME: " + lastName;
                     successAnomalyDataUS16.add(message);
                 } else {
-                    if(familyLastName.get(i.spouse).toLowerCase().equals(lastName.toLowerCase())) {
+                    if (familyLastName.get(i.spouse).toLowerCase().equals(lastName.toLowerCase())) {
                         message = "ID: " + i.id + " GENDER: " + i.gender + " Last NAME: " + lastName;
                         successAnomalyDataUS16.add(message);
                     } else {
                         message = "Error: In US16 for INDIVIDUAL at Line no: " + i.nameLineNo + "; ID: "
-                                + i.id + " Individual Name: " + i.name + " Family ID: " + i.spouse + " Family Name: " + familyLastName.get(i.spouse) +
+                                + i.id + "; Individual Name: " + i.name + " ; Family ID: " + i.spouse + " ; Family Name: " + familyLastName.get(i.spouse) +
                                 "; Family last name should be same for all males in family.";
                         errorAnomalyDataUS16.add(message);
                     }
@@ -59,7 +79,7 @@ public class Sprint2 {
             }
         }
     }
-    
+
     //US05 changes starts @pp
     public boolean compareDeathWithMarriage(String marriagedate, int year, int month, int day){
         String marriageYear="";
@@ -95,6 +115,7 @@ public class Sprint2 {
         }
         return false;
     }
+
     public boolean validateDate(int year, int month, int day){
         if(year<=0||month<=0||day<=0||day>31||month>12)
             return false;
@@ -261,6 +282,38 @@ public class Sprint2 {
 
 
 
+    public  void US08_birthBeforeMarriageOfParents(Family family, ArrayList<Individual> individuals) {
+        Individual individualData = null;
+        for(String child: family.child) {
+            for(Individual ind: individuals) {
+                if(ind.id.equals(child)) {
+                    individualData = ind;
+                    break;
+                }
+            }
+
+            if (individualData != null && individualData.dobDate != null && !family.dateOfMarried.toLowerCase().equals("invalid date")) {
+                if(individualData.dobDate.compareTo(family.marrriedDate) <= 0) {
+                    message = "Error: In US08 for INDIVIDUAL at Line no: " + individualData.dobLineNo + "; ID: "
+                            + individualData.id + "; Individual Name: " + individualData.name + "; Birth date: " + individualData.dateOfBirth + " ; Family ID: " + family.id + " ; Parents Married Date: " + family.dateOfMarried +
+                            "; Line no:" + family.dateOfMarriedidLineNo + "; Children should be born after marriage of parents.";
+                    errorAnomalyData.add(message);
+                }
+            }
+
+            if (family.dividedDate !=  null && !family.dateOfDivided.toLowerCase().equals("invalid date")) {
+               if (monthDiffBetweenTwoDate(individualData.dobDate ,family.dividedDate) > 9) {
+                   message = "Error: In US08 for INDIVIDUAL at Line no: " + individualData.dobLineNo + "; ID: "
+                           + individualData.id + "; Individual Name: " + individualData.name + "; Birth date: " + individualData.dateOfBirth + " ; Family ID: " + family.id + " ; Parents Divorced Date: " + family.dateOfDivided +
+                           "; Line no:" + family.dateOfDividedLineNo + "; Children should be born, not more than 9 months of their divorce";
+                   errorAnomalyData.add(message);
+               }
+            }
+        }
+    }
+
+
+
     public void sprint2Output(PrintStream fileOut) {
 
         fileOut.println();
@@ -295,4 +348,5 @@ public class Sprint2 {
             }
         }
     }
+
 }
