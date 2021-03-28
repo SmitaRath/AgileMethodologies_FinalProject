@@ -6,7 +6,7 @@ import java.util.Date;
 public class Individual{
     public String id=null;
     int idLineNo;
-    String name;
+    public String name;
     int nameLineNo;
     public String gender;
     int genderLineNo;

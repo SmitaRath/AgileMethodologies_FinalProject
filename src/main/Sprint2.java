@@ -9,25 +9,12 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class Sprint2 {
-    private class familyLastName {
-        private String familyId = "";
-        private String lastName = "";
 
-    }
-   // PrintStream fileOut;
     ArrayList<String> successAnomalyDataUS16 = new ArrayList<>();
     ArrayList<String> errorAnomalyDataUS16 = new ArrayList<>();  // Created error seperate because here we need to display success and error list
     HashMap<String, String> familyLastName = new HashMap<String, String>();
     ArrayList<String> errorAnomalyData = new ArrayList<>();
     String message = "";
-
-//    public Sprint2() {
-//        try {
-//   //         fileOut = new PrintStream("./out.txt");
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     // us-08 changes starts @KP
     // calculates months between two dates
@@ -48,14 +35,14 @@ public class Sprint2 {
 
     public  void US16_maleLastName(Individual i) {
         if (i.name != null) {
-            String lastName = "NA";
+            String lastName = null;
             String[] formatName;
             formatName = i.name.split("/");
             if(formatName[1] != null) {
                 lastName = formatName[1];
             }
 
-            if (!lastName.equals("NA")) {
+            if (lastName != null) {
                 if (familyLastName.get(i.spouse) == null) {
                     familyLastName.put(i.spouse, lastName);
                     message = "ID: " + i.id + " GENDER: " + i.gender + " Last NAME: " + lastName;
