@@ -23,11 +23,11 @@ public class Sprint2Test {
     @Test
     public void US16_maleLastName() throws Exception {
         Individual I1 = new Individual();
-        I1.name = "Kandasamy Parthasarathy";
+        I1.name = "Kandasamy /Parthasarathy";
         I1.dateOfBirth = "2020-05-13";
-//
-//        assertEquals(10, sprint2.monthDiffBetweenTwoDate(date1, date2));
-//        assertNotEquals(150, g1.differenceBetweenTwoAge(date1, date2));
+        String[] formatName;
+        formatName = I1.name.split("/");
+        assertEquals(formatName[1], "Parthasarathy");
     }
 
 }

@@ -39,7 +39,7 @@ public class Sprint2 {
             String[] formatName;
             formatName = i.name.split("/");
             if(formatName[1] != null) {
-                lastName = formatName[1];
+                lastName = formatName[1].trim();
             }
 
             if (lastName != null) {
