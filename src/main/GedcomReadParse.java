@@ -23,8 +23,8 @@ public class GedcomReadParse {
     ArrayList<String> successAnomalyDataUS35 = new ArrayList<>();
     ArrayList<String> successAnomalyDataUS36 = new ArrayList<>();
     ArrayList<String> errorAnomalyData = new ArrayList<>();
-//    ArrayList<String> errorAnomalyDataUS22 = new ArrayList<>();
-//    ArrayList<String> errorAnomalyDataUS02 = new ArrayList<>();
+    ArrayList<String> errorAnomalyDataUS22 = new ArrayList<>();
+    ArrayList<String> errorAnomalyDataUS02 = new ArrayList<>();
     DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
 
     //method to check the tag is valid or not
@@ -798,7 +798,7 @@ public class GedcomReadParse {
                     errorAnomalyData.add(errString);
                 }
                 //us-02 changes ends @pp
-
+                
                 //us-05 changes starts @pp
                 if(sprint2.ValidateMarriageBeforeDeath(individuals,i.husbandId, i.dateOfMarried)){
                     errString = "Error: In US05 for INDIVIDUAL at Line no: "+

@@ -58,6 +58,95 @@ public class Sprint2 {
             }
         }
     }
+    
+    //US05 changes starts @pp
+    public boolean compareDeathWithMarriage(String marriagedate, int year, int month, int day){
+        String marriageYear="";
+        String marriageMonth="";
+        String marriageDay="";
+        int i;
+        for (i = 0; marriagedate.charAt(i) != '-'; i++) {
+            marriageYear = marriageYear + marriagedate.charAt(i);
+        }
+        for (i = i + 1; marriagedate.charAt(i) != '-'; i++) {
+            marriageMonth = marriageMonth + marriagedate.charAt(i);
+        }
+        for (i = i + 1; i < marriagedate.length(); i++) {
+            marriageDay = marriageDay + marriagedate.charAt(i);
+        }
+        int myear = Integer.valueOf(marriageYear);
+        int mmonth = Integer.valueOf(marriageMonth);
+        int mday = Integer.valueOf(marriageDay);
+        if(validateDate(myear,mmonth,mday)){
+            if (myear > year) {
+                return true;
+            }
+            if (myear == year) {
+                if (mmonth > month) {
+                    return true;
+                }
+                if (mmonth == month) {
+                    if (mday >= day) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    public boolean validateDate(int year, int month, int day){
+        if(year<=0||month<=0||day<=0||day>31||month>12)
+            return false;
+        if(month==2){
+            if(year%4==0&&day>29)
+                return false;
+            if(year%4!=0&&day>28)
+                return false;
+        }
+        if(month%2==0&&month!=8){
+            if(day>30)
+                return false;
+        }
+        return true;
+    }
+    public String getDeathDate(ArrayList<Individual>individuals,Family fam){
+        for(Individual ind: individuals){
+            if(ind.id.equals(fam.husbandId) || ind.id.equals(fam.wifeId)){
+                return ind.death;
+            }
+        }
+        return null;
+    }
+    public boolean ValidateMarriageBeforeDeath(ArrayList<Individual> individuals, String id, String marriagedate){
+        String deathYear="";
+        String deathMonth="";
+        String deathDay="";
+        int i;
+        for(Individual ind : individuals){
+            if(ind.id.equals(id)&&(!ind.alive)){
+                for(i=0;ind.death.charAt(i)!='-';i++){
+                    deathYear = deathYear + ind.death.charAt(i);
+                }
+                for(i=i+1;ind.death.charAt(i)!='-';i++){
+                    deathMonth = deathMonth + ind.death.charAt(i);
+                }
+                for(i=i+1;i<ind.death.length();i++){
+                    deathDay = deathDay + ind.death.charAt(i);
+                }
+                int year = Integer.valueOf(deathYear);
+                int month = Integer.valueOf(deathMonth);
+                int day = Integer.valueOf(deathDay);
+                if(validateDate(year,month,day)){
+                    if(compareDeathWithMarriage(marriagedate, year, month, day)){
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+    //US05 changes ends @pp
 
     //US05 changes starts @pp
     public boolean compareDeathWithMarriage(String marriagedate, int year, int month, int day){
