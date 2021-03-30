@@ -118,15 +118,7 @@ public class Sprint2 {
         }
         return true;
     }
-    public String getDeathDate(ArrayList<Individual>individuals,Family fam){
-        for(Individual ind: individuals){
-            if(ind.id.equals(fam.husbandId) || ind.id.equals(fam.wifeId)){
-                if(ind.deathDate!=null)
-                    return ind.death;
-            }
-        }
-        return null;
-    }
+    
     public boolean ValidateMarriageBeforeDeath(ArrayList<Individual> individuals, String id, String marriagedate){
         String deathYear="";
         String deathMonth="";
