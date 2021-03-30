@@ -693,7 +693,7 @@ public class GedcomReadParse {
                 //us-22 ends @pp
 
                 //US-03 Changes starts @AS
-                if(ValidateBirthbeforeDeath(i)){
+                if(i.deathDate!=null&&ValidateBirthbeforeDeath(i)){
                     errString = "Error: In US03 for INDIVIDUAL at Line no: "+
                             i.dobLineNo +","+i.deathLineNo + "; ID: " + i.id + "; "+
                             "Date of Birth: " + i.dateOfBirth +
