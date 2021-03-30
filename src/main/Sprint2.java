@@ -121,7 +121,8 @@ public class Sprint2 {
     public String getDeathDate(ArrayList<Individual>individuals,Family fam){
         for(Individual ind: individuals){
             if(ind.id.equals(fam.husbandId) || ind.id.equals(fam.wifeId)){
-                return ind.death;
+                if(ind.deathDate!=null)
+                    return ind.death;
             }
         }
         return null;
@@ -156,6 +157,73 @@ public class Sprint2 {
         return false;
     }
     //US05 changes ends @pp
+    
+    //US06 changes starts @pp
+    public boolean compareDeathWithDivorce(String divorcedate, int year, int month, int day){
+        String divorceYear="";
+        String divorceMonth="";
+        String divorceDay="";
+        int i;
+        for (i = 0; divorcedate.charAt(i) != '-'; i++) {
+            divorceYear = divorceYear + divorcedate.charAt(i);
+        }
+        for (i = i + 1; divorcedate.charAt(i) != '-'; i++) {
+            divorceMonth = divorceMonth + divorcedate.charAt(i);
+        }
+        for (i = i + 1; i < divorcedate.length(); i++) {
+            divorceDay = divorceDay + divorcedate.charAt(i);
+        }
+        int diyear = Integer.valueOf(divorceYear);
+        int dimonth = Integer.valueOf(divorceMonth);
+        int diday = Integer.valueOf(divorceDay);
+        if(validateDate(diyear,dimonth,diday)){
+            if (diyear > year) {
+                return true;
+            }
+            if (diyear == year) {
+                if (dimonth > month) {
+                    return true;
+                }
+                if (dimonth == month) {
+                    if (diday >= day) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean ValidateDivorceBeforeDeath(ArrayList<Individual> individuals, String id, String divorcedate){
+        String deathYear="";
+        String deathMonth="";
+        String deathDay="";
+        int i;
+        for(Individual ind : individuals){
+            if(ind.id.equals(id)&&(!ind.alive)){
+                for(i=0;ind.death.charAt(i)!='-';i++){
+                    deathYear = deathYear + ind.death.charAt(i);
+                }
+                for(i=i+1;ind.death.charAt(i)!='-';i++){
+                    deathMonth = deathMonth + ind.death.charAt(i);
+                }
+                for(i=i+1;i<ind.death.length();i++){
+                    deathDay = deathDay + ind.death.charAt(i);
+                }
+                int year = Integer.valueOf(deathYear);
+                int month = Integer.valueOf(deathMonth);
+                int day = Integer.valueOf(deathDay);
+                if(validateDate(year,month,day)){
+                    if(compareDeathWithDivorce(divorcedate, year, month, day)){
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+    //US06 changes ends @pp
 
     //us-23 changes method to check individual and date of birth is unique or not starts @sr
     public void checkUniqueDateOfBirthAndName(ArrayList<Individual> individuals){
