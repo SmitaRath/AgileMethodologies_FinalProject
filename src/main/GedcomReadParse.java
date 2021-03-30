@@ -632,9 +632,7 @@ public class GedcomReadParse {
                 //us-42 changes ends
 
                 //us-07 changes starts @kP
-                int birthAge = calculateAge(i.dobDate);
-                if(birthAge > 150) { //if(i.age > 150) should be changed it was giving null pointer exception
-
+                if(i.age > 150) {
                     errString = "Error: In US07 for INDIVIDUAL at Line no: " + i.dobLineNo + "; ID: "
                             + i.id +
                             "; BirthDay: " + i.dateOfBirth +
