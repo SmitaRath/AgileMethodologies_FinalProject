@@ -33,15 +33,6 @@ public class Family{
         this.dateOfMarried = "NA";
         this.dateOfDivided = "NA";
     }
-    public String childData(){
-        String str="{";
-        for(int i=0;i<this.child.size()-1;i++){
-
-            str=str+"'"+child.get(i)+"',";
-        }
-        str=str+ "'"+ child.get(this.child.size()-1)+"'}";
-        return str;
-    }
 
     /* Comparator for sorting the list by main.Family ID */
     public static Comparator<Family> familyIdComparator = new Comparator<Family>() {
@@ -56,7 +47,7 @@ public class Family{
 
     public String printChildren() {
         String str = "NA";
-        for(int i=0; i < this.child.size(); ++i) {
+        for(int i = 0; i < this.child.size(); ++i) {
             if(i == 0)
                 str = "{'" + this.child.get(i) + "'";
             else
