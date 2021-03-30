@@ -67,7 +67,69 @@ public class GedcomReadParseTest {
     @Test
     public void calculateDays() {
         Date date1 = new Date("13 MAR 2021");
-        assertEquals(3, g1.calculateDays(date1));
+        assertEquals(4, g1.calculateDays(date1));
         assertNotEquals(10, g1.calculateDays(date1));
+    }
+
+    @Test
+    /*Validating function ValidateBirthBeforeMarriage for us-02*/
+    public void ValidateUS02(){
+        Individual I1 = new Individual();
+        I1.id = "I10";
+        Individual I2 = new Individual();
+        I2.id="I11";
+        I1.dateOfBirth = "2020-05-13";
+        I2.dateOfBirth = "2003-08-20";
+        g1.individuals.add(I1);
+        g1.individuals.add(I2);
+        f.husbandId = "I10";
+        f.wifeId = "I11";
+        f.dateOfMarried = "2003-08-22";
+        g1.families.add(f);
+        assertEquals(true, g1.ValidateBirthBeforeMarriage(f.husbandId, f.dateOfMarried));
+        assertEquals(false, g1.ValidateBirthBeforeMarriage(f.wifeId, f.dateOfMarried));
+    }
+
+    @Test
+    /*Validate Date function used for us-02*/
+    public void correctDate(){
+        int year = 2001;
+        int month = 2;
+        int day = 29;
+        assertEquals(false,g1.validateDate(year,month,day));
+        assertEquals(false, g1.validateDate(2016,4,31));
+    }
+
+    @Test
+    //Validate Whether Id's are unique
+    public void ValidateUS22(){
+        Individual I1 = new Individual();
+        I1.id = "I10";
+        Individual I2 = new Individual();
+        I2.id = "I10";
+        Family f1 = new Family();
+        Family f2 = new Family();
+        f1.id = "F10";
+        f2.id = "F10";
+        g1.individuals.add(I1);
+        g1.individuals.add(I2);
+        g1.families.add(f1);
+        g1.families.add(f2);
+        g1.checkIndividualId();
+        g1.checkFamilyId();
+        assertEquals(true, g1.validateIdForIndividual(I1.id));
+        assertEquals(true, g1.validateIdForFamily(f1.id));
+    }
+
+    @Test
+    //Validating function BirthBeforeDeath for us03
+    public void ValidateUS03(){
+        Individual I1 = new Individual();
+        I1.id = "I10";
+        I1.dateOfBirth = "2017-04-27";
+        I1.death = "2016-09-27";
+        I1.alive = false;
+        g1.individuals.add(I1);
+        assertEquals(true, g1.ValidateBirthbeforeDeath(I1));
     }
 }
