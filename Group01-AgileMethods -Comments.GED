@@ -1,4 +1,16 @@
 0 NOTE https://github.com/SmitaRath/AgileMethodologies_FinalProject
+0 @I8@ INDI-----------------------------
+1 NAME Aishley /Hill/
+1 SEX F                                 Added an indivdual for US23
+1 BIRT
+2 DATE 22 DEC 1997
+1 FAMS @F5@
+0 @I11@ INDI
+1 NAME James /Bond/
+1 SEX M
+1 BIRT
+2 DATE 22 DEC 1997
+1 FAMS @F5@----------------------------
 0 @I7@ INDI ----------------------------|
 1 NAME Andre /Swarts/                   |
 1 SEX M                                 |
@@ -57,7 +69,7 @@
 2 DATE 14 AUG 2005
 1 FAMC @F2@
 0 @I8@ INDI
-1 NAME Natalie /Jones/
+1 NAME Aishley /Hill/---------------------------------------------changed for us23
 1 SEX F
 1 BIRT
 2 DATE 19 JUN 2017 ---------------------------------------------- changed for us02
@@ -75,7 +87,7 @@
 1 WIFE @I1@
 1 CHIL @I3@
 1 DIV
-2 DATE 15 DEC 1980
+2 DATE 15 DEC 2021                       ---------------------- changed for us08
 0 @F2@ FAM
 1 MARR
 2 DATE 14 SEP 2000
@@ -94,4 +106,9 @@
 1 HUSB @I5@
 1 WIFE @I8@
 1 CHIL @I9@
+0 @F5@ FAM-----------------------------------------------
+1 MARR                                                   Added family for us23
+2 DATE 15 AUG 2018
+1 HUSB @I11@
+1 WIFE @I10@-----------------------------------------------
 0 TRLR
