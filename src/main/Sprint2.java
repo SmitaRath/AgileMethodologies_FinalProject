@@ -118,15 +118,7 @@ public class Sprint2 {
         }
         return true;
     }
-    public String getDeathDate(ArrayList<Individual>individuals,Family fam){
-        for(Individual ind: individuals){
-            if(ind.id.equals(fam.husbandId) || ind.id.equals(fam.wifeId)){
-                if(ind.deathDate!=null)
-                    return ind.death;
-            }
-        }
-        return null;
-    }
+
     public boolean ValidateMarriageBeforeDeath(ArrayList<Individual> individuals, String id, String marriagedate){
         String deathYear="";
         String deathMonth="";
@@ -157,7 +149,7 @@ public class Sprint2 {
         return false;
     }
     //US05 changes ends @pp
-    
+
     //US06 changes starts @pp
     public boolean compareDeathWithDivorce(String divorcedate, int year, int month, int day){
         String divorceYear="";
@@ -279,7 +271,7 @@ public class Sprint2 {
     }
     //us-42 changes method to check individual and date of birth is unique or not ends @sr
 
-   //us-42 changes method to Reject illegitimate dates starts @sr
+    //us-42 changes method to Reject illegitimate dates starts @sr
     public void checkIllegitimateDate(Individual ind,String flag,Family family){
         String errString="";
         switch(flag) {
@@ -357,12 +349,12 @@ public class Sprint2 {
             }
 
             if (family.dividedDate !=  null && !family.dateOfDivided.toLowerCase().equals("invalid date")) {
-               if (monthDiffBetweenTwoDate(individualData.dobDate ,family.dividedDate) > 9) {
-                   message = "Error: In US08 for INDIVIDUAL at Line no: " + individualData.dobLineNo + "; ID: "
-                           + individualData.id + "; Individual Name: " + individualData.name + "; Birth date: " + individualData.dateOfBirth + " ; Family ID: " + family.id + " ; Parents Divorced Date: " + family.dateOfDivided +
-                           "; Line no:" + family.dateOfDividedLineNo + "; Children should be born, not more than 9 months of their divorce";
-                   errorAnomalyData.add(message);
-               }
+                if (monthDiffBetweenTwoDate(individualData.dobDate ,family.dividedDate) > 9) {
+                    message = "Error: In US08 for INDIVIDUAL at Line no: " + individualData.dobLineNo + "; ID: "
+                            + individualData.id + "; Individual Name: " + individualData.name + "; Birth date: " + individualData.dateOfBirth + " ; Family ID: " + family.id + " ; Parents Divorced Date: " + family.dateOfDivided +
+                            "; Line no:" + family.dateOfDividedLineNo + "; Children should be born, not more than 9 months of their divorce";
+                    errorAnomalyData.add(message);
+                }
             }
         }
     }

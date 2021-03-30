@@ -37,6 +37,7 @@ Error: In US03 for INDIVIDUAL at Line no: 24,26; ID: I1; Date of Birth: 2022-08-
 Error: In US07 for INDIVIDUAL at Line no: 32; ID: I2; BirthDay: 1820-10-09; Current date should be less than 150 years after birth for all living people
 Error: In US07 for INDIVIDUAL at Line no: 34; ID: I2; Deathday 2021-03-11; Death date should be less than 150 years after birth for dead people
 Error: In US01 for INDIVDUAL at Line no: 50; Id: I4; Death 2095-10-17 occurs in the future
+Error: In US07 for INDIVIDUAL at Line no: 48; ID: I4; BirthDay: 1935-09-13; Current date should be less than 150 years after birth for all living people
 Error: In US07 for INDIVIDUAL at Line no: 50; ID: I4; Deathday 2095-10-17; Death date should be less than 150 years after birth for dead people
 Error: In US22 for INDIVIDUAL at Line no: 14; ID: I7; The Individual ID is not unique
 Error: In US22 for INDIVIDUAL at Line no: 65; ID: I7; The Individual ID is not unique
@@ -62,6 +63,7 @@ ID: I7 GENDER: M Last NAME: Swarts
 ID: I7 GENDER: M Last NAME: Miller
 
 Error: In US05 for INDIVIDUAL at Line no: 26,85; ID: I1; Date of death: 1950-06-15; Date of Marriage: 1955-08-05; Death Occurs Before Marriage
+Error: In US06 for INDIVIDUAL at Line no: 34,90; ID: I2; Date of death: 2021-03-11; Date of Divorce: 2021-12-15; Death Occurs Before Divorce
 Error: In US06 for INDIVIDUAL at Line no: 26,90; ID: I1; Date of death: 1950-06-15; Date of Divorce: 2021-12-15; Death Occurs Before Divorce
 Error: In US08 for INDIVIDUAL at Line no: 40; ID: I3; Individual Name: Linda /Smith/; Birth date: 2021-02-05 ; Family ID: F1 ; Parents Divorced Date: 2021-12-15; Line no:90; Children should be born, not more than 9 months of their divorce
 Error: In US08 for INDIVIDUAL at Line no: 56; ID: I5; Individual Name: Jacob /Williams/; Birth date: 1990-06-12 ; Family ID: F1 ; Parents Married Date: 1998-07-17; Line no:99; Children should be born after marriage of parents.

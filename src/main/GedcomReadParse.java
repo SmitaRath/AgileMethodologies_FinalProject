@@ -628,13 +628,11 @@ public class GedcomReadParse {
                 //us-42 changes starts
                 sprint2.checkIllegitimateDate(i,"BIRT",family);
                 if(!(i.death.equals("NA")))
-                sprint2.checkIllegitimateDate(i,"DEAT",family);
+                    sprint2.checkIllegitimateDate(i,"DEAT",family);
                 //us-42 changes ends
 
                 //us-07 changes starts @kP
-                int birthAge = calculateAge(i.dobDate);
-                if(birthAge > 150) { //if(i.age > 150) should be changed it was giving null pointer exception
-
+                if(i.age > 150) {
                     errString = "Error: In US07 for INDIVIDUAL at Line no: " + i.dobLineNo + "; ID: "
                             + i.id +
                             "; BirthDay: " + i.dateOfBirth +
@@ -782,7 +780,7 @@ public class GedcomReadParse {
                 //us-42 changes starts
                 sprint2.checkIllegitimateDate(ind,"MARR",i);
                 if(!(i.dateOfDivided.equals("NA")))
-                sprint2.checkIllegitimateDate(ind,"DIV",i);
+                    sprint2.checkIllegitimateDate(ind,"DIV",i);
                 //us-42 changes ends
 
                 //us-22 changes starts @pp
@@ -818,7 +816,7 @@ public class GedcomReadParse {
                 if(i.marrriedDate!=null&&getIndividual(i.husbandId).deathDate!=null&&sprint2.ValidateMarriageBeforeDeath(individuals,i.husbandId, i.dateOfMarried)){
                     errString = "Error: In US05 for INDIVIDUAL at Line no: "+
                             getIndividual(i.husbandId).deathLineNo + "," + i.dateOfMarriedidLineNo +
-                            "; ID: " + i.husbandId + "; "+ "Date of death: " + sprint2.getDeathDate(individuals,i) +
+                            "; ID: " + i.husbandId + "; "+ "Date of death: " + getIndividual(i.husbandId).death +
                             "; " + "Date of Marriage: " + i.dateOfMarried +
                             "; " + "Death Occurs Before Marriage";
                     sprint2.errorAnomalyData.add(errString);
@@ -826,7 +824,7 @@ public class GedcomReadParse {
                 if(i.marrriedDate!=null&&getIndividual(i.wifeId).deathDate!=null&&sprint2.ValidateMarriageBeforeDeath(individuals,i.wifeId, i.dateOfMarried)){
                     errString = "Error: In US05 for INDIVIDUAL at Line no: "+
                             getIndividual(i.wifeId).deathLineNo + "," + i.dateOfMarriedidLineNo +
-                            "; ID: " + i.wifeId + "; "+ "Date of death: " + sprint2.getDeathDate(individuals,i) +
+                            "; ID: " + i.wifeId + "; "+ "Date of death: " + getIndividual(i.wifeId).death +
                             "; " + "Date of Marriage: " + i.dateOfMarried +
                             "; " + "Death Occurs Before Marriage";
                     sprint2.errorAnomalyData.add(errString);
@@ -834,18 +832,18 @@ public class GedcomReadParse {
                 //us-05 changes ends @pp
 
                 //us-06 changes starts @pp
-                if(i.dividedDate!=null&&getIndividual(i.husbandId).deathDate!=null&&sprint2.ValidateDivorceBeforeDeath(individuals,i.husbandId, i.dateOfMarried)){
+                if(i.dividedDate!=null&&getIndividual(i.husbandId).deathDate!=null&&sprint2.ValidateDivorceBeforeDeath(individuals,i.husbandId, i.dateOfDivided)){
                     errString = "Error: In US06 for INDIVIDUAL at Line no: "+
                             getIndividual(i.husbandId).deathLineNo + "," + i.dateOfDividedLineNo +
-                            "; ID: " + i.husbandId + "; "+ "Date of death: " + sprint2.getDeathDate(individuals,i) +
+                            "; ID: " + i.husbandId + "; "+ "Date of death: " + getIndividual(i.husbandId).death +
                             "; " + "Date of Divorce: " + i.dateOfDivided +
                             "; " + "Death Occurs Before Divorce";
                     sprint2.errorAnomalyData.add(errString);
                 }
-                if(i.dividedDate!=null&&getIndividual(i.wifeId).deathDate!=null&&sprint2.ValidateDivorceBeforeDeath(individuals,i.wifeId, i.dateOfMarried)){
+                if(i.dividedDate!=null&&getIndividual(i.wifeId).deathDate!=null&&sprint2.ValidateDivorceBeforeDeath(individuals,i.wifeId, i.dateOfDivided)){
                     errString = "Error: In US06 for INDIVIDUAL at Line no: "+
                             getIndividual(i.wifeId).deathLineNo + "," + i.dateOfDividedLineNo +
-                            "; ID: " + i.wifeId + "; "+ "Date of death: " + sprint2.getDeathDate(individuals,i) +
+                            "; ID: " + i.wifeId + "; "+ "Date of death: " + getIndividual(i.wifeId).death +
                             "; " + "Date of Divorce: " + i.dateOfDivided +
                             "; " + "Death Occurs Before Divorce";
                     sprint2.errorAnomalyData.add(errString);
