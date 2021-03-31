@@ -19,6 +19,8 @@ public class Sprint2 {
     // us-08 changes starts @KP
     // calculates months between two dates
     public int monthDiffBetweenTwoDate(Date dob, Date divDate) {
+        System.out.println("Date: " + dob  );
+        System.out.println("Date: " + divDate );
         Instant instantDob = dob.toInstant();
         Instant instantDivDate = divDate.toInstant();
         ZonedDateTime zoneDob = instantDob.atZone(ZoneId.systemDefault());
@@ -26,7 +28,8 @@ public class Sprint2 {
         LocalDate givenDobDate = zoneDob.toLocalDate();
         LocalDate givenDeathDate = zoneDeathDate.toLocalDate();
         Period period = Period.between(givenDobDate, givenDeathDate);
-        if (period.getYears() > 1)      // If more than year, then it's more than 9 months; sending random no greater than 9
+        System.out.println("Date: " + period.getYears()  + period.getMonths());
+        if (period.getYears() > 1 || period.getYears() < 0)      // If more than year, then it's more than 9 months; sending random no greater than 9
             return 100;
 
         return period.getMonths();
@@ -339,7 +342,7 @@ public class Sprint2 {
                 }
             }
 
-            if (individualData != null && individualData.dobDate != null && !family.dateOfMarried.toLowerCase().equals("invalid date")) {
+            if (individualData != null && individualData.dobDate != null && family.marrriedDate != null) {
                 if(individualData.dobDate.compareTo(family.marrriedDate) <= 0) {
                     message = "Error: In US08 for INDIVIDUAL at Line no: " + individualData.dobLineNo + "; ID: "
                             + individualData.id + "; Individual Name: " + individualData.name + "; Birth date: " + individualData.dateOfBirth + " ; Family ID: " + family.id + " ; Parents Married Date: " + family.dateOfMarried +
@@ -348,7 +351,7 @@ public class Sprint2 {
                 }
             }
 
-            if (family.dividedDate !=  null && !family.dateOfDivided.toLowerCase().equals("invalid date")) {
+            if (family.dividedDate !=  null) {
                if (monthDiffBetweenTwoDate(individualData.dobDate ,family.dividedDate) > 9) {
                    message = "Error: In US08 for INDIVIDUAL at Line no: " + individualData.dobLineNo + "; ID: "
                            + individualData.id + "; Individual Name: " + individualData.name + "; Birth date: " + individualData.dateOfBirth + " ; Family ID: " + family.id + " ; Parents Divorced Date: " + family.dateOfDivided +
