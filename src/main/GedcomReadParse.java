@@ -855,9 +855,9 @@ public class GedcomReadParse {
 
                 //US-08,US16 changes ends @KP
                 
-                //us-09 changes starts @AS
+                //us-10 changes starts @AS
                 if(i.marrriedDate!=null&&getIndividual(i.husbandId).dobDate!=null&sprint2.compareMarrigeandBirth(i.dateOfMarried,getIndividual(i.husbandId).dateOfBirth)){
-                    errString = "Error: In US09 for INDIVIDUAL at Line no: "+
+                    errString = "Error: In US10 for INDIVIDUAL at Line no: "+
                                 getIndividual(i.husbandId).dobLineNo + "," + i.dateOfMarriedidLineNo +
                                 "; ID: " + i.husbandId + "; "+ "Date of Birth: " + getIndividual(i.husbandId).dateOfBirth +
                                 "; " + "Date of Marriage: " + i.dateOfMarried +
@@ -865,14 +865,14 @@ public class GedcomReadParse {
                     sprint2.errorAnomalyData.add(errString);
                 }
                 if(i.marrriedDate!=null&&getIndividual(i.wifeId).dobDate!=null&&sprint2.compareMarrigeandBirth(i.dateOfMarried,getIndividual(i.wifeId).dateOfBirth)){
-                    errString = "Error: In US16_maleLastName for INDIVIDUAL at Line no: "+
+                    errString = "Error: In US10 for INDIVIDUAL at Line no: "+
                                 getIndividual(i.wifeId).dobLineNo + "," + i.dateOfMarriedidLineNo
                                 +"; ID: " + i.wifeId + "; "+ "Date of Birth: " + getIndividual(i.wifeId).dateOfBirth +
                                 "; " + "Date of Marriage: " + i.dateOfMarried +
                                 "; " + "Marrige date is less than 14 years of birth date";
                     sprint2.errorAnomalyData.add(errString);
                 }
-                //us-09 changes ends @AS
+                //us-10 changes ends @AS
                 
                 // US15 changes starts @AS
                 if(sprint2.NoOfSiblings(families, i.wifeId,i.husbandId)) {
