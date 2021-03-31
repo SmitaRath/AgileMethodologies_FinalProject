@@ -274,7 +274,7 @@ public class Sprint2 {
         else
             return true;
     }
-    //us-42 changes method to check individual and date of birth is unique or not ends @sr
+    //us-23 changes method to check individual and date of birth is unique or not ends @sr
 
    //us-42 changes method to Reject illegitimate dates starts @sr
     public boolean checkIllegitimateDate(Individual ind,String flag,Family family){
