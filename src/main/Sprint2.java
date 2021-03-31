@@ -49,8 +49,8 @@ public class Sprint2 {
             }
 
             if (lastName != null) {
-                Individual individualData = null;
                 for(String child: family.child) {
+                    Individual individualData = null;
                     for (Individual ind : individuals) {
                         if (ind.id.equals(child) && ind.gender.toLowerCase().equals("m")) {
                             individualData = ind;
@@ -397,50 +397,77 @@ public class Sprint2 {
 
 
 
-    //us09 changes starts @AS
+    //us10 changes starts @AS
     public boolean compareMarrigeandBirth(String marriagedate, String birthDate ){
-    String marriageYear="";
-    String marriageMonth="";
-    String marriageDay="";
-    String birthYear="";
-    String birthMonth="";
-    String birthDay="";
+        String marriageYear="";
+        String marriageMonth="";
+        String marriageDay="";
+        String birthYear="";
+        String birthMonth="";
+        String birthDay="";
 
-    int i;
-    for (i = 0; marriagedate.charAt(i)!= '-'; i++) {
-        marriageYear = marriageYear + marriagedate.charAt(i);
-    }
-    for (i = i + 1; marriagedate.charAt(i) != '-'; i++) {
-        marriageMonth = marriageMonth + marriagedate.charAt(i);
-    }
-    for (i = i + 1; i < marriagedate.length(); i++) {
-        marriageDay = marriageDay + marriagedate.charAt(i);
-    }
-    for(i=0; birthDate.charAt(i)!='-';i++)
-    {
-        birthYear = birthYear + birthDate.charAt(i);
-    }
-    for (i = i + 1; birthDate.charAt(i) != '-'; i++) {
-        birthMonth = birthMonth + marriagedate.charAt(i);
-    }
-    for (i = i + 1; i < birthDate.length(); i++) {
-        birthDay = birthDay + birthDate.charAt(i);
-    }
-    int myear = Integer.valueOf(marriageYear);
-    int mmonth = Integer.valueOf(marriageMonth);
-    int mday = Integer.valueOf(marriageDay);
-    int byear = Integer.valueOf(birthYear);
-    int bmonth = Integer.valueOf(birthMonth);
-    int bday = Integer.valueOf(birthDay);
-    if(validateDate(myear,mmonth,mday)&&validateDate(byear,bmonth,bday)) {
-        if (myear >= byear&&myear<=byear+14) {
-            return true;
+        int i;
+        for (i = 0; marriagedate.charAt(i)!= '-'; i++) {
+            marriageYear = marriageYear + marriagedate.charAt(i);
+        }
+        for (i = i + 1; marriagedate.charAt(i) != '-'; i++) {
+            marriageMonth = marriageMonth + marriagedate.charAt(i);
+        }
+        for (i = i + 1; i < marriagedate.length(); i++) {
+            marriageDay = marriageDay + marriagedate.charAt(i);
+        }
+        for(i=0; birthDate.charAt(i)!='-';i++)
+        {
+            birthYear = birthYear + birthDate.charAt(i);
+        }
+        for (i = i + 1; birthDate.charAt(i) != '-'; i++) {
+            birthMonth = birthMonth + marriagedate.charAt(i);
+        }
+        for (i = i + 1; i < birthDate.length(); i++) {
+            birthDay = birthDay + birthDate.charAt(i);
+        }
+        int myear = Integer.valueOf(marriageYear);
+        int mmonth = Integer.valueOf(marriageMonth);
+        int mday = Integer.valueOf(marriageDay);
+        int byear = Integer.valueOf(birthYear);
+        int bmonth = Integer.valueOf(birthMonth);
+        int bday = Integer.valueOf(birthDay);
+        if(validateDate(myear,mmonth,mday)&&validateDate(byear,bmonth,bday)) {
+            if (myear <byear+14&&myear>=byear) {
+                return true;
+            }
+            if(myear==byear+14){
+                if(mmonth<bmonth){
+                    return true;
+                }
+                if(mmonth==bmonth){
+                    if(mday<=bday){
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
         return false;
     }
-    return false;
+    //us10 changes ends @AS
+    
+    //us15 changes starts @AS
+    public boolean NoOfSiblings(ArrayList<Family> families,String WifeId, String HusbandId){
+        Family f1;
+        Family f2;
+        int i;
+        int ans = 0;
+        for(i=0;i<families.size();i++){
+            if(families.get(i).wifeId.equals(WifeId) || families.get(i).husbandId.equals(HusbandId)){
+                ans = ans + families.get(i).child.size();
+            }
+        }
+        if(ans-1>=15)
+            return true;
+        return false;
     }
-    //us09 changes ends @AS
+    //us15 changes ends @AS
 
     public void sprint2Output(PrintStream fileOut) {
 

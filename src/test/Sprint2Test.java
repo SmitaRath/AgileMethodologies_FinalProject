@@ -112,7 +112,7 @@ public class Sprint2Test {
     }
 
    @Test 
-   public void US09_MarriageAfterBirth(){
+   public void US10_MarriageAfterBirth(){
        Individual I1 = new Individual();
        I1.id = "I12";
        Individual I2 = new Individual();
