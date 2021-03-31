@@ -934,7 +934,8 @@ public class GedcomReadParse {
             fileOut.println();
             System.out.println();
 
-            sprint2.sprint2Output(fileOut);
+            // sprint2.sprint2Output(fileOut);
+
             sprint2.checkUniqueDateOfBirthAndName(individuals);
             sprint2.sprint2ErrorOutput(fileOut);
             //us-23 sprint2 changes ends @sr
