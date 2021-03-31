@@ -111,7 +111,7 @@ public class Sprint2Test {
         assertEquals(true,s2.checkIllegitimateDate(I2,"BIRT",null));
     }
 
-   @Test US 09 AS
+   @Test 
    public void US09_MarriageAfterBirth(){
        Individual I1 = new Individual();
        I1.id = "I12";
