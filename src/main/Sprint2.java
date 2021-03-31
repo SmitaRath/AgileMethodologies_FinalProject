@@ -280,16 +280,20 @@ public class Sprint2 {
         for(int i=0;i<individuals.size();i++){
             fullnameOuter="";
             ind1=individuals.get(i);
-            name = ind1.name.split("/");
+            name = ind1.name.split(" ");
             for(int index=0;index<name.length;index++) {
-                fullnameOuter = fullnameOuter + name[index].toUpperCase().trim();
+                name[index]=name[index].toUpperCase().trim();
+                name[index]=name[index].replaceAll("/","");
+                fullnameOuter = fullnameOuter + name[index];
             }
             for(int k=i+1;k<individuals.size();k++){
                 fullnameInner="";
                 ind2=individuals.get(k);
-                name = ind2.name.split("/");
+                name = ind2.name.split(" ");
                 for(int innerIndex=0;innerIndex<name.length;innerIndex++){
-                    fullnameInner=fullnameInner+name[innerIndex].toUpperCase().trim();
+                    name[innerIndex]=name[innerIndex].toUpperCase().trim();
+                    name[innerIndex]=name[innerIndex].replaceAll("/","");
+                    fullnameInner=fullnameInner+name[innerIndex];
                 }
 
                 if(fullnameOuter.equals(fullnameInner) && !fullnameOuter.equals("NA")){
