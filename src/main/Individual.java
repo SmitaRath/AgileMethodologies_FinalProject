@@ -3,8 +3,8 @@ package main;
 import java.util.Comparator;
 import java.util.Date;
 
-public class Individual{
-    public String id=null;
+public class Individual {
+    public String id = null;
     int idLineNo;
     public String name;
     int nameLineNo;
@@ -12,9 +12,9 @@ public class Individual{
     int genderLineNo;
     public String dateOfBirth;
     int dobLineNo;
-    Date dobDate;
+    public Date dobDate;
     int age;
-    public boolean alive=true;
+    public boolean alive = true;
     public String death;
     int deathLineNo;
     Date deathDate;
@@ -51,16 +51,28 @@ public class Individual{
                 '}';
     }
 
+    static int  extractInt(String s) {
+        String num = s.replaceAll("\\D", "");
+        // return 0 if no digits found
+        return num.isEmpty() ? 0 : Integer.parseInt(num);
+    }
+
 
     /*Comparator for sorting the list by ID*/
     public static Comparator<Individual> IDComparator = new Comparator<Individual>() {
 
-        public int compare(Individual s1, Individual s2) {
+      /*  public int compare(Individual s1, Individual s2) {
             String Id1 = s1.id.toUpperCase();
             String Id2 = s2.id.toUpperCase();
 
             //ascending order
             return Id1.compareTo(Id2);
-        }};
+        }};*/
+        public int compare(Individual s1, Individual s2) {
+            String Id1 = s1.id.toUpperCase();
+            String Id2 = s2.id.toUpperCase();
 
+            return extractInt(Id1) - extractInt(Id2);
+        }
+    };
 }

@@ -25,44 +25,93 @@ public class Sprint2 {
         ZonedDateTime zoneDeathDate = instantDivDate.atZone(ZoneId.systemDefault());
         LocalDate givenDobDate = zoneDob.toLocalDate();
         LocalDate givenDeathDate = zoneDeathDate.toLocalDate();
-        Period period = Period.between(givenDobDate, givenDeathDate);
-        if (period.getYears() > 1)      // If more than year, then it's more than 9 months; sending random no greater than 9
+        Period period = Period.between(givenDeathDate, givenDobDate);
+        if (period.getYears() > 0)   // If more than year, then it's more than 9 months; sending random no greater than 9
             return 100;
 
-        return period.getMonths();
+        if (period.getYears() == 0) {
+            if (period.getMonths() >= 0) {
+                return period.getMonths();
+            }
+        }
+
+        return 0;
     }
     // us-08 changes ends @KP
 
-    public  void US16_maleLastName(Individual i) {
-        if (i.name != null) {
+    public  void US16_maleLastName(Family family, ArrayList<Individual> individuals) {
+        if (family.husbandName != null) {
             String lastName = null;
             String[] formatName;
-            formatName = i.name.split("/");
+            formatName =  family.husbandName.split("/");
             if(formatName[1] != null) {
                 lastName = formatName[1].trim();
             }
 
             if (lastName != null) {
-                if (familyLastName.get(i.spouse) == null) {
-                    familyLastName.put(i.spouse, lastName);
-                    message = "ID: " + i.id + " GENDER: " + i.gender + " Last NAME: " + lastName;
-                    successAnomalyDataUS16.add(message);
-                } else {
-                    if (familyLastName.get(i.spouse).toLowerCase().equals(lastName.toLowerCase())) {
-                        message = "ID: " + i.id + " GENDER: " + i.gender + " Last NAME: " + lastName;
-                        successAnomalyDataUS16.add(message);
-                    } else {
-                        message = "Error: In US16 for INDIVIDUAL at Line no: " + i.nameLineNo + "; ID: "
-                                + i.id + "; Individual Name: " + i.name + " ; Family ID: " + i.spouse + " ; Family Name: " + familyLastName.get(i.spouse) +
-                                "; Family last name should be same for all males in family.";
-                        errorAnomalyDataUS16.add(message);
+                for(String child: family.child) {
+                    Individual individualData = null;
+                    for (Individual ind : individuals) {
+                        if (ind.id.equals(child) && ind.gender.toLowerCase().equals("m")) {
+                            individualData = ind;
+                            break;
+                        }
+                    }
+                    if(individualData != null ) {
+                        String[] individualName;
+                        String individualLastName = null;
+                        individualName =  individualData.name.split("/");
+                        if(individualName[1] != null) {
+                            individualLastName = individualName[1].trim();
+                        }
+
+                        if(lastName.toLowerCase().equals(individualLastName.toLowerCase())) {
+                            message = "ID: " + individualData.id + " GENDER: " + individualData.gender + " Last NAME: " + individualLastName;
+                            successAnomalyDataUS16.add(message);
+                        } else {
+                            message = "Error: In US16 for INDIVIDUAL at Line no: " + individualData.nameLineNo + "; ID: "
+                                    + individualData.id + "; Individual Name: " + individualData.name + " ; Family ID: " + individualData.spouse + " ; Family Name: " + lastName +
+                                    "; Family last name should be same for all males in family.";
+                            errorAnomalyDataUS16.add(message);
+
+                        }
                     }
                 }
             } else {
-                message = "Error: In US16 for INDIVIDUAL at Line no: " + i.nameLineNo + "; ID: "
-                        + i.id + " Individual Name: " + i.name +
+                message = "Error: In US16 for INDIVIDUAL at Line no: " + family.husbandidLineNo + "; ID: "
+                        + family.husbandId + " Individual Name: " + family.husbandName +
                         "; Family last name should be present for all males in family.";
                 errorAnomalyDataUS16.add(message);
+            }
+        }
+    }
+
+    public  void US08_birthBeforeMarriageOfParents(Family family, ArrayList<Individual> individuals) {
+        Individual individualData = null;
+        for(String child: family.child) {
+            for(Individual ind: individuals) {
+                if(ind.id.equals(child)) {
+                    individualData = ind;
+                    break;
+                }
+            }
+
+            if (individualData != null && individualData.dobDate != null && family.marrriedDate != null) {
+                if(individualData.dobDate.compareTo(family.marrriedDate) <= 0) {
+                    message = "Error: In US08 for INDIVIDUAL at Line no: " + individualData.dobLineNo + "; ID: "
+                            + individualData.id + "; Individual Name: " + individualData.name + "; Birth date: " + individualData.dateOfBirth + " ; Family ID: " + family.id + " ; Parents Married Date: " + family.dateOfMarried +
+                            "; Line no:" + family.dateOfMarriedidLineNo + "; Children should be born after marriage of parents.";
+                    errorAnomalyData.add(message);
+                }
+            }
+
+            if (family.dividedDate !=  null) {
+                if (monthDiffBetweenTwoDate(individualData.dobDate ,family.dividedDate) >= 9) {
+                    message = "Error: In US08 for INDIVIDUAL at Line no: " + individualData.dobLineNo + "; ID: "
+                            + individualData.id + "; Individual Name: " + individualData.name + "; Birth date: " + individualData.dateOfBirth + " ; Family ID: " + family.id + " ; Parents Divorced Date: " + family.dateOfDivided +
+                            "; Line no:" + family.dateOfDividedLineNo + "; Children should be born, not more than 9 months of their divorce";
+                    errorAnomalyData.add(message);
+                }
             }
         }
     }
@@ -118,7 +167,7 @@ public class Sprint2 {
         }
         return true;
     }
-
+    
     public boolean ValidateMarriageBeforeDeath(ArrayList<Individual> individuals, String id, String marriagedate){
         String deathYear="";
         String deathMonth="";
@@ -149,7 +198,7 @@ public class Sprint2 {
         return false;
     }
     //US05 changes ends @pp
-
+    
     //US06 changes starts @pp
     public boolean compareDeathWithDivorce(String divorcedate, int year, int month, int day){
         String divorceYear="";
@@ -218,17 +267,25 @@ public class Sprint2 {
     //US06 changes ends @pp
 
     //us-23 changes method to check individual and date of birth is unique or not starts @sr
-    public void checkUniqueDateOfBirthAndName(ArrayList<Individual> individuals){
+    public boolean checkUniqueDateOfBirthAndName(ArrayList<Individual> individuals){
         String errString="";
         Individual ind1;
         Individual ind2;
         boolean outerNameFlagNotUnique=false;
         boolean outerDOBFlagNotUnique=false;
+        int prevSize=errorAnomalyData.size();
+        String[] name;
+        String fullnameOuter="";
+        String fullnameInner="";
         for(int i=0;i<individuals.size();i++){
             ind1=individuals.get(i);
+            name = ind1.name.split("/");
+            fullnameOuter=name[0].toUpperCase()+name[1].toUpperCase();
             for(int k=i+1;k<individuals.size();k++){
                 ind2=individuals.get(k);
-                if(ind1.name.equals(ind2.name)){
+                name = ind2.name.split("/");
+                fullnameInner=name[0].toUpperCase()+name[1].toUpperCase();
+                if(fullnameOuter.equals(fullnameInner)){
                     outerNameFlagNotUnique=true;
                     errString = "Error: In US23 for INDIVIDUAL at "
                             + " Line no: " + ind2.nameLineNo
@@ -248,6 +305,7 @@ public class Sprint2 {
                     errorAnomalyData.add(errString);
                 }
             }
+
             if(outerNameFlagNotUnique){
                 outerNameFlagNotUnique=false;
                 errString = "Error: In US23 for INDIVIDUAL at "
@@ -268,12 +326,17 @@ public class Sprint2 {
                 errorAnomalyData.add(errString);
             }
         }
+        if(prevSize!=errorAnomalyData.size())
+            return false;
+        else
+            return true;
     }
-    //us-42 changes method to check individual and date of birth is unique or not ends @sr
+    //us-23 changes method to check individual and date of birth is unique or not ends @sr
 
-    //us-42 changes method to Reject illegitimate dates starts @sr
-    public void checkIllegitimateDate(Individual ind,String flag,Family family){
+   //us-42 changes method to Reject illegitimate dates starts @sr
+    public boolean checkIllegitimateDate(Individual ind,String flag,Family family){
         String errString="";
+        int prevSize=errorAnomalyData.size();
         switch(flag) {
             case "BIRT": {
                 if (ind.dobDate == null) {
@@ -324,42 +387,87 @@ public class Sprint2 {
             break;
         }
 
+        if(prevSize!=errorAnomalyData.size())
+            return false;
+        else
+            return true;
     }
     //us-42 changes method to Reject illegitimate dates ends @sr
 
 
 
-    public  void US08_birthBeforeMarriageOfParents(Family family, ArrayList<Individual> individuals) {
-        Individual individualData = null;
-        for(String child: family.child) {
-            for(Individual ind: individuals) {
-                if(ind.id.equals(child)) {
-                    individualData = ind;
-                    break;
+
+    //us10 changes starts @AS
+    public boolean compareMarrigeandBirth(String marriagedate, String birthDate ){
+        String marriageYear="";
+        String marriageMonth="";
+        String marriageDay="";
+        String birthYear="";
+        String birthMonth="";
+        String birthDay="";
+
+        int i;
+        for (i = 0; marriagedate.charAt(i)!= '-'; i++) {
+            marriageYear = marriageYear + marriagedate.charAt(i);
+        }
+        for (i = i + 1; marriagedate.charAt(i) != '-'; i++) {
+            marriageMonth = marriageMonth + marriagedate.charAt(i);
+        }
+        for (i = i + 1; i < marriagedate.length(); i++) {
+            marriageDay = marriageDay + marriagedate.charAt(i);
+        }
+        for(i=0; birthDate.charAt(i)!='-';i++)
+        {
+            birthYear = birthYear + birthDate.charAt(i);
+        }
+        for (i = i + 1; birthDate.charAt(i) != '-'; i++) {
+            birthMonth = birthMonth + marriagedate.charAt(i);
+        }
+        for (i = i + 1; i < birthDate.length(); i++) {
+            birthDay = birthDay + birthDate.charAt(i);
+        }
+        int myear = Integer.valueOf(marriageYear);
+        int mmonth = Integer.valueOf(marriageMonth);
+        int mday = Integer.valueOf(marriageDay);
+        int byear = Integer.valueOf(birthYear);
+        int bmonth = Integer.valueOf(birthMonth);
+        int bday = Integer.valueOf(birthDay);
+        if(validateDate(myear,mmonth,mday)&&validateDate(byear,bmonth,bday)) {
+            if (myear <byear+14&&myear>=byear) {
+                return true;
+            }
+            if(myear==byear+14){
+                if(mmonth<bmonth){
+                    return true;
+                }
+                if(mmonth==bmonth){
+                    if(mday<=bday){
+                        return true;
+                    }
                 }
             }
-
-            if (individualData != null && individualData.dobDate != null && !family.dateOfMarried.toLowerCase().equals("invalid date")) {
-                if(individualData.dobDate.compareTo(family.marrriedDate) <= 0) {
-                    message = "Error: In US08 for INDIVIDUAL at Line no: " + individualData.dobLineNo + "; ID: "
-                            + individualData.id + "; Individual Name: " + individualData.name + "; Birth date: " + individualData.dateOfBirth + " ; Family ID: " + family.id + " ; Parents Married Date: " + family.dateOfMarried +
-                            "; Line no:" + family.dateOfMarriedidLineNo + "; Children should be born after marriage of parents.";
-                    errorAnomalyData.add(message);
-                }
-            }
-
-            if (family.dividedDate !=  null && !family.dateOfDivided.toLowerCase().equals("invalid date")) {
-                if (monthDiffBetweenTwoDate(individualData.dobDate ,family.dividedDate) > 9) {
-                    message = "Error: In US08 for INDIVIDUAL at Line no: " + individualData.dobLineNo + "; ID: "
-                            + individualData.id + "; Individual Name: " + individualData.name + "; Birth date: " + individualData.dateOfBirth + " ; Family ID: " + family.id + " ; Parents Divorced Date: " + family.dateOfDivided +
-                            "; Line no:" + family.dateOfDividedLineNo + "; Children should be born, not more than 9 months of their divorce";
-                    errorAnomalyData.add(message);
-                }
+            return false;
+        }
+        return false;
+    }
+    //us10 changes ends @AS
+    
+    //us15 changes starts @AS
+    public boolean NoOfSiblings(ArrayList<Family> families,String WifeId, String HusbandId){
+        Family f1;
+        Family f2;
+        int i;
+        int ans = 0;
+        for(i=0;i<families.size();i++){
+            if(families.get(i).wifeId.equals(WifeId) || families.get(i).husbandId.equals(HusbandId)){
+                ans = ans + families.get(i).child.size();
             }
         }
+        if(ans-1>=15)
+            return true;
+        return false;
     }
-
-
+    //us15 changes ends @AS
 
     public void sprint2Output(PrintStream fileOut) {
 

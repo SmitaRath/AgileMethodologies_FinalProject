@@ -394,6 +394,7 @@ public class GedcomReadParse {
                     splitString=line.split(" ");
                     if (splitString.length>2 && splitString[1].equals("NAME") && splitString[0].equals("1"))
                         ind.name = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
+                        ind.name=ind.name.trim(); //fix for us23
                     counter++;
                     ind.nameLineNo=counter;
 
@@ -628,7 +629,7 @@ public class GedcomReadParse {
                 //us-42 changes starts
                 sprint2.checkIllegitimateDate(i,"BIRT",family);
                 if(!(i.death.equals("NA")))
-                    sprint2.checkIllegitimateDate(i,"DEAT",family);
+                sprint2.checkIllegitimateDate(i,"DEAT",family);
                 //us-42 changes ends
 
                 //us-07 changes starts @kP
@@ -691,7 +692,7 @@ public class GedcomReadParse {
                 //us-22 ends @pp
 
                 //US-03 Changes starts @AS
-                if(i.deathDate!=null&&ValidateBirthbeforeDeath(i)){
+                if(i.deathDate!=null&&i.dobDate!=null&&ValidateBirthbeforeDeath(i)){
                     errString = "Error: In US03 for INDIVIDUAL at Line no: "+
                             i.dobLineNo +","+i.deathLineNo + "; ID: " + i.id + "; "+
                             "Date of Birth: " + i.dateOfBirth +
@@ -701,11 +702,7 @@ public class GedcomReadParse {
                 }
                 // US-03 changes ends @AS
 
-                // US-16 Change starts @KP
-                if(i.gender.toLowerCase().equals("m")) {
-                    sprint2.US16_maleLastName(i);
-                }
-                // US-16 Change ends @KP
+
             }
 
             fileOut.println("Individuals");
@@ -780,7 +777,7 @@ public class GedcomReadParse {
                 //us-42 changes starts
                 sprint2.checkIllegitimateDate(ind,"MARR",i);
                 if(!(i.dateOfDivided.equals("NA")))
-                    sprint2.checkIllegitimateDate(ind,"DIV",i);
+                sprint2.checkIllegitimateDate(ind,"DIV",i);
                 //us-42 changes ends
 
                 //us-22 changes starts @pp
@@ -813,48 +810,63 @@ public class GedcomReadParse {
                 //us-02 changes ends @pp
 
                 //us-05 changes starts @pp
-                if(i.marrriedDate!=null&&getIndividual(i.husbandId).deathDate!=null&&sprint2.ValidateMarriageBeforeDeath(individuals,i.husbandId, i.dateOfMarried)){
-                    errString = "Error: In US05 for INDIVIDUAL at Line no: "+
-                            getIndividual(i.husbandId).deathLineNo + "," + i.dateOfMarriedidLineNo +
-                            "; ID: " + i.husbandId + "; "+ "Date of death: " + getIndividual(i.husbandId).death +
-                            "; " + "Date of Marriage: " + i.dateOfMarried +
-                            "; " + "Death Occurs Before Marriage";
-                    sprint2.errorAnomalyData.add(errString);
-                }
-                if(i.marrriedDate!=null&&getIndividual(i.wifeId).deathDate!=null&&sprint2.ValidateMarriageBeforeDeath(individuals,i.wifeId, i.dateOfMarried)){
-                    errString = "Error: In US05 for INDIVIDUAL at Line no: "+
-                            getIndividual(i.wifeId).deathLineNo + "," + i.dateOfMarriedidLineNo +
-                            "; ID: " + i.wifeId + "; "+ "Date of death: " + getIndividual(i.wifeId).death +
-                            "; " + "Date of Marriage: " + i.dateOfMarried +
-                            "; " + "Death Occurs Before Marriage";
+                if(i.marrriedDate!=null&&getIndividual(i.husbandId).deathDate!=null&&getIndividual(i.wifeId).deathDate!=null&&(sprint2.ValidateMarriageBeforeDeath(individuals,i.husbandId, i.dateOfMarried)&&sprint2.ValidateMarriageBeforeDeath(individuals,i.wifeId, i.dateOfMarried))){
+                    errString = "Error: In US05 for Family"+i.id+ "; at Line no: "+
+                            i.idLineNo + "," + i.dateOfMarriedidLineNo +
+                            "; Husband ID: " + i.husbandId + "; Wife ID: "+i.wifeId + "; Date of Husband death: " + getIndividual(i.husbandId).death +
+                            "; Date of Wife Death: " + getIndividual(i.wifeId).death + "; Date of Marriage: " + i.dateOfMarried +
+                            "; " + "Marriage Occurs After Death of both spouses";
                     sprint2.errorAnomalyData.add(errString);
                 }
                 //us-05 changes ends @pp
 
                 //us-06 changes starts @pp
-                if(i.dividedDate!=null&&getIndividual(i.husbandId).deathDate!=null&&sprint2.ValidateDivorceBeforeDeath(individuals,i.husbandId, i.dateOfDivided)){
-                    errString = "Error: In US06 for INDIVIDUAL at Line no: "+
-                            getIndividual(i.husbandId).deathLineNo + "," + i.dateOfDividedLineNo +
-                            "; ID: " + i.husbandId + "; "+ "Date of death: " + getIndividual(i.husbandId).death +
-                            "; " + "Date of Divorce: " + i.dateOfDivided +
-                            "; " + "Death Occurs Before Divorce";
-                    sprint2.errorAnomalyData.add(errString);
-                }
-                if(i.dividedDate!=null&&getIndividual(i.wifeId).deathDate!=null&&sprint2.ValidateDivorceBeforeDeath(individuals,i.wifeId, i.dateOfDivided)){
-                    errString = "Error: In US06 for INDIVIDUAL at Line no: "+
-                            getIndividual(i.wifeId).deathLineNo + "," + i.dateOfDividedLineNo +
-                            "; ID: " + i.wifeId + "; "+ "Date of death: " + getIndividual(i.wifeId).death +
-                            "; " + "Date of Divorce: " + i.dateOfDivided +
-                            "; " + "Death Occurs Before Divorce";
+                if(i.dividedDate!=null&&getIndividual(i.husbandId).deathDate!=null&&getIndividual(i.wifeId).deathDate!=null&&(sprint2.ValidateDivorceBeforeDeath(individuals,i.husbandId, i.dateOfDivided)||sprint2.ValidateDivorceBeforeDeath(individuals,i.wifeId, i.dateOfDivided))) {
+                    errString = "Error: In US06 for Family " +i.id+"; at Line no: " +
+                            i.idLineNo + "," + i.dateOfDividedLineNo +
+                            "; Husband ID: " + i.husbandId + "; Wife ID: " + i.wifeId + "; Date of Husband Death: " + getIndividual(i.husbandId).death +
+                            "; Date of Wife Death: "+getIndividual(i.wifeId).death + "; Date of Divorce: " + i.dateOfDivided +
+                            "; " + "Divorce Occurs After Death of either of spouses";
                     sprint2.errorAnomalyData.add(errString);
                 }
                 //us-06 changes ends @pp
 
-                //US-08 changes starts @KP
+                //US-08, US16 changes starts @KP
                 if(i.child != null) {
                     sprint2.US08_birthBeforeMarriageOfParents(i, individuals);
+                    sprint2.US16_maleLastName(i, individuals);
                 }
-                //US-08 changes ends @KP
+
+                //US-08,US16 changes ends @KP
+                
+                //us-10 changes starts @AS
+                if(i.marrriedDate!=null&&getIndividual(i.husbandId).dobDate!=null&sprint2.compareMarrigeandBirth(i.dateOfMarried,getIndividual(i.husbandId).dateOfBirth)){
+                    errString = "Error: In US10 for INDIVIDUAL at Line no: "+
+                            getIndividual(i.husbandId).dobLineNo + "," + i.dateOfMarriedidLineNo +
+                            "; ID: " + i.husbandId + "; "+ "Date of Birth: " + getIndividual(i.husbandId).dateOfBirth +
+                            "; " + "Date of Marriage: " + i.dateOfMarried +
+                            "; " + "Marrige date is less than 14 years of birth date";
+                    sprint2.errorAnomalyData.add(errString);
+                }
+                if(i.marrriedDate!=null&&getIndividual(i.wifeId).dobDate!=null&&sprint2.compareMarrigeandBirth(i.dateOfMarried,getIndividual(i.wifeId).dateOfBirth)){
+                    errString = "Error: In US10 for INDIVIDUAL at Line no: "+
+                            getIndividual(i.wifeId).dobLineNo + "," + i.dateOfMarriedidLineNo
+                            +"; ID: " + i.wifeId + "; "+ "Date of Birth: " + getIndividual(i.wifeId).dateOfBirth +
+                            "; " + "Date of Marriage: " + i.dateOfMarried +
+                            "; " + "Marrige date is less than 14 years of birth date";
+                    sprint2.errorAnomalyData.add(errString);
+                }
+                //us-10 changes ends @AS
+                
+                // US15 changes starts @AS
+                if(sprint2.NoOfSiblings(families, i.wifeId,i.husbandId)) {
+                    errString = "Error: In US15 for Family at Line no: " +
+                            i.idLineNo
+                            + "; ID: " + i.id +
+                            "; " + "All children of this Family have siblings greater than or equal to 15";
+                    sprint2.errorAnomalyData.add(errString);
+                }
+                //US15 ends @AS
             }
 
             fileOut.println("Families");
@@ -906,7 +918,8 @@ public class GedcomReadParse {
             fileOut.println();
             System.out.println();
 
-            sprint2.sprint2Output(fileOut);
+            // sprint2.sprint2Output(fileOut);
+
             sprint2.checkUniqueDateOfBirthAndName(individuals);
             sprint2.sprint2ErrorOutput(fileOut);
             //us-23 sprint2 changes ends @sr

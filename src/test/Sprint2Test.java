@@ -3,6 +3,9 @@ package test;
 import main.*;
 import org.junit.Test;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,10 +17,10 @@ public class Sprint2Test {
 
     @Test
     public void US08_birthBeforeMarriageOfParents() throws Exception {
-        Date date1 = new Date("13 FEB 2021");
-        Date date2 = new Date("13 DEC 2021");
-        assertEquals(10, sprint2.monthDiffBetweenTwoDate(date1, date2));
-        assertNotEquals(150, g1.differenceBetweenTwoAge(date1, date2));
+        Date date1 = new Date("5 FEB 2021");
+        Date date2 = new Date("5 DEC 2021");
+        assertEquals(0, sprint2.monthDiffBetweenTwoDate(date1, date2));
+        assertEquals(10, sprint2.monthDiffBetweenTwoDate(date2, date1));
     }
 
     @Test
@@ -29,7 +32,7 @@ public class Sprint2Test {
         formatName = I1.name.split("/");
         assertEquals(formatName[1], "Parthasarathy");
     }
-
+    
     @Test
     public void US05_BirthBeforeDeath(){
         Individual I1 = new Individual();
@@ -70,4 +73,59 @@ public class Sprint2Test {
         assertEquals(true, sprint2.ValidateDivorceBeforeDeath(g1.individuals,f.wifeId, f.dateOfDivided));
     }
 
+    @Test
+    public void US23_uniqueNameDOB(){
+        GedcomReadParse g1 = new GedcomReadParse();
+        GedcomReadParse g2 = new GedcomReadParse();
+        Sprint2 s2 = new Sprint2();
+        Individual I1 = new Individual();
+        I1.dateOfBirth="2022-08-07";
+        I1.name="MICHAEL /SMITH/";
+        Individual I2 = new Individual();
+        I2.dateOfBirth="2022-08-07";
+        I2.name="MICHAEL /SMITH/";
+        g1.individuals.add(I1);
+        g1.individuals.add(I2);
+        assertEquals(false,s2.checkUniqueDateOfBirthAndName(g1.individuals));
+        I1.dateOfBirth="2022-09-07";
+        I1.name="TOM /SMITH/";
+        I2.dateOfBirth="2022-08-07";
+        I2.name="MICHAEL /SMITH/";
+        g2.individuals.add(I1);
+        g2.individuals.add(I2);
+        assertEquals(true,s2.checkUniqueDateOfBirthAndName(g2.individuals));
+
+    }
+
+    @Test
+    public void US42_checkillegitimateDate() throws ParseException {
+        DateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+        Sprint2 s2 = new Sprint2();
+        Individual I1 = new Individual();
+        I1.dateOfBirth="2022-08-50";
+        I1.dobDate=null;
+        assertEquals(false,s2.checkIllegitimateDate(I1,"BIRT",null));
+        Individual I2 = new Individual();
+        I2.dateOfBirth="2021-08-07";
+        I2.dobDate = formatter.parse(I2.dateOfBirth);
+        assertEquals(true,s2.checkIllegitimateDate(I2,"BIRT",null));
+    }
+
+   @Test 
+   public void US10_MarriageAfterBirth(){
+       Individual I1 = new Individual();
+       I1.id = "I12";
+       Individual I2 = new Individual();
+       I2.id="I13";
+       I1.dateOfBirth = "2010-09-17";
+       I2.dateOfBirth = "1987-10-15";
+       g1.individuals.add(I1);
+       g1.individuals.add(I2);
+       f.husbandId = "I12";
+       f.wifeId = "I13";
+       f.dateOfMarried = "2012-10-14";
+       g1.families.add(f);
+       assertEquals(true, sprint2.compareMarrigeandBirth(f.dateOfMarried, I1.dateOfBirth));
+       assertEquals(false, sprint2.compareMarrigeandBirth(f.dateOfMarried, I2.dateOfBirth));
+   }
 }
