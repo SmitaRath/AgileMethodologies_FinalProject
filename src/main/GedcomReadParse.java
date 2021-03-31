@@ -810,39 +810,23 @@ public class GedcomReadParse {
                 //us-02 changes ends @pp
 
                 //us-05 changes starts @pp
-                if(i.marrriedDate!=null&&getIndividual(i.husbandId).deathDate!=null&&sprint2.ValidateMarriageBeforeDeath(individuals,i.husbandId, i.dateOfMarried)){
-                    errString = "Error: In US05 for INDIVIDUAL at Line no: "+
-                            getIndividual(i.husbandId).deathLineNo + "," + i.dateOfMarriedidLineNo +
-                            "; ID: " + i.husbandId + "; "+ "Date of death: " + getIndividual(i.husbandId).death +
-                            "; " + "Date of Marriage: " + i.dateOfMarried +
-                            "; " + "Death Occurs Before Marriage";
-                    sprint2.errorAnomalyData.add(errString);
-                }
-                if(i.marrriedDate!=null&&getIndividual(i.wifeId).deathDate!=null&&sprint2.ValidateMarriageBeforeDeath(individuals,i.wifeId, i.dateOfMarried)){
-                    errString = "Error: In US05 for INDIVIDUAL at Line no: "+
-                            getIndividual(i.wifeId).deathLineNo + "," + i.dateOfMarriedidLineNo +
-                            "; ID: " + i.wifeId + "; "+ "Date of death: " + getIndividual(i.wifeId).death +
-                            "; " + "Date of Marriage: " + i.dateOfMarried +
-                            "; " + "Death Occurs Before Marriage";
+                if(i.marrriedDate!=null&&getIndividual(i.husbandId).deathDate!=null&&getIndividual(i.wifeId).deathDate!=null&&(sprint2.ValidateMarriageBeforeDeath(individuals,i.husbandId, i.dateOfMarried)&&sprint2.ValidateMarriageBeforeDeath(individuals,i.wifeId, i.dateOfMarried))){
+                    errString = "Error: In US05 for Family"+i.id+ "; at Line no: "+
+                            i.idLineNo + "," + i.dateOfMarriedidLineNo +
+                            "; Husband ID: " + i.husbandId + "; Wife ID: "+i.wifeId + "; Date of Husband death: " + getIndividual(i.husbandId).death +
+                            "; Date of Wife Death: " + getIndividual(i.wifeId).death + "; Date of Marriage: " + i.dateOfMarried +
+                            "; " + "Marriage Occurs After Death of both spouses";
                     sprint2.errorAnomalyData.add(errString);
                 }
                 //us-05 changes ends @pp
 
                 //us-06 changes starts @pp
-                if(i.dividedDate!=null&&getIndividual(i.husbandId).deathDate!=null&&sprint2.ValidateDivorceBeforeDeath(individuals,i.husbandId, i.dateOfDivided)){
-                    errString = "Error: In US06 for INDIVIDUAL at Line no: "+
-                            getIndividual(i.husbandId).deathLineNo + "," + i.dateOfDividedLineNo +
-                            "; ID: " + i.husbandId + "; "+ "Date of death: " + getIndividual(i.husbandId).death +
-                            "; " + "Date of Divorce: " + i.dateOfDivided +
-                            "; " + "Death Occurs Before Divorce";
-                    sprint2.errorAnomalyData.add(errString);
-                }
-                if(i.dividedDate!=null&&getIndividual(i.wifeId).deathDate!=null&&sprint2.ValidateDivorceBeforeDeath(individuals,i.wifeId, i.dateOfDivided)){
-                    errString = "Error: In US06 for INDIVIDUAL at Line no: "+
-                            getIndividual(i.wifeId).deathLineNo + "," + i.dateOfDividedLineNo +
-                            "; ID: " + i.wifeId + "; "+ "Date of death: " + getIndividual(i.wifeId).death +
-                            "; " + "Date of Divorce: " + i.dateOfDivided +
-                            "; " + "Death Occurs Before Divorce";
+                if(i.dividedDate!=null&&getIndividual(i.husbandId).deathDate!=null&&getIndividual(i.wifeId).deathDate!=null&&(sprint2.ValidateDivorceBeforeDeath(individuals,i.husbandId, i.dateOfDivided)||sprint2.ValidateDivorceBeforeDeath(individuals,i.wifeId, i.dateOfDivided))) {
+                    errString = "Error: In US06 for Family " +i.id+"; at Line no: " +
+                            i.idLineNo + "," + i.dateOfDividedLineNo +
+                            "; Husband ID: " + i.husbandId + "; Wife ID: " + i.wifeId + "; Date of Husband Death: " + getIndividual(i.husbandId).death +
+                            "; Date of Wife Death: "+getIndividual(i.wifeId).death + "; Date of Divorce: " + i.dateOfDivided +
+                            "; " + "Divorce Occurs After Death of either of spouses";
                     sprint2.errorAnomalyData.add(errString);
                 }
                 //us-06 changes ends @pp
