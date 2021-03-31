@@ -229,7 +229,7 @@ public class Sprint2 {
             ind1=individuals.get(i);
             for(int k=i+1;k<individuals.size();k++){
                 ind2=individuals.get(k);
-                if(ind1.name.equals(ind2.name)){
+                if(ind1.name.toUpperCase().equals(ind2.name.toUpperCase())){
                     outerNameFlagNotUnique=true;
                     errString = "Error: In US23 for INDIVIDUAL at "
                             + " Line no: " + ind2.nameLineNo
