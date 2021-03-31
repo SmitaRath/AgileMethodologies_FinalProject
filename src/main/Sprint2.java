@@ -44,7 +44,7 @@ public class Sprint2 {
             String lastName = null;
             String[] formatName;
             formatName =  family.husbandName.split("/");
-            if(formatName.length > 2) {
+            if(formatName.length > 1) {
                 lastName = formatName[1].trim();
             }
 
