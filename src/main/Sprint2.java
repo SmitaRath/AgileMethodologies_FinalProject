@@ -49,8 +49,8 @@ public class Sprint2 {
             }
 
             if (lastName != null) {
-                Individual individualData = null;
                 for(String child: family.child) {
+                    Individual individualData = null;
                     for (Individual ind : individuals) {
                         if (ind.id.equals(child) && ind.gender.toLowerCase().equals("m")) {
                             individualData = ind;
