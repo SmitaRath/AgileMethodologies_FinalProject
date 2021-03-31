@@ -856,6 +856,25 @@ public class GedcomReadParse {
                     sprint2.US08_birthBeforeMarriageOfParents(i, individuals);
                 }
                 //US-08 changes ends @KP
+                
+                //us-09 changes starts @AS
+                if(i.marrriedDate!=null&&getIndividual(i.husbandId).dobDate!=null&sprint2.compareMarrigeandBirth(i.dateOfMarried,getIndividual(i.husbandId).dateOfBirth)){
+                    errString = "Error: In US09 for INDIVIDUAL at Line no: "+
+                                getIndividual(i.husbandId).dobLineNo + "," + i.dateOfMarriedidLineNo +
+                                "; ID: " + i.husbandId + "; "+ "Date of Birth: " + getIndividual(i.husbandId).dateOfBirth +
+                                "; " + "Date of Marriage: " + i.dateOfMarried +
+                                "; " + "Marrige date is less than 14 years of birth date";
+                    sprint2.errorAnomalyData.add(errString);
+                }
+                if(i.marrriedDate!=null&&getIndividual(i.wifeId).dobDate!=null&&sprint2.compareMarrigeandBirth(i.dateOfMarried,getIndividual(i.wifeId).dateOfBirth)){
+                    errString = "Error: In US09 for INDIVIDUAL at Line no: "+
+                                getIndividual(i.wifeId).dobLineNo + "," + i.dateOfMarriedidLineNo
+                                +"; ID: " + i.wifeId + "; "+ "Date of Birth: " + getIndividual(i.wifeId).dateOfBirth +
+                                "; " + "Date of Marriage: " + i.dateOfMarried +
+                                "; " + "Marrige date is less than 14 years of birth date";
+                    sprint2.errorAnomalyData.add(errString);
+                }
+                //us-09 changes ends @AS
             }
 
             fileOut.println("Families");
