@@ -26,7 +26,6 @@ public class GedcomReadParseTest {
         t1=new Date("13 MAR 2022");
         assertEquals(false,g1.validateDate(t1,"2022-03-13"));
         assertEquals(true,g1.validateDate(t1,"NA"));
-        assertEquals(true,g1.validateDate(t1,"INVALID DATE"));
 
     }
 
