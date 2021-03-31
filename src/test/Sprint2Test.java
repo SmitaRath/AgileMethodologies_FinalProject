@@ -111,4 +111,21 @@ public class Sprint2Test {
         assertEquals(true,s2.checkIllegitimateDate(I2,"BIRT",null));
     }
 
+   @Test US 09 AS
+   public void US09_MarriageAfterBirth(){
+       Individual I1 = new Individual();
+       I1.id = "I12";
+       Individual I2 = new Individual();
+       I2.id="I13";
+       I1.dateOfBirth = "2010-09-17";
+       I2.dateOfBirth = "1987-10-15";
+       g1.individuals.add(I1);
+       g1.individuals.add(I2);
+       f.husbandId = "I12";
+       f.wifeId = "I13";
+       f.dateOfMarried = "2012-10-14";
+       g1.families.add(f);
+       assertEquals(true, sprint2.compareMarrigeandBirth(f.dateOfMarried, I1.dateOfBirth));
+       assertEquals(false, sprint2.compareMarrigeandBirth(f.dateOfMarried, I2.dateOfBirth));
+   }
 }
