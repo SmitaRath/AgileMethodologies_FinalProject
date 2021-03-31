@@ -278,14 +278,21 @@ public class Sprint2 {
         String fullnameOuter="";
         String fullnameInner="";
         for(int i=0;i<individuals.size();i++){
+            fullnameOuter="";
             ind1=individuals.get(i);
             name = ind1.name.split("/");
-            fullnameOuter=name[0].toUpperCase().trim()+name[1].toUpperCase().trim();
+            for(int index=0;index<name.length;index++) {
+                fullnameOuter = fullnameOuter + name[index].toUpperCase().trim();
+            }
             for(int k=i+1;k<individuals.size();k++){
+                fullnameInner="";
                 ind2=individuals.get(k);
                 name = ind2.name.split("/");
-                fullnameInner=name[0].toUpperCase().trim()+name[1].toUpperCase().trim();
-                if(fullnameOuter.equals(fullnameInner)){
+                for(int innerIndex=0;innerIndex<name.length;innerIndex++){
+                    fullnameInner=fullnameInner+name[innerIndex].toUpperCase().trim();
+                }
+
+                if(fullnameOuter.equals(fullnameInner) && !fullnameOuter.equals("NA")){
                     outerNameFlagNotUnique=true;
                     errString = "Error: In US23 for INDIVIDUAL at "
                             + " Line no: " + ind2.nameLineNo
