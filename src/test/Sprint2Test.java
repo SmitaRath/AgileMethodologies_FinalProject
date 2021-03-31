@@ -17,10 +17,10 @@ public class Sprint2Test {
 
     @Test
     public void US08_birthBeforeMarriageOfParents() throws Exception {
-        Date date1 = new Date("13 FEB 2021");
-        Date date2 = new Date("13 DEC 2021");
-        assertEquals(10, sprint2.monthDiffBetweenTwoDate(date1, date2));
-        assertNotEquals(150, g1.differenceBetweenTwoAge(date1, date2));
+        Date date1 = new Date("5 FEB 2021");
+        Date date2 = new Date("5 DEC 2021");
+        assertEquals(0, sprint2.monthDiffBetweenTwoDate(date1, date2));
+        assertEquals(10, sprint2.monthDiffBetweenTwoDate(date2, date1));
     }
 
     @Test

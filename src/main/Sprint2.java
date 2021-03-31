@@ -25,44 +25,93 @@ public class Sprint2 {
         ZonedDateTime zoneDeathDate = instantDivDate.atZone(ZoneId.systemDefault());
         LocalDate givenDobDate = zoneDob.toLocalDate();
         LocalDate givenDeathDate = zoneDeathDate.toLocalDate();
-        Period period = Period.between(givenDobDate, givenDeathDate);
-        if (period.getYears() > 1 || period.getYears() <= 0)      // If more than year, then it's more than 9 months; sending random no greater than 9
+        Period period = Period.between(givenDeathDate, givenDobDate);
+        if (period.getYears() > 0)   // If more than year, then it's more than 9 months; sending random no greater than 9
             return 100;
 
-        return period.getMonths();
+        if (period.getYears() == 0) {
+            if (period.getMonths() >= 0) {
+                return period.getMonths();
+            }
+        }
+
+        return 0;
     }
     // us-08 changes ends @KP
 
-    public  void US16_maleLastName(Individual i) {
-        if (i.name != null) {
+    public  void US16_maleLastName(Family family, ArrayList<Individual> individuals) {
+        if (family.husbandName != null) {
             String lastName = null;
             String[] formatName;
-            formatName = i.name.split("/");
+            formatName =  family.husbandName.split("/");
             if(formatName[1] != null) {
                 lastName = formatName[1].trim();
             }
 
             if (lastName != null) {
-                if (familyLastName.get(i.spouse) == null) {
-                    familyLastName.put(i.spouse, lastName);
-                    message = "ID: " + i.id + " GENDER: " + i.gender + " Last NAME: " + lastName;
-                    successAnomalyDataUS16.add(message);
-                } else {
-                    if (familyLastName.get(i.spouse).toLowerCase().equals(lastName.toLowerCase())) {
-                        message = "ID: " + i.id + " GENDER: " + i.gender + " Last NAME: " + lastName;
-                        successAnomalyDataUS16.add(message);
-                    } else {
-                        message = "Error: In US16 for INDIVIDUAL at Line no: " + i.nameLineNo + "; ID: "
-                                + i.id + "; Individual Name: " + i.name + " ; Family ID: " + i.spouse + " ; Family Name: " + familyLastName.get(i.spouse) +
-                                "; Family last name should be same for all males in family.";
-                        errorAnomalyDataUS16.add(message);
+                Individual individualData = null;
+                for(String child: family.child) {
+                    for (Individual ind : individuals) {
+                        if (ind.id.equals(child) && ind.gender.toLowerCase().equals("m")) {
+                            individualData = ind;
+                            break;
+                        }
+                    }
+                    if(individualData != null ) {
+                        String[] individualName;
+                        String individualLastName = null;
+                        individualName =  individualData.name.split("/");
+                        if(individualName[1] != null) {
+                            individualLastName = individualName[1].trim();
+                        }
+
+                        if(lastName.toLowerCase().equals(individualLastName.toLowerCase())) {
+                            message = "ID: " + individualData.id + " GENDER: " + individualData.gender + " Last NAME: " + individualLastName;
+                            successAnomalyDataUS16.add(message);
+                        } else {
+                            message = "Error: In US16 for INDIVIDUAL at Line no: " + individualData.nameLineNo + "; ID: "
+                                    + individualData.id + "; Individual Name: " + individualData.name + " ; Family ID: " + individualData.spouse + " ; Family Name: " + lastName +
+                                    "; Family last name should be same for all males in family.";
+                            errorAnomalyDataUS16.add(message);
+
+                        }
                     }
                 }
             } else {
-                message = "Error: In US16 for INDIVIDUAL at Line no: " + i.nameLineNo + "; ID: "
-                        + i.id + " Individual Name: " + i.name +
+                message = "Error: In US16 for INDIVIDUAL at Line no: " + family.husbandidLineNo + "; ID: "
+                        + family.husbandId + " Individual Name: " + family.husbandName +
                         "; Family last name should be present for all males in family.";
                 errorAnomalyDataUS16.add(message);
+            }
+        }
+    }
+
+    public  void US08_birthBeforeMarriageOfParents(Family family, ArrayList<Individual> individuals) {
+        Individual individualData = null;
+        for(String child: family.child) {
+            for(Individual ind: individuals) {
+                if(ind.id.equals(child)) {
+                    individualData = ind;
+                    break;
+                }
+            }
+
+            if (individualData != null && individualData.dobDate != null && family.marrriedDate != null) {
+                if(individualData.dobDate.compareTo(family.marrriedDate) <= 0) {
+                    message = "Error: In US08 for INDIVIDUAL at Line no: " + individualData.dobLineNo + "; ID: "
+                            + individualData.id + "; Individual Name: " + individualData.name + "; Birth date: " + individualData.dateOfBirth + " ; Family ID: " + family.id + " ; Parents Married Date: " + family.dateOfMarried +
+                            "; Line no:" + family.dateOfMarriedidLineNo + "; Children should be born after marriage of parents.";
+                    errorAnomalyData.add(message);
+                }
+            }
+
+            if (family.dividedDate !=  null) {
+                if (monthDiffBetweenTwoDate(individualData.dobDate ,family.dividedDate) >= 9) {
+                    message = "Error: In US08 for INDIVIDUAL at Line no: " + individualData.dobLineNo + "; ID: "
+                            + individualData.id + "; Individual Name: " + individualData.name + "; Birth date: " + individualData.dateOfBirth + " ; Family ID: " + family.id + " ; Parents Divorced Date: " + family.dateOfDivided +
+                            "; Line no:" + family.dateOfDividedLineNo + "; Children should be born, not more than 9 months of their divorce";
+                    errorAnomalyData.add(message);
+                }
             }
         }
     }
@@ -339,36 +388,7 @@ public class Sprint2 {
 
 
 
-    public  void US08_birthBeforeMarriageOfParents(Family family, ArrayList<Individual> individuals) {
-        Individual individualData = null;
-        for(String child: family.child) {
-            for(Individual ind: individuals) {
-                if(ind.id.equals(child)) {
-                    individualData = ind;
-                    break;
-                }
-            }
 
-            if (individualData != null && individualData.dobDate != null && family.marrriedDate != null) {
-                if(individualData.dobDate.compareTo(family.marrriedDate) <= 0) {
-                    message = "Error: In US08 for INDIVIDUAL at Line no: " + individualData.dobLineNo + "; ID: "
-                            + individualData.id + "; Individual Name: " + individualData.name + "; Birth date: " + individualData.dateOfBirth + " ; Family ID: " + family.id + " ; Parents Married Date: " + family.dateOfMarried +
-                            "; Line no:" + family.dateOfMarriedidLineNo + "; Children should be born after marriage of parents.";
-                    errorAnomalyData.add(message);
-                }
-            }
-
-            if (family.dividedDate !=  null) {
-               if (monthDiffBetweenTwoDate(individualData.dobDate ,family.dividedDate) > 9) {
-                   message = "Error: In US08 for INDIVIDUAL at Line no: " + individualData.dobLineNo + "; ID: "
-                           + individualData.id + "; Individual Name: " + individualData.name + "; Birth date: " + individualData.dateOfBirth + " ; Family ID: " + family.id + " ; Parents Divorced Date: " + family.dateOfDivided +
-                           "; Line no:" + family.dateOfDividedLineNo + "; Children should be born, not more than 9 months of their divorce";
-                   errorAnomalyData.add(message);
-               }
-            }
-        }
-    }
-    
     //us09 changes starts @AS
     public boolean compareMarrigeandBirth(String marriagedate, String birthDate ){
     String marriageYear="";
