@@ -873,6 +873,16 @@ public class GedcomReadParse {
                     sprint2.errorAnomalyData.add(errString);
                 }
                 //us-09 changes ends @AS
+                
+                // US15 changes starts @AS
+                if(sprint2.NoOfSiblings(families, i.wifeId,i.husbandId)) {
+                    errString = "Error: In US15 for Family at Line no: " +
+                            getIndividual(i.wifeId).childLineNo
+                            + "; ID: " + i.id +
+                            "; " + "All children of this Family have siblings greater than or equal to 15";
+                    sprint2.errorAnomalyData.add(errString);
+                }
+                //US15 ends @AS
             }
 
             fileOut.println("Families");
