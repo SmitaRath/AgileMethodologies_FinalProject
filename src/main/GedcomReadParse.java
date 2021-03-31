@@ -394,6 +394,7 @@ public class GedcomReadParse {
                     splitString=line.split(" ");
                     if (splitString.length>2 && splitString[1].equals("NAME") && splitString[0].equals("1"))
                         ind.name = line.substring(line.indexOf(" ", line.indexOf(" ") + 1) + 1, line.length());
+                        ind.name=ind.name.trim(); //fix for us23
                     counter++;
                     ind.nameLineNo=counter;
 

@@ -12,7 +12,7 @@ public class Individual{
     int genderLineNo;
     public String dateOfBirth;
     int dobLineNo;
-    Date dobDate;
+    public Date dobDate;
     int age;
     public boolean alive=true;
     public String death;

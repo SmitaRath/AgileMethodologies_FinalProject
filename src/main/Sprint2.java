@@ -218,17 +218,18 @@ public class Sprint2 {
     //US06 changes ends @pp
 
     //us-23 changes method to check individual and date of birth is unique or not starts @sr
-    public void checkUniqueDateOfBirthAndName(ArrayList<Individual> individuals){
+    public boolean checkUniqueDateOfBirthAndName(ArrayList<Individual> individuals){
         String errString="";
         Individual ind1;
         Individual ind2;
         boolean outerNameFlagNotUnique=false;
         boolean outerDOBFlagNotUnique=false;
+        int prevSize=errorAnomalyData.size();
         for(int i=0;i<individuals.size();i++){
             ind1=individuals.get(i);
             for(int k=i+1;k<individuals.size();k++){
                 ind2=individuals.get(k);
-                if(ind1.name.equals(ind2.name)){
+                if(ind1.name.toUpperCase().equals(ind2.name.toUpperCase())){
                     outerNameFlagNotUnique=true;
                     errString = "Error: In US23 for INDIVIDUAL at "
                             + " Line no: " + ind2.nameLineNo
@@ -268,12 +269,17 @@ public class Sprint2 {
                 errorAnomalyData.add(errString);
             }
         }
+        if(prevSize!=errorAnomalyData.size())
+            return false;
+        else
+            return true;
     }
     //us-42 changes method to check individual and date of birth is unique or not ends @sr
 
    //us-42 changes method to Reject illegitimate dates starts @sr
-    public void checkIllegitimateDate(Individual ind,String flag,Family family){
+    public boolean checkIllegitimateDate(Individual ind,String flag,Family family){
         String errString="";
+        int prevSize=errorAnomalyData.size();
         switch(flag) {
             case "BIRT": {
                 if (ind.dobDate == null) {
@@ -324,6 +330,10 @@ public class Sprint2 {
             break;
         }
 
+        if(prevSize!=errorAnomalyData.size())
+            return false;
+        else
+            return true;
     }
     //us-42 changes method to Reject illegitimate dates ends @sr
 
