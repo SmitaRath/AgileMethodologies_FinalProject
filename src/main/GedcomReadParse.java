@@ -702,11 +702,7 @@ public class GedcomReadParse {
                 }
                 // US-03 changes ends @AS
 
-                // US-16 Change starts @KP
-                if(i.gender.toLowerCase().equals("m")) {
-                    sprint2.US16_maleLastName(i);
-                }
-                // US-16 Change ends @KP
+
             }
 
             fileOut.println("Individuals");
@@ -851,11 +847,13 @@ public class GedcomReadParse {
                 }
                 //us-06 changes ends @pp
 
-                //US-08 changes starts @KP
+                //US-08, US16 changes starts @KP
                 if(i.child != null) {
                     sprint2.US08_birthBeforeMarriageOfParents(i, individuals);
+                    sprint2.US16_maleLastName(i, individuals);
                 }
-                //US-08 changes ends @KP
+
+                //US-08,US16 changes ends @KP
                 
                 //us-09 changes starts @AS
                 if(i.marrriedDate!=null&&getIndividual(i.husbandId).dobDate!=null&sprint2.compareMarrigeandBirth(i.dateOfMarried,getIndividual(i.husbandId).dateOfBirth)){
@@ -867,7 +865,7 @@ public class GedcomReadParse {
                     sprint2.errorAnomalyData.add(errString);
                 }
                 if(i.marrriedDate!=null&&getIndividual(i.wifeId).dobDate!=null&&sprint2.compareMarrigeandBirth(i.dateOfMarried,getIndividual(i.wifeId).dateOfBirth)){
-                    errString = "Error: In US09 for INDIVIDUAL at Line no: "+
+                    errString = "Error: In US16_maleLastName for INDIVIDUAL at Line no: "+
                                 getIndividual(i.wifeId).dobLineNo + "," + i.dateOfMarriedidLineNo
                                 +"; ID: " + i.wifeId + "; "+ "Date of Birth: " + getIndividual(i.wifeId).dateOfBirth +
                                 "; " + "Date of Marriage: " + i.dateOfMarried +
