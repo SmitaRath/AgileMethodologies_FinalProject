@@ -19,8 +19,6 @@ public class Sprint2 {
     // us-08 changes starts @KP
     // calculates months between two dates
     public int monthDiffBetweenTwoDate(Date dob, Date divDate) {
-        System.out.println("Date: " + dob  );
-        System.out.println("Date: " + divDate );
         Instant instantDob = dob.toInstant();
         Instant instantDivDate = divDate.toInstant();
         ZonedDateTime zoneDob = instantDob.atZone(ZoneId.systemDefault());
@@ -28,8 +26,7 @@ public class Sprint2 {
         LocalDate givenDobDate = zoneDob.toLocalDate();
         LocalDate givenDeathDate = zoneDeathDate.toLocalDate();
         Period period = Period.between(givenDobDate, givenDeathDate);
-        System.out.println("Date: " + period.getYears()  + period.getMonths());
-        if (period.getYears() > 1 || period.getYears() < 0)      // If more than year, then it's more than 9 months; sending random no greater than 9
+        if (period.getYears() > 1 || period.getYears() <= 0)      // If more than year, then it's more than 9 months; sending random no greater than 9
             return 100;
 
         return period.getMonths();
