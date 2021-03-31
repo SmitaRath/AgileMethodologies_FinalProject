@@ -167,7 +167,7 @@ public class Sprint2 {
         }
         return true;
     }
-    
+
     public boolean ValidateMarriageBeforeDeath(ArrayList<Individual> individuals, String id, String marriagedate){
         String deathYear="";
         String deathMonth="";
@@ -198,7 +198,7 @@ public class Sprint2 {
         return false;
     }
     //US05 changes ends @pp
-    
+
     //US06 changes starts @pp
     public boolean compareDeathWithDivorce(String divorcedate, int year, int month, int day){
         String divorceYear="";
@@ -344,7 +344,7 @@ public class Sprint2 {
     }
     //us-23 changes method to check individual and date of birth is unique or not ends @sr
 
-   //us-42 changes method to Reject illegitimate dates starts @sr
+    //us-42 changes method to Reject illegitimate dates starts @sr
     public boolean checkIllegitimateDate(Individual ind,String flag,Family family){
         String errString="";
         int prevSize=errorAnomalyData.size();
@@ -452,7 +452,7 @@ public class Sprint2 {
                     return true;
                 }
                 if(mmonth==bmonth){
-                    if(mday<=bday){
+                    if(mday<bday){
                         return true;
                     }
                 }
@@ -462,7 +462,7 @@ public class Sprint2 {
         return false;
     }
     //us10 changes ends @AS
-    
+
     //us15 changes starts @AS
     public boolean NoOfSiblings(ArrayList<Family> families,String WifeId, String HusbandId){
         Family f1;
