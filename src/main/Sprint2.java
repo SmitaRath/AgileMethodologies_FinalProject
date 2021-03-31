@@ -274,11 +274,18 @@ public class Sprint2 {
         boolean outerNameFlagNotUnique=false;
         boolean outerDOBFlagNotUnique=false;
         int prevSize=errorAnomalyData.size();
+        String[] name;
+        String fullnameOuter="";
+        String fullnameInner="";
         for(int i=0;i<individuals.size();i++){
             ind1=individuals.get(i);
+            name = ind1.name.split("/");
+            fullnameOuter=name[0].toUpperCase()+name[1].toUpperCase();
             for(int k=i+1;k<individuals.size();k++){
                 ind2=individuals.get(k);
-                if(ind1.name.toUpperCase().equals(ind2.name.toUpperCase())){
+                name = ind2.name.split("/");
+                fullnameInner=name[0].toUpperCase()+name[1].toUpperCase();
+                if(fullnameOuter.equals(fullnameInner)){
                     outerNameFlagNotUnique=true;
                     errString = "Error: In US23 for INDIVIDUAL at "
                             + " Line no: " + ind2.nameLineNo
@@ -298,6 +305,7 @@ public class Sprint2 {
                     errorAnomalyData.add(errString);
                 }
             }
+
             if(outerNameFlagNotUnique){
                 outerNameFlagNotUnique=false;
                 errString = "Error: In US23 for INDIVIDUAL at "
