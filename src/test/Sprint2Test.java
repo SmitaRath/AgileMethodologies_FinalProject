@@ -128,4 +128,18 @@ public class Sprint2Test {
        assertEquals(true, sprint2.compareMarrigeandBirth(f.dateOfMarried, I1.dateOfBirth));
        assertEquals(false, sprint2.compareMarrigeandBirth(f.dateOfMarried, I2.dateOfBirth));
    }
+
+   @Test
+    public void US15(){
+       Individual I1 = new Individual();
+       Individual I2 = new Individual();
+       I1.id = "I12";
+       I2.id = "I13";
+       g1.individuals.add(I1);
+       g1.individuals.add(I2);
+       f.husbandId = "I12";
+       f.wifeId = "I13";
+       g1.families.add(f);
+       assertEquals(false, sprint2.NoOfSiblings(g1.families, f.wifeId,f.husbandId));
+   }
 }

@@ -44,7 +44,7 @@ public class Sprint2 {
             String lastName = null;
             String[] formatName;
             formatName =  family.husbandName.split("/");
-            if(formatName[1] != null) {
+            if(formatName.length > 1) {
                 lastName = formatName[1].trim();
             }
 
@@ -167,7 +167,7 @@ public class Sprint2 {
         }
         return true;
     }
-    
+
     public boolean ValidateMarriageBeforeDeath(ArrayList<Individual> individuals, String id, String marriagedate){
         String deathYear="";
         String deathMonth="";
@@ -198,7 +198,7 @@ public class Sprint2 {
         return false;
     }
     //US05 changes ends @pp
-    
+
     //US06 changes starts @pp
     public boolean compareDeathWithDivorce(String divorcedate, int year, int month, int day){
         String divorceYear="";
@@ -278,14 +278,25 @@ public class Sprint2 {
         String fullnameOuter="";
         String fullnameInner="";
         for(int i=0;i<individuals.size();i++){
+            fullnameOuter="";
             ind1=individuals.get(i);
-            name = ind1.name.split("/");
-            fullnameOuter=name[0].toUpperCase()+name[1].toUpperCase();
+            name = ind1.name.split(" ");
+            for(int index=0;index<name.length;index++) {
+                name[index]=name[index].toUpperCase().trim();
+                name[index]=name[index].replaceAll("/","");
+                fullnameOuter = fullnameOuter + name[index];
+            }
             for(int k=i+1;k<individuals.size();k++){
+                fullnameInner="";
                 ind2=individuals.get(k);
-                name = ind2.name.split("/");
-                fullnameInner=name[0].toUpperCase()+name[1].toUpperCase();
-                if(fullnameOuter.equals(fullnameInner)){
+                name = ind2.name.split(" ");
+                for(int innerIndex=0;innerIndex<name.length;innerIndex++){
+                    name[innerIndex]=name[innerIndex].toUpperCase().trim();
+                    name[innerIndex]=name[innerIndex].replaceAll("/","");
+                    fullnameInner=fullnameInner+name[innerIndex];
+                }
+
+                if(fullnameOuter.equals(fullnameInner) && !fullnameOuter.equals("NA")){
                     outerNameFlagNotUnique=true;
                     errString = "Error: In US23 for INDIVIDUAL at "
                             + " Line no: " + ind2.nameLineNo
@@ -333,7 +344,7 @@ public class Sprint2 {
     }
     //us-23 changes method to check individual and date of birth is unique or not ends @sr
 
-   //us-42 changes method to Reject illegitimate dates starts @sr
+    //us-42 changes method to Reject illegitimate dates starts @sr
     public boolean checkIllegitimateDate(Individual ind,String flag,Family family){
         String errString="";
         int prevSize=errorAnomalyData.size();
@@ -441,7 +452,7 @@ public class Sprint2 {
                     return true;
                 }
                 if(mmonth==bmonth){
-                    if(mday<=bday){
+                    if(mday<bday){
                         return true;
                     }
                 }
@@ -451,7 +462,7 @@ public class Sprint2 {
         return false;
     }
     //us10 changes ends @AS
-    
+
     //us15 changes starts @AS
     public boolean NoOfSiblings(ArrayList<Family> families,String WifeId, String HusbandId){
         Family f1;
