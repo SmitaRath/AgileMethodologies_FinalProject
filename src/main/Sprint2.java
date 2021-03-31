@@ -433,6 +433,23 @@ public class Sprint2 {
     return false;
     }
     //us09 changes ends @AS
+    
+    //us15 changes starts @AS
+    public boolean NoOfSiblings(ArrayList<Family> families,String WifeId, String HusbandId){
+        Family f1;
+        Family f2;
+        int i;
+        int ans = 0;
+        for(i=0;i<families.size();i++){
+            if(families.get(i).wifeId.equals(WifeId) || families.get(i).husbandId.equals(HusbandId)){
+                ans = ans + families.get(i).child.size();
+            }
+        }
+        if(ans-1>=15)
+            return true;
+        return false;
+    }
+    //us15 changes ends @AS
 
     public void sprint2Output(PrintStream fileOut) {
 
