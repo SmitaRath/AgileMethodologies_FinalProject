@@ -889,10 +889,16 @@ public class GedcomReadParse {
                 //US15 ends @AS
             }
 
+
+
             fileOut.println("Families");
             fileOut.println(table1.render());
             System.out.println("Families");
             System.out.println(table1.render());
+
+            //US28 CHANGES STARTS @SR
+            sprint3.us28_orderSiblingsByAge(families,individuals);
+            //us28 changes ends @sr
 
             fileOut.println();
             System.out.println();
@@ -952,6 +958,7 @@ public class GedcomReadParse {
             System.out.println();
 
             sprint3.sprint3SuccessOutput(fileOut);
+
 
             fileOut.println();
             System.out.println();

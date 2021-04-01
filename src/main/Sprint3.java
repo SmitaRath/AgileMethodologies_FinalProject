@@ -4,16 +4,14 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
+import java.util.*;
 
 public class Sprint3 {
     ArrayList<String> successAnomalyDataUS38 = new ArrayList<>();
     ArrayList<String> errorAnomalyData = new ArrayList<>();
     String message = "";
     GedcomReadParse gedcomReadParse = new GedcomReadParse();
+    ArrayList<ListSiblings> listSiblings = new ArrayList<>();
 
     // us-08 changes starts @KP
     // calculates months between two dates
@@ -38,9 +36,9 @@ public class Sprint3 {
     }
     // us-08 changes ends @KP
 
-     public Individual getIndividualData(String id, ArrayList<Individual> individuals) {
-        for(Individual ind: individuals){
-            if(ind.id.equals(id))
+    public Individual getIndividualData(String id, ArrayList<Individual> individuals) {
+        for (Individual ind : individuals) {
+            if (ind.id.equals(id))
                 return ind;
         }
         return null;
@@ -69,10 +67,10 @@ public class Sprint3 {
             fatherIndividualData = getIndividualData(family.husbandId, individuals);
         }
 
-        for(String child: family.child) {
+        for (String child : family.child) {
             childIndividualData = getIndividualData(child, individuals);
-            if (childIndividualData != null && childIndividualData.dobDate != null ) {
-                if (motherIndividualData !=null && motherIndividualData.deathDate != null) {
+            if (childIndividualData != null && childIndividualData.dobDate != null) {
+                if (motherIndividualData != null && motherIndividualData.deathDate != null) {
                     if (motherIndividualData.deathDate.compareTo(childIndividualData.dobDate) <= 0) {
                         message = "Error: In US09 for INDIVIDUAL at Line no: " + childIndividualData.dobLineNo + "; ID: "
                                 + childIndividualData.id + "; Individual Name: " + childIndividualData.name + "; Birth date: " + childIndividualData.dateOfBirth + " ; Mother ID: " + motherIndividualData.id + " ; Mother's death date: " + motherIndividualData.death +
@@ -81,7 +79,7 @@ public class Sprint3 {
                     }
                 }
                 if (fatherIndividualData != null && fatherIndividualData.deathDate != null) {
-                     if (monthDiffBetweenTwoDate(fatherIndividualData.deathDate, childIndividualData.dobDate) >= 9) {
+                    if (monthDiffBetweenTwoDate(fatherIndividualData.deathDate, childIndividualData.dobDate) >= 9) {
                         message = "Error: In US09 for INDIVIDUAL at Line no: " + childIndividualData.dobLineNo + "; ID: "
                                 + childIndividualData.id + "; Individual Name: " + childIndividualData.name + "; Birth date: " + childIndividualData.dateOfBirth + " ; Father ID: " + fatherIndividualData.id + " ; Father's death date: " + fatherIndividualData.death +
                                 "; Line no:" + fatherIndividualData.deathLineNo + "; Children should be born, not more than 9 months after father's death";
@@ -108,7 +106,7 @@ public class Sprint3 {
 
     public void sprint3SuccessOutput(PrintStream fileOut) {
         //us38 changes starts @kp
-        if(!successAnomalyDataUS38.isEmpty()) {
+        if (!successAnomalyDataUS38.isEmpty()) {
             fileOut.println();
             System.out.println();
             fileOut.println("US39: List all Upcoming birthday which is in 30 days");
@@ -119,6 +117,31 @@ public class Sprint3 {
             }
         }
         //us38 changes ends @kp
+
+        //us28 changes starts @sr
+        fileOut.println();
+        System.out.println();
+        fileOut.println("US28 Order of siblings by age");
+        System.out.println("US28 Order of siblings by age");
+        for (ListSiblings lissib : listSiblings) {
+
+            if (lissib.siblings.size() > 0) {
+                fileOut.println("For Family ID :" + lissib.familyID);
+                fileOut.println();
+                System.out.println();
+                System.out.println("For Family ID :" + lissib.familyID);
+                for(ChildData data:lissib.siblings){
+                    fileOut.println("Child ID: "+ data.childID +
+                            " Name: " + data.childName + " " +
+                            "Age: " + data.age);
+                    System.out.println("Child ID: "+ data.childID +
+                            " Name: " + data.childName + " " +
+                            "Age: " + data.age);
+                }
+
+            }
+        }
+        //us28 changes ends @sr
     }
 
     public void sprint3ErrorOutput(PrintStream fileOut) {
@@ -131,4 +154,57 @@ public class Sprint3 {
         }
         //us09 changes ends @kp
     }
+
+    //us28 changes starts @sr
+    public void us28_orderSiblingsByAge(ArrayList<Family> family, ArrayList<Individual> individuals) {
+        ListSiblings listSib;
+        Individual ind;
+        ChildData childData;
+        for (int i = 0; i < family.size(); i++) {
+            listSib = new ListSiblings();
+            listSib.familyID = family.get(i).id;
+            for (String child : family.get(i).child) {
+                childData = new ChildData();
+                childData.childID=child;
+                ind = getIndividualData(child,individuals);
+                childData.childName=ind.name.replaceAll("/","");;
+                childData.age=ind.age;
+                listSib.siblings.add(childData);
+            }
+            for (int j = i + 1; j < family.size(); j++) {
+                if (family.get(i).wifeId.equals(family.get(j).wifeId) ||
+                        family.get(i).husbandId.equals(family.get(j).husbandId)) {
+                    for (String child : family.get(j).child) {
+                        childData = new ChildData();
+                        ind =getIndividualData(child,individuals);
+                        childData.childName=ind.name.replaceAll("/","");;
+                        childData.age=ind.age;
+                        listSib.siblings.add(childData);
+                    }
+                }
+            }
+            Collections.sort(listSib.siblings,Collections.reverseOrder());
+            listSiblings.add(listSib);
+        }
+
+    }
+
+    class ChildData implements Comparable<ChildData>{
+        String childID;
+        String childName;
+        int age;
+
+        @Override
+        public int compareTo(ChildData data) {
+
+            return this.age > data.age ? 1 : this.age < data.age ? -1 : 0;
+        }
+    }
+    class ListSiblings{
+        String familyID;
+        ArrayList<ChildData> siblings=new ArrayList<>();
+    }
+
+
+    //us22 changes ends
 }
