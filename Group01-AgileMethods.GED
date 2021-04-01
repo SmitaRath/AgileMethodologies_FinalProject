@@ -182,6 +182,28 @@
 1 BIRT
 2 DATE 19 JUN 2017
 1 FAMS @F4@
+0 @I12@ INDI
+1 NAME Roger /Williams/
+1 SEX M
+1 BIRT
+2 DATE 10 APR 2021
+1 FAMC @F8@
+0 @I13@ INDI
+1 NAME Serena /Hill/
+1 SEX F
+1 BIRT
+2 DATE 9 JUN 2017
+1 DEAT Y
+2 DATE 15 JAN 2020
+1 FAMS @F8@
+0 @I14@ INDI
+1 NAME Federer /Hill/
+1 SEX M
+1 BIRT
+2 DATE 9 JUN 2017
+1 DEAT Y
+2 DATE 15 DEC 2020
+1 FAMS @F8@
 0 @I9@ INDI
 1 NAME Sofia /Williams/
 1 SEX F
@@ -219,6 +241,12 @@
 2 DATE 15 AUG 2018
 1 HUSB @I11@
 1 WIFE @I10@
+0 @F8@ FAM
+1 MARR
+2 DATE 15 AUG 2016
+1 HUSB @I14@    ------------------------------------------ changed for us09
+1 WIFE @I13@   ------------------------------------------ changed for us09
+1 CHIL @I12@ ------------------------------------------ changed for us09
 0 @F6@ FAM
 1 MARR
 2 DATE 32 JUL 1998

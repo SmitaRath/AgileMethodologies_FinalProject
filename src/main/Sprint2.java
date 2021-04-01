@@ -1,18 +1,15 @@
 package main;
 
-import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 
 public class Sprint2 {
 
     ArrayList<String> successAnomalyDataUS16 = new ArrayList<>();
     ArrayList<String> errorAnomalyDataUS16 = new ArrayList<>();  // Created error seperate because here we need to display success and error list
-    HashMap<String, String> familyLastName = new HashMap<String, String>();
     ArrayList<String> errorAnomalyData = new ArrayList<>();
     String message = "";
 
@@ -493,7 +490,7 @@ public class Sprint2 {
 
     }
 
-    public void sprint2ErrorOutput(PrintStream fileOut){
+    public void sprint2ErrorOutput(PrintStream fileOut) {
         //us23 changes starts @sr
         fileOut.println();
         System.out.println();
