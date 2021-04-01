@@ -10,8 +10,8 @@ public class Sprint3 {
     ArrayList<String> successAnomalyDataUS38 = new ArrayList<>();
     ArrayList<String> errorAnomalyData = new ArrayList<>();
     String message = "";
-    GedcomReadParse gedcomReadParse = new GedcomReadParse();
     ArrayList<ListSiblings> listSiblings = new ArrayList<>();
+    ArrayList<String> successAnomalyDataUS29 = new ArrayList<>();
 
     // us-08 changes starts @KP
     // calculates months between two dates
@@ -142,6 +142,17 @@ public class Sprint3 {
             }
         }
         //us28 changes ends @sr
+
+        //us29 changes starts @sr
+        fileOut.println();
+        System.out.println();
+        fileOut.println("US29 List of all deceased individuals");
+        System.out.println("US29 List of all deceased individuals");
+        for(String str:successAnomalyDataUS29){
+            fileOut.println(str);
+            System.out.println(str);
+        }
+        //us29 changes ends @sr
     }
 
     public void sprint3ErrorOutput(PrintStream fileOut) {
@@ -184,10 +195,14 @@ public class Sprint3 {
             for (int j = i + 1; j < family.size(); j++) {
                 if (family.get(i).wifeId.equals(family.get(j).wifeId) ||
                         family.get(i).husbandId.equals(family.get(j).husbandId)) {
+                    wife=getIndividualData(family.get(i).wifeId,individuals);
+                    husband=getIndividualData(family.get(i).husbandId,individuals);
+                    if(!family.get(i).id.equals(wife.spouse))
+                        listSib.familyID=listSib.familyID + " " + wife.spouse;
+                    if(!family.get(i).id.equals(husband.spouse))
+                        listSib.familyID=listSib.familyID + " " + husband.spouse;
                     for (String child : family.get(j).child) {
                         childData = new ChildData();
-                        wife=getIndividualData(family.get(i).wifeId,individuals);
-                        husband=getIndividualData(family.get(i).husbandId,individuals);
                         ind =getIndividualChildData(child,individuals,wife.spouse);
                         if(ind==null)
                             ind =getIndividualChildData(child,individuals,husband.spouse);
@@ -220,5 +235,21 @@ public class Sprint3 {
         ArrayList<ChildData> siblings=new ArrayList<>();
     }
     //us28 changes ends @sr
+
+    //us29 changes starts @sr
+    public void us29_listDeceasedIndividual(ArrayList<Individual> individuals){
+        for (Individual ind : individuals){
+            message="";
+            if(!ind.alive && !(ind.deathDate==null)){
+                message =  "ID: " + ind.id +
+                            " Name: " + ind.name.replaceAll("/","") +
+                         " Date of Death: " + ind.death;
+
+                successAnomalyDataUS29.add(message);
+            }
+
+        }
+    }
+    //us29 changes ends @sr
 
 }

@@ -898,6 +898,7 @@ public class GedcomReadParse {
 
             //US28 CHANGES STARTS @SR
             sprint3.us28_orderSiblingsByAge(families,individuals);
+            sprint3.us29_listDeceasedIndividual(individuals);
             //us28 changes ends @sr
 
             fileOut.println();
