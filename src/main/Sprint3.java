@@ -3,12 +3,14 @@ package main;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.time.*;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
 public class Sprint3 {
+    ArrayList<String> successAnomalyDataUS38 = new ArrayList<>();
     ArrayList<String> errorAnomalyData = new ArrayList<>();
     String message = "";
     GedcomReadParse gedcomReadParse = new GedcomReadParse();
@@ -44,6 +46,16 @@ public class Sprint3 {
         return null;
     }
 
+    // us-39 changes starts @KP
+    public long calculateDays(Date dob) {
+        Instant instant = dob.toInstant();
+        ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
+        LocalDate givenDate = zone.toLocalDate();
+        long p2 = ChronoUnit.DAYS.between(LocalDate.now(), givenDate);
+        return p2;
+    }
+    // us-39 changes ends @KP
+
     public void US09_birthBeforeDeathOfParents(Family family, ArrayList<Individual> individuals) {
 
         Individual childIndividualData = null, motherIndividualData = null, fatherIndividualData = null;
@@ -78,6 +90,35 @@ public class Sprint3 {
                 }
             }
         }
+    }
+
+    public void US38_listAllLivingUpcomingBirthday(Individual individual) {
+        if (individual.dobDate != null) {
+            long noDays = calculateDays(individual.dobDate);
+            if (noDays <= 30 && noDays >= 0) {
+                String successMessage = "", name = "";
+                String[] formatName;
+                formatName = individual.name.split("/");
+                name = formatName[0] + formatName[1];
+                successMessage = "ID: " + individual.id + " NAME: " + name + " Date of Birth: " + individual.dateOfBirth + " Birthday in under 30 days";
+                successAnomalyDataUS38.add(successMessage);
+            }
+        }
+    }
+
+    public void sprint3SuccessOutput(PrintStream fileOut) {
+        //us38 changes starts @kp
+        if(!successAnomalyDataUS38.isEmpty()) {
+            fileOut.println();
+            System.out.println();
+            fileOut.println("US39: List all Upcoming birthday which is in 30 days");
+            System.out.println("US39: List all Upcoming birthday which is in 30 days");
+            for (String str : successAnomalyDataUS38) {
+                fileOut.println(str);
+                System.out.println(str);
+            }
+        }
+        //us38 changes ends @kp
     }
 
     public void sprint3ErrorOutput(PrintStream fileOut) {

@@ -702,7 +702,9 @@ public class GedcomReadParse {
                     errorAnomalyData.add(errString);
                 }
                 // US-03 changes ends @AS
-
+                if(i.deathDate == null) {
+                    sprint3.US38_listAllLivingUpcomingBirthday(i);
+                }
 
             }
 
@@ -946,6 +948,11 @@ public class GedcomReadParse {
             fileOut.println("============================== Sprint3 Output =======================================");
             System.out.println();
             System.out.println("============================== Sprint3 Output =======================================");
+            fileOut.println();
+            System.out.println();
+
+            sprint3.sprint3SuccessOutput(fileOut);
+
             fileOut.println();
             System.out.println();
 
