@@ -16,7 +16,7 @@ public class Family{
     public String dateOfMarried;
     int dateOfMarriedidLineNo;
     Date marrriedDate;
-    String dateOfDivided;
+    public String dateOfDivided;
     int dateOfDividedLineNo;
     Date dividedDate;
     ArrayList<String> child;
@@ -33,30 +33,34 @@ public class Family{
         this.dateOfMarried = "NA";
         this.dateOfDivided = "NA";
     }
-    public String childData(){
-        String str="{";
-        for(int i=0;i<this.child.size()-1;i++){
 
-            str=str+"'"+child.get(i)+"',";
-        }
-        str=str+ "'"+ child.get(this.child.size()-1)+"'}";
-        return str;
+    static int  extractInt(String s) {
+        String num = s.replaceAll("\\D", "");
+        // return 0 if no digits found
+        return num.isEmpty() ? 0 : Integer.parseInt(num);
     }
 
     /* Comparator for sorting the list by main.Family ID */
     public static Comparator<Family> familyIdComparator = new Comparator<Family>() {
-        public int compare(Family s1, Family s2) {
+       /* public int compare(Family s1, Family s2) {
             String Id1 = s1.id.toUpperCase();
             String Id2 = s2.id.toUpperCase();
 
             //ascending order
             return Id1.compareTo(Id2);
+        }*/
+
+        public int compare(Family s1, Family s2) {
+            String Id1 = s1.id.toUpperCase();
+            String Id2 = s2.id.toUpperCase();
+
+            return extractInt(Id1) - extractInt(Id2);
         }
     };
 
     public String printChildren() {
         String str = "NA";
-        for(int i=0; i < this.child.size(); ++i) {
+        for(int i = 0; i < this.child.size(); ++i) {
             if(i == 0)
                 str = "{'" + this.child.get(i) + "'";
             else
