@@ -125,10 +125,8 @@ public class Sprint3 {
         System.out.println("US28 Order of siblings by age");
         for (ListSiblings lissib : listSiblings) {
 
-            if (lissib.siblings.size() > 0) {
+            if (lissib.siblings.size() > 1) {
                 fileOut.println("For Family ID :" + lissib.familyID);
-                fileOut.println();
-                System.out.println();
                 System.out.println("For Family ID :" + lissib.familyID);
                 for(ChildData data:lissib.siblings){
                     fileOut.println("Child ID: "+ data.childID +
@@ -138,6 +136,8 @@ public class Sprint3 {
                             " Name: " + data.childName + " " +
                             "Age: " + data.age);
                 }
+                fileOut.println();
+                System.out.println();
 
             }
         }
@@ -156,9 +156,19 @@ public class Sprint3 {
     }
 
     //us28 changes starts @sr
+    public Individual getIndividualChildData(String id, ArrayList<Individual> individuals, String familyID) {
+        for (Individual ind : individuals) {
+            if (ind.id.equals(id) && (ind.child.equals(familyID)))
+                return ind;
+        }
+        return null;
+    }
+
     public void us28_orderSiblingsByAge(ArrayList<Family> family, ArrayList<Individual> individuals) {
         ListSiblings listSib;
         Individual ind;
+        Individual wife;
+        Individual husband;
         ChildData childData;
         for (int i = 0; i < family.size(); i++) {
             listSib = new ListSiblings();
@@ -176,10 +186,15 @@ public class Sprint3 {
                         family.get(i).husbandId.equals(family.get(j).husbandId)) {
                     for (String child : family.get(j).child) {
                         childData = new ChildData();
-                        ind =getIndividualData(child,individuals);
-                        childData.childName=ind.name.replaceAll("/","");;
-                        childData.age=ind.age;
-                        listSib.siblings.add(childData);
+                        wife=getIndividualData(family.get(i).wifeId,individuals);
+                        husband=getIndividualData(family.get(i).husbandId,individuals);
+                        ind =getIndividualChildData(child,individuals,wife.spouse);
+                        if(ind==null)
+                            ind =getIndividualChildData(child,individuals,husband.spouse);
+                            childData.childID=ind.id;
+                            childData.childName = ind.name.replaceAll("/", "");
+                            childData.age = ind.age;
+                            listSib.siblings.add(childData);
                     }
                 }
             }
@@ -204,7 +219,6 @@ public class Sprint3 {
         String familyID;
         ArrayList<ChildData> siblings=new ArrayList<>();
     }
+    //us28 changes ends @sr
 
-
-    //us22 changes ends
 }
