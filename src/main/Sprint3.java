@@ -13,6 +13,8 @@ public class Sprint3 {
     ArrayList<ListSiblings> listSiblings = new ArrayList<>();
     ArrayList<String> successAnomalyDataUS29 = new ArrayList<>();
     ArrayList<String> successAnomalyDataUS30 = new ArrayList<>();
+    ArrayList<String> successAnomalyDataUS33 = new ArrayList<>();
+    GedcomReadParse g = new GedcomReadParse();
 
     // us-08 changes starts @KP
     // calculates months between two dates
@@ -105,6 +107,7 @@ public class Sprint3 {
         }
     }
 
+    //US30 changes starts @pp
     public void us30_ListLivingMarriedIndividual(ArrayList<Family> families, ArrayList<Individual>individuals){
         HashMap<String,Integer>f = new HashMap<String, Integer>();
         HashMap<String,Integer>live = new HashMap<String, Integer>();
@@ -144,6 +147,46 @@ public class Sprint3 {
             }
         }
     }
+    //US30 changes ends @pp
+
+    //US33 changes starts @pp
+    public void us33_ListAllOrphanedChildrenBelow18(ArrayList<Family>families,ArrayList<Individual>individuals){
+        HashMap<String,String>name = new HashMap<String, String>();
+        HashMap<String,Integer>alive = new HashMap<String, Integer>();
+        HashMap<String,Integer>age = new HashMap<String, Integer>();
+        for(int i=0;i<individuals.size();i++){
+            if(individuals.get(i).deathDate!=null){
+               alive.put(individuals.get(i).id,1);
+            }
+            else if(individuals.get(i).deathDate==null){
+                alive.put(individuals.get(i).id,0);
+            }
+            if(individuals.get(i).age<18&&individuals.get(i).age>=0){
+                age.put(individuals.get(i).id,1);
+            }
+            else if(individuals.get(i).age>=18||individuals.get(i).age<0){
+                age.put(individuals.get(i).id,0);
+            }
+            name.put(individuals.get(i).id,individuals.get(i).name);
+        }
+        for(int i = 0;i<families.size();i++){
+            if(alive.get(families.get(i).husbandId)==1&&alive.get(families.get(i).wifeId)==1){
+                if(families.get(i).child.size()>0) {
+                    for (int j = 0; j < families.get(i).child.size(); j++) {
+                        if (age.get(families.get(i).child.get(j))==1){
+                            String[] formatName;
+                            String str = "", message = "";
+                            formatName = name.get(families.get(i).child.get(j)).split("/");
+                            str = str + formatName[0] + formatName[1];
+                            message = "ID: " + families.get(i).child.get(j) + " NAME: " + str;
+                            successAnomalyDataUS33.add(message);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    //US33 changes ends @pp
 
     public void sprint3SuccessOutput(PrintStream fileOut) {
         //us38 changes starts @kp
@@ -205,6 +248,17 @@ public class Sprint3 {
             System.out.println(str);
         }
         //us30 changes ends @pp
+
+        //us33 changes starts @pp
+        fileOut.println();
+        System.out.println();
+        fileOut.println("US33 List of all Orphaned Children under 18 years");
+        System.out.println("US33 List of all Orphaned Children under 18 years");
+        for(String str:successAnomalyDataUS33){
+            fileOut.println(str);
+            System.out.println(str);
+        }
+        //us33 changes ends @pp
     }
 
     public void sprint3ErrorOutput(PrintStream fileOut) {

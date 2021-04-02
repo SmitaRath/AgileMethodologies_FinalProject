@@ -905,6 +905,10 @@ public class GedcomReadParse {
             sprint3.us30_ListLivingMarriedIndividual(families,individuals);
             //US30 changes ends @pp
 
+            //US33 changes starts @pp
+            sprint3.us33_ListAllOrphanedChildrenBelow18(families,individuals);
+            //US33 changes ends @pp
+
             fileOut.println();
             System.out.println();
             fileOut.println("============================== Sprint1 Output =======================================");
