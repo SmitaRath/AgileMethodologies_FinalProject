@@ -154,7 +154,6 @@ ID: I21 NAME: Sezeze Vira
 
 US33 List of all Orphaned Children under 18 years
 ID: I3 NAME: Linda Smith
-ID: I12 NAME: Roger Williams
 
 
 Error: In US09 for INDIVIDUAL at Line no: 148; ID: I3; Individual Name: Linda /Smith/; Birth date: 2021-03-05 ; Mother ID: I1 ; Mother's death date: 1950-06-15; Line no:134; Children should be born before death of mother.

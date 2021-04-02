@@ -154,17 +154,19 @@ public class Sprint3 {
         HashMap<String,String>name = new HashMap<String, String>();
         HashMap<String,Integer>alive = new HashMap<String, Integer>();
         HashMap<String,Integer>age = new HashMap<String, Integer>();
+        Date today = new Date();
         for(int i=0;i<individuals.size();i++){
+            age.put(individuals.get(i).id,-1);
             if(individuals.get(i).deathDate!=null){
                alive.put(individuals.get(i).id,1);
             }
             else if(individuals.get(i).deathDate==null){
                 alive.put(individuals.get(i).id,0);
             }
-            if(individuals.get(i).age<18&&individuals.get(i).age>=0){
+            if(individuals.get(i).dobDate!=null&&(individuals.get(i).dobDate.before(today)||individuals.get(i).dobDate.equals(today))&&individuals.get(i).age<18&&individuals.get(i).age>=0){
                 age.put(individuals.get(i).id,1);
             }
-            else if(individuals.get(i).age>=18||individuals.get(i).age<0){
+            else if(individuals.get(i).dobDate!=null&&(individuals.get(i).dobDate.after(today)||(!individuals.get(i).dobDate.equals(today)))&&(individuals.get(i).age>=18||individuals.get(i).age<0)){
                 age.put(individuals.get(i).id,0);
             }
             name.put(individuals.get(i).id,individuals.get(i).name);
