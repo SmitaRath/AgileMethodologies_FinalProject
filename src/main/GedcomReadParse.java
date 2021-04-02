@@ -289,7 +289,9 @@ public class GedcomReadParse {
         ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
         LocalDate givenDate = zone.toLocalDate();
         Period period = Period.between(givenDate, LocalDate.now());
-
+        if(period.getYears()<0)
+            return 0;
+        else
         return period.getYears();
     }
 
@@ -450,6 +452,8 @@ public class GedcomReadParse {
                             else {   // us-07 changes starts @KP
                                 ind.death = changeDateFormat(ind.death, ind.deathDate);
                                 ind.age=differenceBetweenTwoAge(ind.dobDate, ind.deathDate);
+                                if(ind.age<0)
+                                    ind.age=0;
                                 differenceBetweenTwoAge(ind.dobDate, ind.deathDate);
                             }
                             //us-01 changes ends @sr // us-07 changes ends @KP
