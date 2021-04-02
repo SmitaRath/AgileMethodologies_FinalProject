@@ -32,7 +32,7 @@ public class Sprint2Test {
         formatName = I1.name.split("/");
         assertEquals(formatName[1], "Parthasarathy");
     }
-    
+
     @Test
     public void US05_BirthBeforeDeath(){
         Individual I1 = new Individual();
@@ -111,35 +111,35 @@ public class Sprint2Test {
         assertEquals(true,s2.checkIllegitimateDate(I2,"BIRT",null));
     }
 
-   @Test 
-   public void US10_MarriageAfterBirth(){
-       Individual I1 = new Individual();
-       I1.id = "I12";
-       Individual I2 = new Individual();
-       I2.id="I13";
-       I1.dateOfBirth = "2010-09-17";
-       I2.dateOfBirth = "1987-10-15";
-       g1.individuals.add(I1);
-       g1.individuals.add(I2);
-       f.husbandId = "I12";
-       f.wifeId = "I13";
-       f.dateOfMarried = "2012-10-14";
-       g1.families.add(f);
-       assertEquals(true, sprint2.compareMarrigeandBirth(f.dateOfMarried, I1.dateOfBirth));
-       assertEquals(false, sprint2.compareMarrigeandBirth(f.dateOfMarried, I2.dateOfBirth));
-   }
+    @Test
+    public void US10_MarriageAfterBirth(){
+        Individual I1 = new Individual();
+        I1.id = "I12";
+        Individual I2 = new Individual();
+        I2.id="I13";
+        I1.dateOfBirth = "2010-09-17";
+        I2.dateOfBirth = "1987-10-15";
+        g1.individuals.add(I1);
+        g1.individuals.add(I2);
+        f.husbandId = "I12";
+        f.wifeId = "I13";
+        f.dateOfMarried = "2012-10-14";
+        g1.families.add(f);
+        assertEquals(true, sprint2.compareMarrigeandBirth(f.dateOfMarried, I1.dateOfBirth));
+        assertEquals(false, sprint2.compareMarrigeandBirth(f.dateOfMarried, I2.dateOfBirth));
+    }
 
-   @Test
+    @Test
     public void US15(){
-       Individual I1 = new Individual();
-       Individual I2 = new Individual();
-       I1.id = "I12";
-       I2.id = "I13";
-       g1.individuals.add(I1);
-       g1.individuals.add(I2);
-       f.husbandId = "I12";
-       f.wifeId = "I13";
-       g1.families.add(f);
-       assertEquals(false, sprint2.NoOfSiblings(g1.families, f.wifeId,f.husbandId));
-   }
+        Individual I1 = new Individual();
+        Individual I2 = new Individual();
+        I1.id = "I12";
+        I2.id = "I13";
+        g1.individuals.add(I1);
+        g1.individuals.add(I2);
+        f.husbandId = "I12";
+        f.wifeId = "I13";
+        g1.families.add(f);
+        assertEquals(false, sprint2.NoOfSiblings(g1.families, f.wifeId,f.husbandId));
+    }
 }

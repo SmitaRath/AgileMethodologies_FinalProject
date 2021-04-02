@@ -360,6 +360,7 @@ public class GedcomReadParse {
         Individual ind = new Individual();
         Family family = new Family();
         Sprint2 sprint2 = new Sprint2();
+        Sprint3 sprint3 = new Sprint3();
         String errString="";
 
         try {
@@ -701,7 +702,9 @@ public class GedcomReadParse {
                     errorAnomalyData.add(errString);
                 }
                 // US-03 changes ends @AS
-
+                if(i.deathDate == null) {
+                    sprint3.US38_listAllLivingUpcomingBirthday(i);
+                }
 
             }
 
@@ -851,6 +854,7 @@ public class GedcomReadParse {
                 if(i.child != null) {
                     sprint2.US08_birthBeforeMarriageOfParents(i, individuals);
                     sprint2.US16_maleLastName(i, individuals);
+                    sprint3.US09_birthBeforeDeathOfParents(i, individuals);
                 }
 
                 //US-08,US16 changes ends @KP
@@ -885,10 +889,17 @@ public class GedcomReadParse {
                 //US15 ends @AS
             }
 
+
+
             fileOut.println("Families");
             fileOut.println(table1.render());
             System.out.println("Families");
             System.out.println(table1.render());
+
+            //US28 CHANGES STARTS @SR
+            sprint3.us28_orderSiblingsByAge(families,individuals);
+            sprint3.us29_listDeceasedIndividual(individuals);
+            //us28 changes ends @sr
 
             fileOut.println();
             System.out.println();
@@ -938,6 +949,22 @@ public class GedcomReadParse {
 
             sprint2.checkUniqueDateOfBirthAndName(individuals);
             sprint2.sprint2ErrorOutput(fileOut);
+            //us-23 sprint2 changes ends @sr
+
+            fileOut.println();
+            fileOut.println("============================== Sprint3 Output =======================================");
+            System.out.println();
+            System.out.println("============================== Sprint3 Output =======================================");
+            fileOut.println();
+            System.out.println();
+
+            sprint3.sprint3SuccessOutput(fileOut);
+
+
+            fileOut.println();
+            System.out.println();
+
+            sprint3.sprint3ErrorOutput(fileOut);
             //us-23 sprint2 changes ends @sr
 
             //file closed
