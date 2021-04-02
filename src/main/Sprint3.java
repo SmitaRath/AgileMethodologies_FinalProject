@@ -158,7 +158,7 @@ public class Sprint3 {
         for(int i=0;i<individuals.size();i++){
             age.put(individuals.get(i).id,-1);
             if(individuals.get(i).deathDate!=null){
-               alive.put(individuals.get(i).id,1);
+                alive.put(individuals.get(i).id,1);
             }
             else if(individuals.get(i).deathDate==null){
                 alive.put(individuals.get(i).id,0);
