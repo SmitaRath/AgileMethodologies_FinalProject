@@ -901,6 +901,10 @@ public class GedcomReadParse {
             sprint3.us29_listDeceasedIndividual(individuals);
             //us28 changes ends @sr
 
+            //US30 changes starts @pp
+            sprint3.us30_ListLivingMarriedIndividual(families,individuals);
+            //US30 changes ends @pp
+
             fileOut.println();
             System.out.println();
             fileOut.println("============================== Sprint1 Output =======================================");

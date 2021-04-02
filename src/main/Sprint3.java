@@ -12,6 +12,7 @@ public class Sprint3 {
     String message = "";
     ArrayList<ListSiblings> listSiblings = new ArrayList<>();
     ArrayList<String> successAnomalyDataUS29 = new ArrayList<>();
+    ArrayList<String> successAnomalyDataUS30 = new ArrayList<>();
 
     // us-08 changes starts @KP
     // calculates months between two dates
@@ -104,6 +105,46 @@ public class Sprint3 {
         }
     }
 
+    public void us30_ListLivingMarriedIndividual(ArrayList<Family> families, ArrayList<Individual>individuals){
+        HashMap<String,Integer>f = new HashMap<String, Integer>();
+        HashMap<String,Integer>live = new HashMap<String, Integer>();
+        HashMap<String,String>name = new HashMap<String, String>();
+
+        for(int i=0;i<families.size();i++){
+            f.put(families.get(i).husbandId,0);
+            f.put(families.get(i).wifeId,0);
+        }
+        for(int i=0;i<individuals.size();i++){
+            name.put(individuals.get(i).id,individuals.get(i).name);
+            if(individuals.get(i).alive){
+                live.put(individuals.get(i).id,1);
+            }
+            else{
+                live.put(individuals.get(i).id,0);
+            }
+        }
+        for(int i=0;i<families.size();i++){
+            if(families.get(i).marrriedDate!=null&&families.get(i).dividedDate==null&&f.get(families.get(i).husbandId)==0&&live.get(families.get(i).husbandId)==1){
+                f.put(families.get(i).husbandId,1);
+                String[] formatName;
+                String str="",message="";
+                formatName = name.get(families.get(i).husbandId).split("/");
+                str = str + formatName[0] + formatName[1];
+                message = "ID: " + families.get(i).husbandId + " NAME: " + name.get(families.get(i).husbandId);
+                successAnomalyDataUS30.add(message);
+            }
+            if(families.get(i).marrriedDate!=null&&families.get(i).dividedDate==null&&f.get(families.get(i).wifeId)==0&&live.get(families.get(i).wifeId)==1){
+                f.put(families.get(i).wifeId,1);
+                String[] formatName;
+                String str="",message="";
+                formatName = name.get(families.get(i).wifeId).split("/");
+                str = str + formatName[0] + formatName[1];
+                message = "ID: " + families.get(i).wifeId + " NAME: " + str;
+                successAnomalyDataUS30.add(message);
+            }
+        }
+    }
+
     public void sprint3SuccessOutput(PrintStream fileOut) {
         //us38 changes starts @kp
         if (!successAnomalyDataUS38.isEmpty()) {
@@ -153,6 +194,17 @@ public class Sprint3 {
             System.out.println(str);
         }
         //us29 changes ends @sr
+
+        //us30 changes starts @pp
+        fileOut.println();
+        System.out.println();
+        fileOut.println("US30 List of all living married individuals");
+        System.out.println("US30 List of all living married individuals");
+        for(String str:successAnomalyDataUS30){
+            fileOut.println(str);
+            System.out.println(str);
+        }
+        //us30 changes ends @pp
     }
 
     public void sprint3ErrorOutput(PrintStream fileOut) {
