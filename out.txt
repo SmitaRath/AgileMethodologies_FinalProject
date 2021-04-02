@@ -2,7 +2,7 @@ Individuals
 +---+--------------------+------+-----------+---+-----+----------+------+-------+
 |ID |Name                |Gender|Birthday   |Age|Alive|Death     |Child |Spouse |
 +---+--------------------+------+-----------+---+-----+----------+------+-------+
-|I1 |Elizabeth /Peterson/|M     |2022-08-07 |-72|False|1950-06-15|NA    |{'F2'} |
+|I1 |Elizabeth /Peterson/|M     |2022-08-07 |0  |False|1950-06-15|NA    |{'F2'} |
 |I2 |Michael /Smith/     |F     |1820-10-10 |200|False|2021-03-11|NA    |{'F1'} |
 |I3 |Linda /Smith/       |F     |2021-03-05 |0  |True |NA        |{'F1'}|{'F2'} |
 |I4 |Timothy /Williams/  |M     |1935-09-13 |160|False|2095-10-17|NA    |{'F3'} |
@@ -53,10 +53,10 @@ Families
 
 
 US35: List all Recent births
-ID: I3 NAME: Linda Smith Date of Birth: 2021-03-05 Birth age in no.Of.Days: 27
+ID: I3 NAME: Linda Smith Date of Birth: 2021-03-05 Birth age in no.Of.Days: 28
 
 US36: List all Recent deaths
-ID: I2 NAME: Michael Smith Date of Death: 2021-03-11 Death age in no.Of.Days: 21
+ID: I2 NAME: Michael Smith Date of Death: 2021-03-11 Death age in no.Of.Days: 22
 
 Error: In US01 for INDIVDUAL at Line no: 132; ID: I1; BirthDay 2022-08-07 occurs in the future
 Error: In US03 for INDIVIDUAL at Line no: 132,134; ID: I1; Date of Birth: 2022-08-07; Date of Death: 1950-06-15; Birth Occurs After Death
@@ -142,6 +142,14 @@ ID: I2 Name: Michael Smith Date of Death: 2021-03-11
 ID: I4 Name: Timothy Williams Date of Death: 2095-10-17
 ID: I13 Name: Serena Hill Date of Death: 2020-01-15
 ID: I14 Name: Federer Hill Date of Death: 2020-12-15
+
+US30 List of all living married individuals
+ID: I3 NAME: Linda Smith
+ID: I6 NAME: Andrew /Miller/
+ID: I5 NAME: Jacob /Williams/
+ID: I8 NAME: Aishley Hill
+ID: I11 NAME: James /Bond/
+ID: I10 NAME: Aishley Hill
 
 
 Error: In US09 for INDIVIDUAL at Line no: 148; ID: I3; Individual Name: Linda /Smith/; Birth date: 2021-03-05 ; Mother ID: I1 ; Mother's death date: 1950-06-15; Line no:134; Children should be born before death of mother.
