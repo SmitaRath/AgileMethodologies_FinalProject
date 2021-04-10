@@ -21,7 +21,7 @@
 1 NAME Cristina /Vira/
 1 SEX F
 1 BIRT
-2 DATE 4 Sep 1794
+2 DATE 4 Sep 1987
 1 FAMC @F6@
 0 @I26@ INDI
 1 NAME Liza /Vira/
@@ -99,13 +99,13 @@
 1 NAME Parrol /Vira/
 1 SEX M
 1 BIRT
-2 DATE 40 AUG 2005
+2 DATE 15 AUG 2005
 1 FAMC @F6@
 0 @I21@ INDI
 1 NAME Sezeze /Vira/
 1 SEX F
 1 BIRT
-2 DATE 34 JUN 2017
+2 DATE 20 JUN 2017
 1 FAMS @F6@
 0 @I10@ INDI
 1 NAME Aishley /Hill/
@@ -182,6 +182,28 @@
 1 BIRT
 2 DATE 19 JUN 2017
 1 FAMS @F4@
+0 @I12@ INDI
+1 NAME Roger /Williams/
+1 SEX M
+1 BIRT
+2 DATE 10 APR 2021
+1 FAMC @F8@
+0 @I13@ INDI
+1 NAME Serena /Hill/
+1 SEX F
+1 BIRT
+2 DATE 9 JUN 2017
+1 DEAT Y
+2 DATE 15 JAN 2020
+1 FAMS @F8@
+0 @I14@ INDI
+1 NAME Federer /Hill/
+1 SEX M
+1 BIRT
+2 DATE 9 JUN 2017
+1 DEAT Y
+2 DATE 15 DEC 2020
+1 FAMS @F8@
 0 @I9@ INDI
 1 NAME Sofia /Williams/
 1 SEX F
@@ -219,9 +241,15 @@
 2 DATE 15 AUG 2018
 1 HUSB @I11@
 1 WIFE @I10@
+0 @F8@ FAM
+1 MARR
+2 DATE 15 AUG 2016
+1 HUSB @I14@    ------------------------------------------ changed for us09
+1 WIFE @I13@   ------------------------------------------ changed for us09
+1 CHIL @I12@ ------------------------------------------ changed for us09
 0 @F6@ FAM
 1 MARR
-2 DATE 32 JUL 1998
+2 DATE 15 JUL 1650
 1 HUSB @I20@
 1 WIFE @I21@
 1 CHIL @I22@
@@ -241,4 +269,3 @@
 1 CHIL @I36@
 1 CHIL @I37@
 0 TRLR
-

@@ -913,6 +913,14 @@ public class GedcomReadParse {
             sprint3.us33_ListAllOrphanedChildrenBelow18(families,individuals);
             //US33 changes ends @pp
 
+            //US31 changes starts @as
+            sprint3.us31_ListAllUnmarriedOver30(families,individuals);
+            //US31 changes ends @as
+
+            //US32 changes starts @as
+            sprint3.us32_ListMultipleBirths(families,individuals);
+            //US32 changes ends @as
+
             fileOut.println();
             System.out.println();
             fileOut.println("============================== Sprint1 Output =======================================");
