@@ -22,7 +22,7 @@ Individuals
 |I22|Frizia /Vira/       |F     |1987-09-04 |33 |True |NA        |{'F6'}|NA     |
 |I23|Suzane /Vira/       |F     |1983-09-04 |37 |True |NA        |{'F6'}|NA     |
 |I24|Roopa /Vira/        |F     |1836-09-04 |184|True |NA        |{'F6'}|NA     |
-|I25|Cristina /Vira/     |F     |1794-09-04 |226|True |NA        |{'F6'}|NA     |
+|I25|Cristina /Vira/     |F     |1987-09-04 |33 |True |NA        |{'F6'}|NA     |
 |I26|Liza /Vira/         |F     |1900-09-04 |120|True |NA        |{'F6'}|NA     |
 |I27|Rofia /Vira/        |F     |1962-09-04 |58 |True |NA        |{'F6'}|NA     |
 |I28|Tofia /Vira/        |F     |1993-09-04 |27 |True |NA        |{'F6'}|NA     |
@@ -68,7 +68,6 @@ Error: In US07 for INDIVIDUAL at Line no: 158; ID: I4; Deathday 2095-10-17; Deat
 Error: In US22 for INDIVIDUAL at Line no: 122; ID: I7; The Individual ID is not unique
 Error: In US22 for INDIVIDUAL at Line no: 173; ID: I7; The Individual ID is not unique
 Error: In US07 for INDIVIDUAL at Line no: 18; ID: I24; BirthDay: 1836-09-04; Current date should be less than 150 years after birth for all living people
-Error: In US07 for INDIVIDUAL at Line no: 24; ID: I25; BirthDay: 1794-09-04; Current date should be less than 150 years after birth for all living people
 Error: In US01 For FAMILY at Line no :220; ID: F1; Divided Date 2021-12-15 occurs in the future
 Error: In US21 for INDIVIDUAL at  Line no: 138; Husband's Id :I2; in family: F1 Gender is F
 Error: In US21 for INDIVIDUAL at  Line No: 130; Wife's Id :I1; in family: F1 Gender is M
@@ -99,6 +98,8 @@ Error: In US23 for INDIVIDUAL at  Line no: 111; Id :I10; Name :Aishley /Hill/; i
 Error: In US23 for INDIVIDUAL at  Line no: 180; Id :I8; Name :Aishley /Hill/; is not unique 
 Error: In US23 for INDIVIDUAL at  Line no: 203; Id :I14; Date Of Birth :2017-06-09; is not unique 
 Error: In US23 for INDIVIDUAL at  Line no: 195; Id :I13; Date Of Birth :2017-06-09; is not unique 
+Error: In US23 for INDIVIDUAL at  Line no: 24; Id :I25; Date Of Birth :1987-09-04; is not unique 
+Error: In US23 for INDIVIDUAL at  Line no: 6; Id :I22; Date Of Birth :1987-09-04; is not unique 
 
 ERROR IN US16 WHICH DON'T HAVE SAME FAMILY NAME IS LISTED BELOW 
 Error: In US16 for INDIVIDUAL at Line no: 123; ID: I7; Individual Name: Andre /Swarts/ ; Family ID: F10 ; Family Name: Miller; Family last name should be same for all males in family.
@@ -116,7 +117,6 @@ Child ID: I5 Name: Jacob Williams Age: 18
 Child ID: I7 Name: Daniel Miller Age: 15
 
 For Family ID :F6
-Child ID: I25 Name: Cristina Vira Age: 226
 Child ID: I24 Name: Roopa Vira Age: 184
 Child ID: I26 Name: Liza Vira Age: 120
 Child ID: I35 Name: Veena Vira Age: 64
@@ -129,6 +129,7 @@ Child ID: I36 Name: Kriti Vira Age: 43
 Child ID: I34 Name: Pixa Vira Age: 40
 Child ID: I23 Name: Suzane Vira Age: 37
 Child ID: I22 Name: Frizia Vira Age: 33
+Child ID: I25 Name: Cristina Vira Age: 33
 Child ID: I28 Name: Tofia Vira Age: 27
 Child ID: I30 Name: Xifia Vira Age: 24
 Child ID: I29 Name: Lofia Vira Age: 19
@@ -169,6 +170,9 @@ ID: I34 NAME: Pixa Vira
 ID: I35 NAME: Veena Vira
 ID: I36 NAME: Kriti Vira
 ID: I37 NAME: Lili Vira
+
+US32 List of ID's of all individual having multiple births
+ID: I22; ID: I25
 
 
 Error: In US09 for INDIVIDUAL at Line no: 148; ID: I3; Individual Name: Linda /Smith/; Birth date: 2021-03-05 ; Mother ID: I1 ; Mother's death date: 1950-06-15; Line no:134; Children should be born before death of mother.
