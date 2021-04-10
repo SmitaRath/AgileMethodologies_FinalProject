@@ -14,6 +14,7 @@ public class Sprint3 {
     ArrayList<String> successAnomalyDataUS29 = new ArrayList<>();
     ArrayList<String> successAnomalyDataUS30 = new ArrayList<>();
     ArrayList<String> successAnomalyDataUS33 = new ArrayList<>();
+    ArrayList<String> successAnomalyDataUS31 = new ArrayList<>();
     GedcomReadParse g = new GedcomReadParse();
 
     // us-08 changes starts @KP
@@ -190,6 +191,30 @@ public class Sprint3 {
     }
     //US33 changes ends @pp
 
+    //US31 changes starts @AS
+    public void us31_ListAllUnmarriedOver30(ArrayList<Family>families,ArrayList<Individual>individuals){
+        HashMap<String,String>name = new HashMap<String, String>();
+        HashMap<String,Integer>id = new HashMap<String, Integer>();
+        for(int i=0; i<individuals.size();i++){
+            id.put(individuals.get(i).id,0);
+        }
+        for(int i=0; i<families.size();i++){
+            id.put(families.get(i).husbandId,1);
+            id.put(families.get(i).wifeId,1);
+        }
+        for(int i=0;i<individuals.size();i++){
+            if(id.get(individuals.get(i).id)==0&&individuals.get(i).age>30){
+                String[] formatName;
+                String str = "", message = "";
+                formatName = individuals.get(i).name.split("/");
+                str = str + formatName[0] + formatName[1];
+                message = "ID: " + individuals.get(i).id + " NAME: " + str;
+                successAnomalyDataUS31.add(message);
+            }
+        }
+    }
+    //US31 changes ends @AS
+
     public void sprint3SuccessOutput(PrintStream fileOut) {
         //us38 changes starts @kp
         if (!successAnomalyDataUS38.isEmpty()) {
@@ -261,6 +286,18 @@ public class Sprint3 {
             System.out.println(str);
         }
         //us33 changes ends @pp
+
+        //us31 changes starts @AS
+        fileOut.println();
+        System.out.println();
+        fileOut.println("US31 List of all individuals who are never married and are above 30 years");
+        System.out.println("US31 List of all individuals who are never married and are above 30 years");
+        for(String str:successAnomalyDataUS31){
+            fileOut.println(str);
+            System.out.println(str);
+        }
+        //us31 changes ends @AS
+
     }
 
     public void sprint3ErrorOutput(PrintStream fileOut) {
