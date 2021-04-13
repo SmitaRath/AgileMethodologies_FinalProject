@@ -54,8 +54,13 @@ public class Sprint3 {
         Instant instant = dob.toInstant();
         ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
         LocalDate givenDate = zone.toLocalDate();
-        long p2 = ChronoUnit.DAYS.between(LocalDate.now(), givenDate);
-        return p2;
+        Period period = Period.between(LocalDate.now(), givenDate);
+        if(period.getYears() > 0)
+            return 100;
+        if(period.getMonths() == 0 || period.getMonths() == 1)
+            return period.getDays();
+
+        return 100;
     }
     // us-39 changes ends @KP
 
