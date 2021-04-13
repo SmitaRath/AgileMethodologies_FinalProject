@@ -56,7 +56,6 @@ public class Sprint3 {
         LocalDate givenDate = zone.toLocalDate();
         Period period = Period.between(LocalDate.now(), givenDate);
         Date present = new Date();
-        System.out.println("present " + present.getMonth() + zone.getMonthValue());
         if (period.getYears() > 0)
             return 100;
         else {
