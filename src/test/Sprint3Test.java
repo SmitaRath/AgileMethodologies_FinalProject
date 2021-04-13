@@ -18,7 +18,9 @@ public class Sprint3Test {
     @Test
     public void US38_listAllLivingUpcomingBirthday() throws Exception {
         Date date1 = new Date();
+        Date date2 = new Date("5 DEC 2022");
         assertEquals(0, sprint3.calculateDays(date1));
+        assertEquals(100, sprint3.calculateDays(date2));
         assertNotEquals(10, sprint3.calculateDays(date1));
     }
 
@@ -26,7 +28,8 @@ public class Sprint3Test {
     public void US09_birthBeforeDeathOfParents() throws Exception {
         Date date1 = new Date("5 FEB 2021");
         Date date2 = new Date("5 DEC 2021");
-        assertEquals(100, sprint3.monthDiffBetweenTwoDate(date1, date2));
+        assertEquals(100, sprint3.monthDiffBetweenTwoDate(date1, date2));   // father calculation
+        assertEquals(-1, date1.compareTo(date2));                          // mother calculation
         assertEquals(10, sprint3.monthDiffBetweenTwoDate(date2, date1));
     }
 
