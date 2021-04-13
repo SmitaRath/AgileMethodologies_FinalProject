@@ -26,7 +26,7 @@ public class Sprint3Test {
     public void US09_birthBeforeDeathOfParents() throws Exception {
         Date date1 = new Date("5 FEB 2021");
         Date date2 = new Date("5 DEC 2021");
-        assertEquals(0, sprint3.monthDiffBetweenTwoDate(date1, date2));
+        assertEquals(100, sprint3.monthDiffBetweenTwoDate(date1, date2));
         assertEquals(10, sprint3.monthDiffBetweenTwoDate(date2, date1));
     }
 
