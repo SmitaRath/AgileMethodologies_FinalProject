@@ -24,14 +24,14 @@ public class Sprint3Test {
         assertNotEquals(10, sprint3.calculateDays(date1));
     }
 
-  /*  @Test
+   @Test
     public void US09_birthBeforeDeathOfParents() throws Exception {
         Date date1 = new Date("5 FEB 2021");
         Date date2 = new Date("5 DEC 2021");
         assertEquals(100, sprint3.monthDiffBetweenTwoDate(date1, date2));   // father calculation
         assertEquals(-1, date1.compareTo(date2));                          // mother calculation
         assertEquals(10, sprint3.monthDiffBetweenTwoDate(date2, date1));
-    }*/
+    }
 
     @Test
     public void US28_orderSiblingsByAge() throws ParseException {
