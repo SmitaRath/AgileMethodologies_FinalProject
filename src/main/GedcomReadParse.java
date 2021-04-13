@@ -646,7 +646,7 @@ public class GedcomReadParse {
                     errorAnomalyData.add(errString);
                 }
 
-                if(i.deathDate != null) {
+                if(i.deathDate != null && i.dobDate != null) {
                     int deathAge = differenceBetweenTwoAge(i.dobDate, i.deathDate);
                     if (deathAge > 150) {
                         errString = "Error: In US07 for INDIVIDUAL at Line no: " + i.deathLineNo + "; ID: " +
@@ -706,7 +706,7 @@ public class GedcomReadParse {
                     errorAnomalyData.add(errString);
                 }
                 // US-03 changes ends @AS
-                if(i.deathDate == null) {
+                if (i.deathDate == null && i.dobDate != null) {
                     sprint3.US38_listAllLivingUpcomingBirthday(i);
                 }
 
