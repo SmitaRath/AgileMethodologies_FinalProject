@@ -56,11 +56,15 @@ public class Sprint3 {
         LocalDate givenDate = zone.toLocalDate();
         Period period = Period.between(LocalDate.now(), givenDate);
         Date present = new Date();
+        System.out.println("present " + present.getMonth() + zone.getMonthValue());
         if (period.getYears() > 0)
             return 100;
-        if (period.getMonths() == 0 || period.getMonths() == 1)
-            return period.getDays();
-
+        else {
+            int monthDiff = dob.getMonth() - present.getMonth();
+            if (monthDiff == 0 || monthDiff == 1) {
+                return dob.getDay() - present.getDay();
+            }
+        }
         return 100;
     }
     // us-39 changes ends @KP
@@ -103,7 +107,7 @@ public class Sprint3 {
 
     public void US38_listAllLivingUpcomingBirthday(Individual individual) {
             long noDays = calculateDays(individual.dobDate);
-            if (noDays <= 30 && noDays >= 0) {
+            if (noDays < 29 && noDays > 0) {
                 String successMessage = "", name = "";
                 String[] formatName;
                 formatName = individual.name.split("/");
