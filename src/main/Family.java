@@ -15,11 +15,11 @@ public class Family{
     String wifeName;
     public String dateOfMarried;
     int dateOfMarriedidLineNo;
-    Date marrriedDate;
+    public Date marrriedDate;
     public String dateOfDivided;
     int dateOfDividedLineNo;
-    Date dividedDate;
-    ArrayList<String> child;
+    public Date dividedDate;
+    public ArrayList<String> child;
     String divorced;
 
     public Family() {

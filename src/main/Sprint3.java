@@ -37,7 +37,7 @@ public class Sprint3 {
             }
         }
 
-        return 0;
+        return 100;
     }
     // us-08 changes ends @KP
 
@@ -54,8 +54,17 @@ public class Sprint3 {
         Instant instant = dob.toInstant();
         ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
         LocalDate givenDate = zone.toLocalDate();
-        long p2 = ChronoUnit.DAYS.between(LocalDate.now(), givenDate);
-        return p2;
+        Period period = Period.between(LocalDate.now(), givenDate);
+        Date present = new Date();
+        if (period.getYears() > 0)
+            return 100;
+        else {
+            int monthDiff = dob.getMonth() - present.getMonth();
+            if (monthDiff == 0 || monthDiff == 1) {
+                return dob.getDay() - present.getDay();
+            }
+        }
+        return 100;
     }
     // us-39 changes ends @KP
 
@@ -96,9 +105,8 @@ public class Sprint3 {
     }
 
     public void US38_listAllLivingUpcomingBirthday(Individual individual) {
-        if (individual.dobDate != null) {
             long noDays = calculateDays(individual.dobDate);
-            if (noDays <= 30 && noDays >= 0) {
+            if (noDays < 29 && noDays > 0) {
                 String successMessage = "", name = "";
                 String[] formatName;
                 formatName = individual.name.split("/");
@@ -106,7 +114,6 @@ public class Sprint3 {
                 successMessage = "ID: " + individual.id + " NAME: " + name + " Date of Birth: " + individual.dateOfBirth + " Birthday in under 30 days";
                 successAnomalyDataUS38.add(successMessage);
             }
-        }
     }
 
     //US30 changes starts @pp
@@ -156,6 +163,7 @@ public class Sprint3 {
         HashMap<String,String>name = new HashMap<String, String>();
         HashMap<String,Integer>alive = new HashMap<String, Integer>();
         HashMap<String,Integer>age = new HashMap<String, Integer>();
+
         Date today = new Date();
         for(int i=0;i<individuals.size();i++){
             age.put(individuals.get(i).id,-1);
@@ -257,8 +265,8 @@ public class Sprint3 {
         if (!successAnomalyDataUS38.isEmpty()) {
             fileOut.println();
             System.out.println();
-            fileOut.println("US39: List all Upcoming birthday which is in 30 days");
-            System.out.println("US39: List all Upcoming birthday which is in 30 days");
+            fileOut.println("US38: List all Upcoming birthday which is in 30 days");
+            System.out.println("US38: List all Upcoming birthday which is in 30 days");
             for (String str : successAnomalyDataUS38) {
                 fileOut.println(str);
                 System.out.println(str);
@@ -278,10 +286,12 @@ public class Sprint3 {
                 System.out.println("For Family ID :" + lissib.familyID);
                 for(ChildData data:lissib.siblings){
                     fileOut.println("Child ID: "+ data.childID +
-                            " Name: " + data.childName + " " +
+                            "; Name: " + data.childName + "; " +
+                            "Date of Birth: " + data.childDOB + "; " +
                             "Age: " + data.age);
                     System.out.println("Child ID: "+ data.childID +
-                            " Name: " + data.childName + " " +
+                            "; Name: " + data.childName + "; " +
+                            "Date Of Birth: " + data.childDOB+"; " +
                             "Age: " + data.age);
                 }
                 fileOut.println();
@@ -383,6 +393,8 @@ public class Sprint3 {
                 ind = getIndividualData(child,individuals);
                 childData.childName=ind.name.replaceAll("/","");;
                 childData.age=ind.age;
+                childData.childDOB=ind.dateOfBirth;
+                childData.childDOBDate=ind.dobDate;
                 listSib.siblings.add(childData);
             }
             for (int j = i + 1; j < family.size(); j++) {
@@ -402,11 +414,13 @@ public class Sprint3 {
                             childData.childID=ind.id;
                             childData.childName = ind.name.replaceAll("/", "");
                             childData.age = ind.age;
+                            childData.childDOB=ind.dateOfBirth;
+                            childData.childDOBDate=ind.dobDate;
                             listSib.siblings.add(childData);
                     }
                 }
             }
-            Collections.sort(listSib.siblings,Collections.reverseOrder());
+            Collections.sort(listSib.siblings);
             listSiblings.add(listSib);
         }
 
@@ -415,12 +429,17 @@ public class Sprint3 {
     class ChildData implements Comparable<ChildData>{
         String childID;
         String childName;
+        String childDOB;
+        Date childDOBDate;
         int age;
 
         @Override
         public int compareTo(ChildData data) {
 
-            return this.age > data.age ? 1 : this.age < data.age ? -1 : 0;
+            //return this.age > data.age ? 1 : this.age < data.age ? -1 : 0;
+            if (this.childDOBDate == null || data.childDOBDate == null)
+                return 0;
+            return this.childDOBDate.compareTo(data.childDOBDate);
         }
     }
     class ListSiblings{

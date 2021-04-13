@@ -13,14 +13,14 @@ public class Individual {
     public String dateOfBirth;
     int dobLineNo;
     public Date dobDate;
-    int age;
+    public int age;
     public boolean alive = true;
     public String death;
-    int deathLineNo;
-    Date deathDate;
-    String child;
+    public int deathLineNo;
+    public Date deathDate;
+    public String child;
     int childLineNo;
-    String spouse;
+    public String spouse;
     int spouseLineNo;
 
     public Individual() {
