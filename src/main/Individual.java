@@ -18,9 +18,9 @@ public class Individual {
     public String death;
     public int deathLineNo;
     public Date deathDate;
-    String child;
+    public String child;
     int childLineNo;
-    String spouse;
+    public String spouse;
     int spouseLineNo;
 
     public Individual() {
