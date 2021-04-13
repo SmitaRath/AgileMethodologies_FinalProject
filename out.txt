@@ -64,7 +64,6 @@ Error: In US07 for INDIVIDUAL at Line no: 158; ID: I4; Deathday 2095-10-17; Deat
 Error: In US22 for INDIVIDUAL at Line no: 122; ID: I7; The Individual ID is not unique
 Error: In US22 for INDIVIDUAL at Line no: 173; ID: I7; The Individual ID is not unique
 Error: In US01 for INDIVDUAL at Line no: 189; ID: I12; BirthDay 2021-04-30 occurs in the future
-Error: In US01 for INDIVDUAL at Line no: 189; ID: I12; BirthDay 2021-04-30 occurs in the future
 Error: In US07 for INDIVIDUAL at Line no: 18; ID: I24; BirthDay: 1836-09-03; Current date should be less than 150 years after birth for all living people
 Error: In US01 For FAMILY at Line no :220; ID: F1; Divided Date 2021-12-15 occurs in the future
 Error: In US21 for INDIVIDUAL at  Line no: 138; Husband's Id :I2; in family: F1 Gender is F
@@ -115,7 +114,7 @@ Child ID: I5; Name: Jacob Williams; Date of Birth: 2002-08-16; Age: 18
 Child ID: I7; Name: Daniel Miller; Date of Birth: 2005-08-14; Age: 15
 
 For Family ID :F6
-Child ID: I24; Name: Roopa Vira; Date of Birth: 1836-09-04; Age: 184
+Child ID: I24; Name: Roopa Vira; Date of Birth: 1836-09-03; Age: 184
 Child ID: I26; Name: Liza Vira; Date of Birth: 1900-09-04; Age: 120
 Child ID: I35; Name: Veena Vira; Date of Birth: 1956-09-04; Age: 64
 Child ID: I27; Name: Rofia Vira; Date of Birth: 1962-09-04; Age: 58
