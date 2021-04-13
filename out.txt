@@ -14,7 +14,7 @@ Individuals
 |I9 |Sofia /Williams/    |F     |2020-08-09 |0  |True |NA        |{'F4'}|NA     |
 |I10|Aishley /Hill/      |F     |42 DEC 1997|0  |True |NA        |NA    |{'F5'} |
 |I11|James /Bond/        |M     |1997-12-22 |23 |True |NA        |NA    |{'F5'} |
-|I12|Roger /Williams/    |M     |2021-04-10 |0  |True |NA        |{'F8'}|NA     |
+|I12|Roger /Williams/    |M     |2021-04-30 |0  |True |NA        |{'F8'}|NA     |
 |I13|Serena /Hill/       |F     |2017-06-09 |2  |False|2020-01-15|NA    |{'F8'} |
 |I14|Federer /Hill/      |M     |2017-06-09 |3  |False|2020-12-15|NA    |{'F8'} |
 |I20|Parrol /Vira/       |M     |2005-08-15 |15 |True |NA        |{'F6'}|NA     |
@@ -52,11 +52,7 @@ Families
 ============================== Sprint1 Output =======================================
 
 
-US35: List all Recent births
-ID: I12 NAME: Roger Williams Date of Birth: 2021-04-10 Birth age in no.Of.Days: 0
-
 US36: List all Recent deaths
-ID: I2 NAME: Michael Smith Date of Death: 2021-03-11 Death age in no.Of.Days: 30
 
 Error: In US01 for INDIVDUAL at Line no: 132; ID: I1; BirthDay 2022-08-07 occurs in the future
 Error: In US03 for INDIVIDUAL at Line no: 132,134; ID: I1; Date of Birth: 2022-08-07; Date of Death: 1950-06-15; Birth Occurs After Death
@@ -67,6 +63,7 @@ Error: In US07 for INDIVIDUAL at Line no: 156; ID: I4; BirthDay: 1935-09-13; Cur
 Error: In US07 for INDIVIDUAL at Line no: 158; ID: I4; Deathday 2095-10-17; Death date should be less than 150 years after birth for dead people
 Error: In US22 for INDIVIDUAL at Line no: 122; ID: I7; The Individual ID is not unique
 Error: In US22 for INDIVIDUAL at Line no: 173; ID: I7; The Individual ID is not unique
+Error: In US01 for INDIVDUAL at Line no: 189; ID: I12; BirthDay 2021-04-30 occurs in the future
 Error: In US07 for INDIVIDUAL at Line no: 18; ID: I24; BirthDay: 1836-09-04; Current date should be less than 150 years after birth for all living people
 Error: In US01 For FAMILY at Line no :220; ID: F1; Divided Date 2021-12-15 occurs in the future
 Error: In US21 for INDIVIDUAL at  Line no: 138; Husband's Id :I2; in family: F1 Gender is F
@@ -108,31 +105,31 @@ Error: In US16 for INDIVIDUAL at Line no: 186; ID: I12; Individual Name: Roger /
 ============================== Sprint3 Output =======================================
 
 
-US39: List all Upcoming birthday which is in 30 days
-ID: I12 NAME: Roger Williams Date of Birth: 2021-04-10 Birthday in under 30 days
+US38: List all Upcoming birthday which is in 30 days
+ID: I12 NAME: Roger Williams Date of Birth: 2021-04-30 Birthday in under 30 days
 
 US28 Order of siblings by age
 For Family ID :F1 F2 F3
-Child ID: I5 Name: Jacob Williams Age: 18
-Child ID: I7 Name: Daniel Miller Age: 15
+Child ID: I5; Name: Jacob Williams; Date of Birth: 2002-08-16; Age: 18
+Child ID: I7; Name: Daniel Miller; Date of Birth: 2005-08-14; Age: 15
 
 For Family ID :F6
-Child ID: I24 Name: Roopa Vira Age: 184
-Child ID: I26 Name: Liza Vira Age: 120
-Child ID: I35 Name: Veena Vira Age: 64
-Child ID: I27 Name: Rofia Vira Age: 58
-Child ID: I32 Name: Halia Vira Age: 55
-Child ID: I33 Name: Zinchia Vira Age: 52
-Child ID: I31 Name: Razia Vira Age: 51
-Child ID: I37 Name: Lili Vira Age: 44
-Child ID: I36 Name: Kriti Vira Age: 43
-Child ID: I34 Name: Pixa Vira Age: 40
-Child ID: I23 Name: Suzane Vira Age: 37
-Child ID: I22 Name: Frizia Vira Age: 33
-Child ID: I25 Name: Cristina Vira Age: 33
-Child ID: I28 Name: Tofia Vira Age: 27
-Child ID: I30 Name: Xifia Vira Age: 24
-Child ID: I29 Name: Lofia Vira Age: 19
+Child ID: I24; Name: Roopa Vira; Date of Birth: 1836-09-04; Age: 184
+Child ID: I26; Name: Liza Vira; Date of Birth: 1900-09-04; Age: 120
+Child ID: I35; Name: Veena Vira; Date of Birth: 1956-09-04; Age: 64
+Child ID: I27; Name: Rofia Vira; Date of Birth: 1962-09-04; Age: 58
+Child ID: I32; Name: Halia Vira; Date of Birth: 1965-09-04; Age: 55
+Child ID: I33; Name: Zinchia Vira; Date of Birth: 1968-09-04; Age: 52
+Child ID: I31; Name: Razia Vira; Date of Birth: 1969-09-04; Age: 51
+Child ID: I37; Name: Lili Vira; Date of Birth: 1976-09-04; Age: 44
+Child ID: I36; Name: Kriti Vira; Date of Birth: 1977-09-04; Age: 43
+Child ID: I34; Name: Pixa Vira; Date of Birth: 1980-09-04; Age: 40
+Child ID: I23; Name: Suzane Vira; Date of Birth: 1983-09-04; Age: 37
+Child ID: I22; Name: Frizia Vira; Date of Birth: 1987-09-04; Age: 33
+Child ID: I25; Name: Cristina Vira; Date of Birth: 1987-09-04; Age: 33
+Child ID: I28; Name: Tofia Vira; Date of Birth: 1993-09-04; Age: 27
+Child ID: I30; Name: Xifia Vira; Date of Birth: 1996-09-04; Age: 24
+Child ID: I29; Name: Lofia Vira; Date of Birth: 2001-09-04; Age: 19
 
 
 US29 List of all deceased individuals
@@ -154,7 +151,6 @@ ID: I21 NAME: Sezeze Vira
 
 US33 List of all Orphaned Children under 18 years
 ID: I3 NAME: Linda Smith
-ID: I12 NAME: Roger Williams
 
 US31 List of all individuals who are never married and are above 30 years
 ID: I22 NAME: Frizia Vira
@@ -176,4 +172,6 @@ ID: I22; ID: I25
 
 
 Error: In US09 for INDIVIDUAL at Line no: 148; ID: I3; Individual Name: Linda /Smith/; Birth date: 2021-03-05 ; Mother ID: I1 ; Mother's death date: 1950-06-15; Line no:134; Children should be born before death of mother.
-Error: In US09 for INDIVIDUAL at Line no: 189; ID: I12; Individual Name: Roger /Williams/; Birth date: 2021-04-10 ; Mother ID: I13 ; Mother's death date: 2020-01-15; Line no:197; Children should be born before death of mother.
+Error: In US09 for INDIVIDUAL at Line no: 164; ID: I5; Individual Name: Jacob /Williams/; Birth date: 2002-08-16 ; Father ID: I4 ; Father's death date: 2095-10-17; Line no:158; Children should be born, not more than 9 months after father's death
+Error: In US09 for INDIVIDUAL at Line no: 189; ID: I12; Individual Name: Roger /Williams/; Birth date: 2021-04-30 ; Mother ID: I13 ; Mother's death date: 2020-01-15; Line no:197; Children should be born before death of mother.
+Error: In US09 for INDIVIDUAL at Line no: 189; ID: I12; Individual Name: Roger /Williams/; Birth date: 2021-04-30 ; Father ID: I14 ; Father's death date: 2020-12-15; Line no:205; Children should be born, not more than 9 months after father's death
