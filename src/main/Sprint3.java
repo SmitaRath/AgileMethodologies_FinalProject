@@ -54,8 +54,17 @@ public class Sprint3 {
         Instant instant = dob.toInstant();
         ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
         LocalDate givenDate = zone.toLocalDate();
-        long p2 = ChronoUnit.DAYS.between(LocalDate.now(), givenDate);
-        return p2;
+        Period period = Period.between(LocalDate.now(), givenDate);
+        Date present = new Date();
+        if (period.getYears() > 0)
+            return 100;
+        else {
+            int monthDiff = dob.getMonth() - present.getMonth();
+            if (monthDiff == 0 || monthDiff == 1) {
+                return dob.getDay() - present.getDay();
+            }
+        }
+        return 100;
     }
     // us-39 changes ends @KP
 
@@ -96,9 +105,8 @@ public class Sprint3 {
     }
 
     public void US38_listAllLivingUpcomingBirthday(Individual individual) {
-        if (individual.dobDate != null) {
             long noDays = calculateDays(individual.dobDate);
-            if (noDays <= 30 && noDays >= 0) {
+            if (noDays < 29 && noDays > 0) {
                 String successMessage = "", name = "";
                 String[] formatName;
                 formatName = individual.name.split("/");
@@ -106,7 +114,6 @@ public class Sprint3 {
                 successMessage = "ID: " + individual.id + " NAME: " + name + " Date of Birth: " + individual.dateOfBirth + " Birthday in under 30 days";
                 successAnomalyDataUS38.add(successMessage);
             }
-        }
     }
 
     //US30 changes starts @pp
