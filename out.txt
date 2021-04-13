@@ -3,7 +3,7 @@ Individuals
 |ID |Name                |Gender|Birthday   |Age|Alive|Death     |Child |Spouse |
 +---+--------------------+------+-----------+---+-----+----------+------+-------+
 |I1 |Elizabeth /Peterson/|M     |2022-08-07 |0  |False|1950-06-15|NA    |{'F2'} |
-|I2 |Michael /Smith/     |F     |1820-10-10 |200|False|2021-03-11|NA    |{'F1'} |
+|I2 |Michael /Smith/     |F     |1820-10-09 |200|False|2021-03-11|NA    |{'F1'} |
 |I3 |Linda /Smith/       |F     |2021-03-05 |0  |True |NA        |{'F1'}|{'F2'} |
 |I4 |Timothy /Williams/  |M     |1935-09-13 |160|False|2095-10-17|NA    |{'F3'} |
 |I5 |Jacob /Williams/    |M     |2002-08-16 |18 |True |NA        |{'F3'}|{'F4'} |
@@ -21,7 +21,7 @@ Individuals
 |I21|Sezeze /Vira/       |F     |2017-06-20 |3  |True |NA        |NA    |{'F6'} |
 |I22|Frizia /Vira/       |F     |1987-09-04 |33 |True |NA        |{'F6'}|NA     |
 |I23|Suzane /Vira/       |F     |1983-09-04 |37 |True |NA        |{'F6'}|NA     |
-|I24|Roopa /Vira/        |F     |1836-09-04 |184|True |NA        |{'F6'}|NA     |
+|I24|Roopa /Vira/        |F     |1836-09-03 |184|True |NA        |{'F6'}|NA     |
 |I25|Cristina /Vira/     |F     |1987-09-04 |33 |True |NA        |{'F6'}|NA     |
 |I26|Liza /Vira/         |F     |1900-09-04 |120|True |NA        |{'F6'}|NA     |
 |I27|Rofia /Vira/        |F     |1962-09-04 |58 |True |NA        |{'F6'}|NA     |
@@ -45,7 +45,7 @@ Families
 |F2|2000-09-14|NA        |I6        |Andrew /Miller/   |I3     |Linda /Smith/       |{'I7'}                                                                                                          |
 |F4|2016-08-15|NA        |I5        |Jacob /Williams/  |I8     |Aishley /Hill/      |{'I9'}                                                                                                          |
 |F5|2018-08-15|NA        |I11       |James /Bond/      |I10    |Aishley /Hill/      |NA                                                                                                              |
-|F6|1650-07-15|NA        |I20       |Parrol /Vira/     |I21    |Sezeze /Vira/       |{'I22', 'I23', 'I24', 'I25', 'I26', 'I27', 'I28', 'I29', 'I30', 'I31', 'I32', 'I33', 'I34', 'I35', 'I36', 'I37'}|
+|F6|1650-07-14|NA        |I20       |Parrol /Vira/     |I21    |Sezeze /Vira/       |{'I22', 'I23', 'I24', 'I25', 'I26', 'I27', 'I28', 'I29', 'I30', 'I31', 'I32', 'I33', 'I34', 'I35', 'I36', 'I37'}|
 |F8|2016-08-15|NA        |I14       |Federer /Hill/    |I13    |Serena /Hill/       |{'I12'}                                                                                                         |
 +--+----------+----------+----------+------------------+-------+--------------------+----------------------------------------------------------------------------------------------------------------+
 
@@ -56,7 +56,7 @@ US36: List all Recent deaths
 
 Error: In US01 for INDIVDUAL at Line no: 132; ID: I1; BirthDay 2022-08-07 occurs in the future
 Error: In US03 for INDIVIDUAL at Line no: 132,134; ID: I1; Date of Birth: 2022-08-07; Date of Death: 1950-06-15; Birth Occurs After Death
-Error: In US07 for INDIVIDUAL at Line no: 140; ID: I2; BirthDay: 1820-10-10; Current date should be less than 150 years after birth for all living people
+Error: In US07 for INDIVIDUAL at Line no: 140; ID: I2; BirthDay: 1820-10-09; Current date should be less than 150 years after birth for all living people
 Error: In US07 for INDIVIDUAL at Line no: 142; ID: I2; Deathday 2021-03-11; Death date should be less than 150 years after birth for dead people
 Error: In US01 for INDIVDUAL at Line no: 158; Id: I4; Death 2095-10-17 occurs in the future
 Error: In US07 for INDIVIDUAL at Line no: 156; ID: I4; BirthDay: 1935-09-13; Current date should be less than 150 years after birth for all living people
@@ -64,7 +64,8 @@ Error: In US07 for INDIVIDUAL at Line no: 158; ID: I4; Deathday 2095-10-17; Deat
 Error: In US22 for INDIVIDUAL at Line no: 122; ID: I7; The Individual ID is not unique
 Error: In US22 for INDIVIDUAL at Line no: 173; ID: I7; The Individual ID is not unique
 Error: In US01 for INDIVDUAL at Line no: 189; ID: I12; BirthDay 2021-04-30 occurs in the future
-Error: In US07 for INDIVIDUAL at Line no: 18; ID: I24; BirthDay: 1836-09-04; Current date should be less than 150 years after birth for all living people
+Error: In US01 for INDIVDUAL at Line no: 189; ID: I12; BirthDay 2021-04-30 occurs in the future
+Error: In US07 for INDIVIDUAL at Line no: 18; ID: I24; BirthDay: 1836-09-03; Current date should be less than 150 years after birth for all living people
 Error: In US01 For FAMILY at Line no :220; ID: F1; Divided Date 2021-12-15 occurs in the future
 Error: In US21 for INDIVIDUAL at  Line no: 138; Husband's Id :I2; in family: F1 Gender is F
 Error: In US21 for INDIVIDUAL at  Line No: 130; Wife's Id :I1; in family: F1 Gender is M
@@ -74,8 +75,8 @@ Error: In US22 for FAMILY at Line no: 227; ID: F1; This Family ID is not unique
 Error: In US02 for INDIVIDUAL at Line no: 148,229; ID: I3; Date of Birth: 2021-03-05; Date of Marriage: 1998-07-17; Birth Occurs After Marriage
 Error: In US02 for INDIVIDUAL at Line no: 148,223; ID: I3; Date of Birth: 2021-03-05; Date of Marriage: 2000-09-14; Birth Occurs After Marriage
 Error: In US02 for INDIVIDUAL at Line no: 183,235; ID: I8; Date of Birth: 2002-08-16; Date of Marriage: 2016-08-15; Birth Occurs After Marriage
-Error: In US02 for INDIVIDUAL at Line no: 102,252; ID: I20; Date of Birth: 2005-08-15; Date of Marriage: 1650-07-15; Birth Occurs After Marriage
-Error: In US02 for INDIVIDUAL at Line no: 108,252; ID: I21; Date of Birth: 2005-08-15; Date of Marriage: 1650-07-15; Birth Occurs After Marriage
+Error: In US02 for INDIVIDUAL at Line no: 102,252; ID: I20; Date of Birth: 2005-08-15; Date of Marriage: 1650-07-14; Birth Occurs After Marriage
+Error: In US02 for INDIVIDUAL at Line no: 108,252; ID: I21; Date of Birth: 2005-08-15; Date of Marriage: 1650-07-14; Birth Occurs After Marriage
 Error: In US02 for INDIVIDUAL at Line no: 203,246; ID: I14; Date of Birth: 2017-06-09; Date of Marriage: 2016-08-15; Birth Occurs After Marriage
 Error: In US02 for INDIVIDUAL at Line no: 195,246; ID: I13; Date of Birth: 2017-06-09; Date of Marriage: 2016-08-15; Birth Occurs After Marriage
 

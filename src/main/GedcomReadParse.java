@@ -284,7 +284,7 @@ public class GedcomReadParse {
     }
 
     //calculating age of the individual
-    int calculateAge(Date dob) {
+    public int calculateAge(Date dob) {
         Instant instant = dob.toInstant();
         ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
         LocalDate givenDate = zone.toLocalDate();

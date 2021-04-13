@@ -163,6 +163,7 @@ public class Sprint3 {
         HashMap<String,String>name = new HashMap<String, String>();
         HashMap<String,Integer>alive = new HashMap<String, Integer>();
         HashMap<String,Integer>age = new HashMap<String, Integer>();
+
         Date today = new Date();
         for(int i=0;i<individuals.size();i++){
             age.put(individuals.get(i).id,-1);

@@ -102,4 +102,57 @@ public class Sprint3Test {
         assertEquals(false,(!I2.alive && I2.deathDate!=null));
         assertEquals(false,(!I3.alive && I3.deathDate!=null));
     }
+
+    @Test
+    public void US30_ListLivingMarriedIndividual() throws ParseException {
+        Individual I1 = new Individual();
+        Individual I2 = new Individual();
+        DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
+        I1.id = "I1";
+        I1.name="Samuel /Lever/";
+        I2.id = "I2";
+        I2.name = "Stephanie /Silva/";
+        I1.alive=true;
+        g1.individuals.add(I1);
+        I2.alive=false;
+        g1.individuals.add(I2);
+        f.husbandId = "I1";
+        f.wifeId = "I2";
+        f.dateOfMarried = "03 APR 2004";
+        f.marrriedDate = formatter.parse(f.dateOfMarried);
+        f.dividedDate = null;
+        g1.families.add(f);
+        assertEquals(true,(f.marrriedDate!=null&&f.dividedDate==null&&I1.alive==true));
+        assertEquals(false,(f.marrriedDate!=null&&f.dividedDate==null&&I2.alive==true));
+    }
+
+    @Test
+    public void US33_ListAllOrphanedChildrenBelow18() throws ParseException {
+        Individual I1 = new Individual();
+        Individual I2 = new Individual();
+        Individual I3 = new Individual();
+        Individual I4 = new Individual();
+        DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
+        I1.id = "I1";
+        I1.name="Samuel /Lever/";
+        I2.id = "I2";
+        I2.name = "Stephanie /Silva/";
+        I1.alive=false;
+        I2.alive=false;
+        f.husbandId = "I1";
+        f.wifeId = "I2";
+        I3.id = "I3";
+        I3.dateOfBirth = "14 JUN 2014";
+        I3.dobDate = formatter.parse(I3.dateOfBirth);
+        I3.age = g1.calculateAge(I3.dobDate);
+        Date today = new Date();
+        f.child.add("I3");
+        I4.id = "I4";
+        I4.dateOfBirth = "14 JUN 2000";
+        I4.dobDate = formatter.parse(I4.dateOfBirth);
+        I4.age = g1.calculateAge(I4.dobDate);
+        f.child.add("I4");
+        assertEquals(true,(I1.alive==false&&I2.alive==false&&(I3.dobDate!=null&&(I3.dobDate.before(today)||I3.dobDate.equals(today))&&I3.age<18&&I3.age>=0)));
+        assertEquals(false,(I1.alive==false&&I2.alive==false&&(I4.dobDate!=null&&(I4.dobDate.before(today)||I4.dobDate.equals(today))&&I4.age<18&&I4.age>=0)));
+    }
 }

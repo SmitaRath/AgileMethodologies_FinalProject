@@ -18,7 +18,7 @@ public class Family{
     public Date marrriedDate;
     public String dateOfDivided;
     int dateOfDividedLineNo;
-    Date dividedDate;
+    public Date dividedDate;
     public ArrayList<String> child;
     String divorced;
 

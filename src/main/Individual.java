@@ -13,7 +13,7 @@ public class Individual {
     public String dateOfBirth;
     int dobLineNo;
     public Date dobDate;
-    int age;
+    public int age;
     public boolean alive = true;
     public String death;
     public int deathLineNo;
