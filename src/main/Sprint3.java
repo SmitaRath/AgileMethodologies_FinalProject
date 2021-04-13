@@ -278,10 +278,12 @@ public class Sprint3 {
                 System.out.println("For Family ID :" + lissib.familyID);
                 for(ChildData data:lissib.siblings){
                     fileOut.println("Child ID: "+ data.childID +
-                            " Name: " + data.childName + " " +
+                            "; Name: " + data.childName + "; " +
+                            "Date of Birth: " + data.childDOB + "; " +
                             "Age: " + data.age);
                     System.out.println("Child ID: "+ data.childID +
-                            " Name: " + data.childName + " " +
+                            "; Name: " + data.childName + "; " +
+                            "Date Of Birth: " + data.childDOB+"; " +
                             "Age: " + data.age);
                 }
                 fileOut.println();
@@ -383,6 +385,8 @@ public class Sprint3 {
                 ind = getIndividualData(child,individuals);
                 childData.childName=ind.name.replaceAll("/","");;
                 childData.age=ind.age;
+                childData.childDOB=ind.dateOfBirth;
+                childData.childDOBDate=ind.dobDate;
                 listSib.siblings.add(childData);
             }
             for (int j = i + 1; j < family.size(); j++) {
@@ -402,11 +406,13 @@ public class Sprint3 {
                             childData.childID=ind.id;
                             childData.childName = ind.name.replaceAll("/", "");
                             childData.age = ind.age;
+                            childData.childDOB=ind.dateOfBirth;
+                            childData.childDOBDate=ind.dobDate;
                             listSib.siblings.add(childData);
                     }
                 }
             }
-            Collections.sort(listSib.siblings,Collections.reverseOrder());
+            Collections.sort(listSib.siblings);
             listSiblings.add(listSib);
         }
 
@@ -415,12 +421,17 @@ public class Sprint3 {
     class ChildData implements Comparable<ChildData>{
         String childID;
         String childName;
+        String childDOB;
+        Date childDOBDate;
         int age;
 
         @Override
         public int compareTo(ChildData data) {
 
-            return this.age > data.age ? 1 : this.age < data.age ? -1 : 0;
+            //return this.age > data.age ? 1 : this.age < data.age ? -1 : 0;
+            if (this.childDOBDate == null || data.childDOBDate == null)
+                return 0;
+            return this.childDOBDate.compareTo(data.childDOBDate);
         }
     }
     class ListSiblings{
