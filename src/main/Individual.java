@@ -16,8 +16,8 @@ public class Individual {
     int age;
     public boolean alive = true;
     public String death;
-    int deathLineNo;
-    Date deathDate;
+    public int deathLineNo;
+    public Date deathDate;
     String child;
     int childLineNo;
     String spouse;
