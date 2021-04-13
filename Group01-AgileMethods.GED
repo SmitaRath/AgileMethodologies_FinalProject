@@ -186,7 +186,7 @@
 1 NAME Roger /Williams/
 1 SEX M
 1 BIRT
-2 DATE 10 APR 2021
+2 DATE 30 APR 2021
 1 FAMC @F8@
 0 @I13@ INDI
 1 NAME Serena /Hill/
@@ -244,9 +244,9 @@
 0 @F8@ FAM
 1 MARR
 2 DATE 15 AUG 2016
-1 HUSB @I14@    ------------------------------------------ changed for us09
-1 WIFE @I13@   ------------------------------------------ changed for us09
-1 CHIL @I12@ ------------------------------------------ changed for us09
+1 HUSB @I14@
+1 WIFE @I13@
+1 CHIL @I12@
 0 @F6@ FAM
 1 MARR
 2 DATE 15 JUL 1650

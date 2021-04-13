@@ -37,7 +37,7 @@ public class Sprint3 {
             }
         }
 
-        return 0;
+        return 100;
     }
     // us-08 changes ends @KP
 
@@ -257,8 +257,8 @@ public class Sprint3 {
         if (!successAnomalyDataUS38.isEmpty()) {
             fileOut.println();
             System.out.println();
-            fileOut.println("US39: List all Upcoming birthday which is in 30 days");
-            System.out.println("US39: List all Upcoming birthday which is in 30 days");
+            fileOut.println("US38: List all Upcoming birthday which is in 30 days");
+            System.out.println("US38: List all Upcoming birthday which is in 30 days");
             for (String str : successAnomalyDataUS38) {
                 fileOut.println(str);
                 System.out.println(str);
