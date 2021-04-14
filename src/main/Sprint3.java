@@ -106,7 +106,7 @@ public class Sprint3 {
 
     public void US38_listAllLivingUpcomingBirthday(Individual individual) {
             long noDays = calculateDays(individual.dobDate);
-            if (noDays < 29 && noDays > 0) {
+            if (noDays < 29 && noDays >= 0) {
                 String successMessage = "", name = "";
                 String[] formatName;
                 formatName = individual.name.split("/");
