@@ -19,7 +19,7 @@ Individuals
 |I14|Federer /Hill/      |M     |2017-06-09 |3  |False|2020-12-15|NA    |{'F8'} |
 |I20|Parrol /Vira/       |M     |2005-08-15 |15 |True |NA        |{'F6'}|NA     |
 |I21|Sezeze /Vira/       |F     |2017-06-20 |3  |True |NA        |NA    |{'F6'} |
-|I22|Frizia /Vira/       |F     |1987-09-04 |33 |True |NA        |{'F6'}|NA     |
+|I22|Frizia /Vira/       |F     |1955-05-14 |65 |True |NA        |{'F6'}|NA     |
 |I23|Suzane /Vira/       |F     |1983-09-04 |37 |True |NA        |{'F6'}|NA     |
 |I24|Roopa /Vira/        |F     |1836-09-04 |184|True |NA        |{'F6'}|NA     |
 |I25|Cristina /Vira/     |F     |1987-09-04 |33 |True |NA        |{'F6'}|NA     |
@@ -98,8 +98,6 @@ Error: In US23 for INDIVIDUAL at  Line no: 111; Id :I10; Name :Aishley /Hill/; i
 Error: In US23 for INDIVIDUAL at  Line no: 180; Id :I8; Name :Aishley /Hill/; is not unique 
 Error: In US23 for INDIVIDUAL at  Line no: 203; Id :I14; Date Of Birth :2017-06-09; is not unique 
 Error: In US23 for INDIVIDUAL at  Line no: 195; Id :I13; Date Of Birth :2017-06-09; is not unique 
-Error: In US23 for INDIVIDUAL at  Line no: 24; Id :I25; Date Of Birth :1987-09-04; is not unique 
-Error: In US23 for INDIVIDUAL at  Line no: 6; Id :I22; Date Of Birth :1987-09-04; is not unique 
 
 ERROR IN US16 WHICH DON'T HAVE SAME FAMILY NAME IS LISTED BELOW 
 Error: In US16 for INDIVIDUAL at Line no: 123; ID: I7; Individual Name: Andre /Swarts/ ; Family ID: F10 ; Family Name: Miller; Family last name should be same for all males in family.
@@ -110,6 +108,7 @@ Error: In US16 for INDIVIDUAL at Line no: 186; ID: I12; Individual Name: Roger /
 
 US38: List all Upcoming birthday which is in 30 days
 ID: I12 NAME: Roger Williams Date of Birth: 2021-04-30 Birthday in under 30 days
+ID: I22 NAME: Frizia Vira Date of Birth: 1955-05-14 Birthday in under 30 days
 
 US28 Order of siblings by age
 For Family ID :F1 F2 F3
@@ -119,6 +118,7 @@ Child ID: I7; Name: Daniel Miller; Date of Birth: 2005-08-14; Age: 15
 For Family ID :F6
 Child ID: I24; Name: Roopa Vira; Date of Birth: 1836-09-04; Age: 184
 Child ID: I26; Name: Liza Vira; Date of Birth: 1900-09-04; Age: 120
+Child ID: I22; Name: Frizia Vira; Date of Birth: 1955-05-14; Age: 65
 Child ID: I35; Name: Veena Vira; Date of Birth: 1956-09-04; Age: 64
 Child ID: I27; Name: Rofia Vira; Date of Birth: 1962-09-04; Age: 58
 Child ID: I32; Name: Halia Vira; Date of Birth: 1965-09-04; Age: 55
@@ -128,7 +128,6 @@ Child ID: I37; Name: Lili Vira; Date of Birth: 1976-09-04; Age: 44
 Child ID: I36; Name: Kriti Vira; Date of Birth: 1977-09-04; Age: 43
 Child ID: I34; Name: Pixa Vira; Date of Birth: 1980-09-04; Age: 40
 Child ID: I23; Name: Suzane Vira; Date of Birth: 1983-09-04; Age: 37
-Child ID: I22; Name: Frizia Vira; Date of Birth: 1987-09-04; Age: 33
 Child ID: I25; Name: Cristina Vira; Date of Birth: 1987-09-04; Age: 33
 Child ID: I28; Name: Tofia Vira; Date of Birth: 1993-09-04; Age: 27
 Child ID: I30; Name: Xifia Vira; Date of Birth: 1996-09-04; Age: 24
@@ -138,7 +137,6 @@ Child ID: I29; Name: Lofia Vira; Date of Birth: 2001-09-04; Age: 19
 US29 List of all deceased individuals
 ID: I1 Name: Elizabeth Peterson Date of Death: 1950-06-15
 ID: I2 Name: Michael Smith Date of Death: 2021-03-11
-ID: I4 Name: Timothy Williams Date of Death: 2095-10-17
 ID: I13 Name: Serena Hill Date of Death: 2020-01-15
 ID: I14 Name: Federer Hill Date of Death: 2020-12-15
 
@@ -171,7 +169,6 @@ ID: I36 NAME: Kriti Vira
 ID: I37 NAME: Lili Vira
 
 US32 List of ID's of all individual having multiple births
-ID: I22; ID: I25
 
 
 Error: In US09 for INDIVIDUAL at Line no: 148; ID: I3; Individual Name: Linda /Smith/; Birth date: 2021-04-12 ; Mother ID: I1 ; Mother's death date: 1950-06-15; Line no:134; Children should be born before death of mother.
