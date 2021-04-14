@@ -239,10 +239,26 @@ public class Sprint3 {
                 for(int j=0;j<families.get(i).child.size();j++){
                     if(idflag.get(families.get(i).child.get(j))==0){
                     String str="",message = "";
-                    message = message + "ID: " + families.get(i).child.get(j);
+                    message = message + "--> ID: " + families.get(i).child.get(j);
+                    for(int l=0;l<individuals.size();l++){
+                        if(individuals.get(l).id.equals(families.get(i).child.get(j))){
+                            String[] formatName;
+                            formatName = individuals.get(l).name.split("/");
+                            String s1 = formatName[0] + formatName[1];
+                            message = message +  "; NAME: "  + s1;
+                        }
+                    }
                     for(int k=j+1;k<families.get(i).child.size();k++){
                         if(birthdate.get(families.get(i).child.get(j)).equals(birthdate.get(families.get(i).child.get(k)))){
-                            message = message + "; ID: " + families.get(i).child.get(k);
+                            message = message + "--> ID: " + families.get(i).child.get(k);
+                            for(int l=0;l<individuals.size();l++){
+                                if(individuals.get(l).id.equals(families.get(i).child.get(k))){
+                                    String[] formatName;
+                                    formatName = individuals.get(l).name.split("/");
+                                    String s1 = formatName[0] + formatName[1];
+                                    message = message +  "; NAME: "  + s1;
+                                }
+                            }
                             f=1;
                             idflag.put(families.get(i).child.get(j),1);
                             idflag.put(families.get(i).child.get(k),1);

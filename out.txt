@@ -173,7 +173,7 @@ ID: I36 NAME: Kriti Vira
 ID: I37 NAME: Lili Vira
 
 US32 List of ID's of all individual having multiple births
-ID: I22; ID: I25
+--> ID: I22; NAME: Frizia Vira--> ID: I25; NAME: Cristina Vira
 
 
 Error: In US09 for INDIVIDUAL at Line no: 150; ID: I3; Individual Name: Linda /Smith/; Birth date: 2021-04-12 ; Mother ID: I1 ; Mother's death date: 1950-06-15; Line no:136; Children should be born before death of mother.
