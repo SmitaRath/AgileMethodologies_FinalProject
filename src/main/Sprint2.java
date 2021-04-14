@@ -16,23 +16,26 @@ public class Sprint2 {
     // us-08 changes starts @KP
     // calculates months between two dates
     public int monthDiffBetweenTwoDate(Date dob, Date divDate) {
-        Instant instantDob = dob.toInstant();
-        Instant instantDivDate = divDate.toInstant();
-        ZonedDateTime zoneDob = instantDob.atZone(ZoneId.systemDefault());
-        ZonedDateTime zoneDeathDate = instantDivDate.atZone(ZoneId.systemDefault());
-        LocalDate givenDobDate = zoneDob.toLocalDate();
-        LocalDate givenDeathDate = zoneDeathDate.toLocalDate();
-        Period period = Period.between(givenDeathDate, givenDobDate);
-        if (period.getYears() > 0)   // If more than year, then it's more than 9 months; sending random no greater than 9
-            return 100;
+        if(dob != null && divDate != null) {
+            Instant instantDob = dob.toInstant();
+            Instant instantDivDate = divDate.toInstant();
+            ZonedDateTime zoneDob = instantDob.atZone(ZoneId.systemDefault());
+            ZonedDateTime zoneDeathDate = instantDivDate.atZone(ZoneId.systemDefault());
+            LocalDate givenDobDate = zoneDob.toLocalDate();
+            LocalDate givenDeathDate = zoneDeathDate.toLocalDate();
+            Period period = Period.between(givenDeathDate, givenDobDate);
+            if (period.getYears() > 0)   // If more than year, then it's more than 9 months; sending random no greater than 9
+                return 100;
 
-        if (period.getYears() == 0) {
-            if (period.getMonths() >= 0) {
-                return period.getMonths();
+            if (period.getYears() == 0) {
+                if (period.getMonths() >= 0) {
+                    return period.getMonths();
+                }
             }
-        }
 
-        return 0;
+            return 0;
+        }
+        return 100;
     }
     // us-08 changes ends @KP
 
