@@ -225,7 +225,7 @@ public class Sprint3 {
     //US31 changes ends @AS
 
     //US32 changes starts @AS
-    public void us32_ListMultipleBirths(ArrayList<Family>families,ArrayList<Individual>individuals){
+   public void us32_ListMultipleBirths(ArrayList<Family>families,ArrayList<Individual>individuals){
         HashMap<String,String>birthdate = new HashMap<String, String>();
         HashMap<String,Integer>idflag = new HashMap<String, Integer>();
         int f=0;
@@ -238,7 +238,7 @@ public class Sprint3 {
             if(families.get(i).child.size()>1){
                 for(int j=0;j<families.get(i).child.size();j++){
                     if(idflag.get(families.get(i).child.get(j))==0){
-                    String message = "";
+                    String str="",message = "";
                     message = message + "ID: " + families.get(i).child.get(j);
                     for(int k=j+1;k<families.get(i).child.size();k++){
                         if(birthdate.get(families.get(i).child.get(j)).equals(birthdate.get(families.get(i).child.get(k)))){
