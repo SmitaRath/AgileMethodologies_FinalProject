@@ -106,7 +106,7 @@ public class Sprint3 {
 
     public void US38_listAllLivingUpcomingBirthday(Individual individual) {
             long noDays = calculateDays(individual.dobDate);
-            if (noDays < 29 && noDays > 0) {
+            if (noDays < 29 && noDays >= 0) {
                 String successMessage = "", name = "";
                 String[] formatName;
                 formatName = individual.name.split("/");
@@ -225,7 +225,7 @@ public class Sprint3 {
     //US31 changes ends @AS
 
     //US32 changes starts @AS
-    public void us32_ListMultipleBirths(ArrayList<Family>families,ArrayList<Individual>individuals){
+   public void us32_ListMultipleBirths(ArrayList<Family>families,ArrayList<Individual>individuals){
         HashMap<String,String>birthdate = new HashMap<String, String>();
         HashMap<String,Integer>idflag = new HashMap<String, Integer>();
         int f=0;
@@ -238,11 +238,27 @@ public class Sprint3 {
             if(families.get(i).child.size()>1){
                 for(int j=0;j<families.get(i).child.size();j++){
                     if(idflag.get(families.get(i).child.get(j))==0){
-                    String message = "";
-                    message = message + "ID: " + families.get(i).child.get(j);
+                    String str="",message = "";
+                    message = message + "--> ID: " + families.get(i).child.get(j);
+                    for(int l=0;l<individuals.size();l++){
+                        if(individuals.get(l).id.equals(families.get(i).child.get(j))){
+                            String[] formatName;
+                            formatName = individuals.get(l).name.split("/");
+                            String s1 = formatName[0] + formatName[1];
+                            message = message +  "; NAME: "  + s1;
+                        }
+                    }
                     for(int k=j+1;k<families.get(i).child.size();k++){
                         if(birthdate.get(families.get(i).child.get(j)).equals(birthdate.get(families.get(i).child.get(k)))){
-                            message = message + "; ID: " + families.get(i).child.get(k);
+                            message = message + "--> ID: " + families.get(i).child.get(k);
+                            for(int l=0;l<individuals.size();l++){
+                                if(individuals.get(l).id.equals(families.get(i).child.get(k))){
+                                    String[] formatName;
+                                    formatName = individuals.get(l).name.split("/");
+                                    String s1 = formatName[0] + formatName[1];
+                                    message = message +  "; NAME: "  + s1;
+                                }
+                            }
                             f=1;
                             idflag.put(families.get(i).child.get(j),1);
                             idflag.put(families.get(i).child.get(k),1);
@@ -450,9 +466,10 @@ public class Sprint3 {
 
     //us29 changes starts @sr
     public void us29_listDeceasedIndividual(ArrayList<Individual> individuals){
+        Date today = new Date();
         for (Individual ind : individuals){
             message="";
-            if(!ind.alive && !(ind.deathDate==null)){
+            if(!ind.alive && !(ind.deathDate==null) && !today.before(ind.deathDate)){
                 message =  "ID: " + ind.id +
                             " Name: " + ind.name.replaceAll("/","") +
                          " Date of Death: " + ind.death;

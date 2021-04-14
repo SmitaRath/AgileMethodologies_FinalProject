@@ -85,6 +85,8 @@ public class Sprint3Test {
         Individual I1 = new Individual();
         Individual I2 = new Individual();
         Individual I3 = new Individual();
+        Individual I4 = new Individual();
+        Date today = new Date();
         DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
         I1.dateOfBirth = "23 FEB 1980";
         I1.dobDate = formatter.parse(I1.dateOfBirth);
@@ -96,11 +98,16 @@ public class Sprint3Test {
         I3.dateOfBirth = "23 FEB 1980";
         I3.dobDate = formatter.parse(I1.dateOfBirth);
         I3.alive=false;
-        I1.death = "45 FEB 2000";
+        I3.death = "45 FEB 2000";
         I3.deathDate = null;
-        assertEquals(true,(!I1.alive && I1.deathDate!=null));
-        assertEquals(false,(!I2.alive && I2.deathDate!=null));
-        assertEquals(false,(!I3.alive && I3.deathDate!=null));
+        I4.dateOfBirth = "23 FEB 1980";
+        I4.dobDate = formatter.parse(I1.dateOfBirth);
+        I4.alive=false;
+        I4.death = "02 FEB 2022";
+        I4.deathDate = formatter.parse(I4.death);;
+        assertEquals(true,(!I1.alive && I1.deathDate!=null  && !today.before(I1.deathDate)));
+        assertEquals(false,(!I2.alive && I2.deathDate!=null  && !today.before(I2.deathDate)));
+        assertEquals(false,(!I3.alive && I3.deathDate!=null  && !today.before(I3.deathDate)));
     }
 
     @Test
@@ -154,5 +161,44 @@ public class Sprint3Test {
         f.child.add("I4");
         assertEquals(true,(I1.alive==false&&I2.alive==false&&(I3.dobDate!=null&&(I3.dobDate.before(today)||I3.dobDate.equals(today))&&I3.age<18&&I3.age>=0)));
         assertEquals(false,(I1.alive==false&&I2.alive==false&&(I4.dobDate!=null&&(I4.dobDate.before(today)||I4.dobDate.equals(today))&&I4.age<18&&I4.age>=0)));
+    }
+
+    @Test
+    public void US31_ListAllUnmarriedOver30(){
+        Individual I1 = new Individual();
+        Individual I2 = new Individual();
+        I1.id = "I1";
+        I1.name = "Rola /Pever/";
+        I2.id = "I2";
+        I2.name = "Kandy /Sumo/";
+        f.husbandId = "I2";
+        f.wifeId = "I1";
+        I1.age = 29;
+        I2.age = 33;
+        assertEquals(true,((f.husbandId=="I2"||f.husbandId=="I2")&&I2.age>30));
+        assertEquals(false,((f.wifeId == "I1"||f.husbandId=="I1")&&I1.age>30));
+    }
+
+    @Test
+    public void US32_ListMultipleBirths(){
+        Individual I1 = new Individual();
+        Individual I2 = new Individual();
+        Individual I3 = new Individual();
+        Individual I4 = new Individual();
+        I1.id = "I1";
+        I1.name = "Rola /Pever/";
+        I2.id = "I2";
+        I2.name = "Kandy /Sumo/";
+        f.husbandId = "I2";
+        f.wifeId = "I1";
+        I3.id = "I3";
+        I3.name = "Silva /Sumo/";
+        I4.id = "I4";
+        I4.name = "Golu /Sumo/";
+        I3.dateOfBirth = "2014-05-16";
+        I4.dateOfBirth = "2014-05-16";
+        f.child.add("I3");
+        f.child.add("I4");
+        assertEquals(true,(I3.dateOfBirth.equals(I4.dateOfBirth)));
     }
 }
