@@ -85,6 +85,8 @@ public class Sprint3Test {
         Individual I1 = new Individual();
         Individual I2 = new Individual();
         Individual I3 = new Individual();
+        Individual I4 = new Individual();
+        Date today = new Date();
         DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
         I1.dateOfBirth = "23 FEB 1980";
         I1.dobDate = formatter.parse(I1.dateOfBirth);
@@ -96,11 +98,16 @@ public class Sprint3Test {
         I3.dateOfBirth = "23 FEB 1980";
         I3.dobDate = formatter.parse(I1.dateOfBirth);
         I3.alive=false;
-        I1.death = "45 FEB 2000";
+        I3.death = "45 FEB 2000";
         I3.deathDate = null;
-        assertEquals(true,(!I1.alive && I1.deathDate!=null));
-        assertEquals(false,(!I2.alive && I2.deathDate!=null));
-        assertEquals(false,(!I3.alive && I3.deathDate!=null));
+        I4.dateOfBirth = "23 FEB 1980";
+        I4.dobDate = formatter.parse(I1.dateOfBirth);
+        I4.alive=false;
+        I4.death = "02 FEB 2022";
+        I4.deathDate = formatter.parse(I4.death);;
+        assertEquals(true,(!I1.alive && I1.deathDate!=null  && !today.before(I1.deathDate)));
+        assertEquals(false,(!I2.alive && I2.deathDate!=null  && !today.before(I2.deathDate)));
+        assertEquals(false,(!I3.alive && I3.deathDate!=null  && !today.before(I3.deathDate)));
     }
 
     @Test
