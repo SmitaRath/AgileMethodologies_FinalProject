@@ -450,9 +450,10 @@ public class Sprint3 {
 
     //us29 changes starts @sr
     public void us29_listDeceasedIndividual(ArrayList<Individual> individuals){
+        Date today = new Date();
         for (Individual ind : individuals){
             message="";
-            if(!ind.alive && !(ind.deathDate==null)){
+            if(!ind.alive && !(ind.deathDate==null) && !today.before(ind.deathDate)){
                 message =  "ID: " + ind.id +
                             " Name: " + ind.name.replaceAll("/","") +
                          " Date of Death: " + ind.death;
