@@ -1,41 +1,41 @@
 package main;
 
-import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 
 public class Sprint2 {
 
     ArrayList<String> successAnomalyDataUS16 = new ArrayList<>();
     ArrayList<String> errorAnomalyDataUS16 = new ArrayList<>();  // Created error seperate because here we need to display success and error list
-    HashMap<String, String> familyLastName = new HashMap<String, String>();
     ArrayList<String> errorAnomalyData = new ArrayList<>();
     String message = "";
 
     // us-08 changes starts @KP
     // calculates months between two dates
     public int monthDiffBetweenTwoDate(Date dob, Date divDate) {
-        Instant instantDob = dob.toInstant();
-        Instant instantDivDate = divDate.toInstant();
-        ZonedDateTime zoneDob = instantDob.atZone(ZoneId.systemDefault());
-        ZonedDateTime zoneDeathDate = instantDivDate.atZone(ZoneId.systemDefault());
-        LocalDate givenDobDate = zoneDob.toLocalDate();
-        LocalDate givenDeathDate = zoneDeathDate.toLocalDate();
-        Period period = Period.between(givenDeathDate, givenDobDate);
-        if (period.getYears() > 0)   // If more than year, then it's more than 9 months; sending random no greater than 9
-            return 100;
+        if(dob != null && divDate != null) {
+            Instant instantDob = dob.toInstant();
+            Instant instantDivDate = divDate.toInstant();
+            ZonedDateTime zoneDob = instantDob.atZone(ZoneId.systemDefault());
+            ZonedDateTime zoneDeathDate = instantDivDate.atZone(ZoneId.systemDefault());
+            LocalDate givenDobDate = zoneDob.toLocalDate();
+            LocalDate givenDeathDate = zoneDeathDate.toLocalDate();
+            Period period = Period.between(givenDeathDate, givenDobDate);
+            if (period.getYears() > 0)   // If more than year, then it's more than 9 months; sending random no greater than 9
+                return 100;
 
-        if (period.getYears() == 0) {
-            if (period.getMonths() >= 0) {
-                return period.getMonths();
+            if (period.getYears() == 0) {
+                if (period.getMonths() >= 0) {
+                    return period.getMonths();
+                }
             }
-        }
 
-        return 0;
+            return 0;
+        }
+        return 100;
     }
     // us-08 changes ends @KP
 
@@ -174,7 +174,7 @@ public class Sprint2 {
         String deathDay="";
         int i;
         for(Individual ind : individuals){
-            if(ind.id.equals(id)&&(!ind.alive)){
+            if(ind.id.equals(id)&&(!ind.alive)&&ind.deathDate!=null){
                 for(i=0;ind.death.charAt(i)!='-';i++){
                     deathYear = deathYear + ind.death.charAt(i);
                 }
@@ -241,7 +241,7 @@ public class Sprint2 {
         String deathDay="";
         int i;
         for(Individual ind : individuals){
-            if(ind.id.equals(id)&&(!ind.alive)){
+            if(ind.id.equals(id)&&(!ind.alive)&&ind.deathDate!=null){
                 for(i=0;ind.death.charAt(i)!='-';i++){
                     deathYear = deathYear + ind.death.charAt(i);
                 }
@@ -493,7 +493,7 @@ public class Sprint2 {
 
     }
 
-    public void sprint2ErrorOutput(PrintStream fileOut){
+    public void sprint2ErrorOutput(PrintStream fileOut) {
         //us23 changes starts @sr
         fileOut.println();
         System.out.println();

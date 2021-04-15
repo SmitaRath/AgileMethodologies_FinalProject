@@ -284,12 +284,14 @@ public class GedcomReadParse {
     }
 
     //calculating age of the individual
-    int calculateAge(Date dob) {
+    public int calculateAge(Date dob) {
         Instant instant = dob.toInstant();
         ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
         LocalDate givenDate = zone.toLocalDate();
         Period period = Period.between(givenDate, LocalDate.now());
-
+        if(period.getYears()<0)
+            return 0;
+        else
         return period.getYears();
     }
 
@@ -360,6 +362,7 @@ public class GedcomReadParse {
         Individual ind = new Individual();
         Family family = new Family();
         Sprint2 sprint2 = new Sprint2();
+        Sprint3 sprint3 = new Sprint3();
         String errString="";
 
         try {
@@ -449,6 +452,8 @@ public class GedcomReadParse {
                             else {   // us-07 changes starts @KP
                                 ind.death = changeDateFormat(ind.death, ind.deathDate);
                                 ind.age=differenceBetweenTwoAge(ind.dobDate, ind.deathDate);
+                                if(ind.age<0)
+                                    ind.age=0;
                                 differenceBetweenTwoAge(ind.dobDate, ind.deathDate);
                             }
                             //us-01 changes ends @sr // us-07 changes ends @KP
@@ -641,7 +646,7 @@ public class GedcomReadParse {
                     errorAnomalyData.add(errString);
                 }
 
-                if(i.deathDate != null) {
+                if(i.deathDate != null && i.dobDate != null) {
                     int deathAge = differenceBetweenTwoAge(i.dobDate, i.deathDate);
                     if (deathAge > 150) {
                         errString = "Error: In US07 for INDIVIDUAL at Line no: " + i.deathLineNo + "; ID: " +
@@ -701,7 +706,9 @@ public class GedcomReadParse {
                     errorAnomalyData.add(errString);
                 }
                 // US-03 changes ends @AS
-
+                if (i.deathDate == null && i.dobDate != null) {
+                    sprint3.US38_listAllLivingUpcomingBirthday(i);
+                }
 
             }
 
@@ -851,12 +858,13 @@ public class GedcomReadParse {
                 if(i.child != null) {
                     sprint2.US08_birthBeforeMarriageOfParents(i, individuals);
                     sprint2.US16_maleLastName(i, individuals);
+                    sprint3.US09_birthBeforeDeathOfParents(i, individuals);
                 }
 
                 //US-08,US16 changes ends @KP
 
                 //us-10 changes starts @AS
-                if(i.marrriedDate!=null&&getIndividual(i.husbandId).dobDate!=null&sprint2.compareMarrigeandBirth(i.dateOfMarried,getIndividual(i.husbandId).dateOfBirth)){
+                if(i.marrriedDate!=null&&getIndividual(i.husbandId).dobDate!=null&&sprint2.compareMarrigeandBirth(i.dateOfMarried,getIndividual(i.husbandId).dateOfBirth)){
                     errString = "Error: In US10 for INDIVIDUAL at Line no: "+
                             getIndividual(i.husbandId).dobLineNo + "," + i.dateOfMarriedidLineNo +
                             "; ID: " + i.husbandId + "; "+ "Date of Birth: " + getIndividual(i.husbandId).dateOfBirth +
@@ -885,10 +893,33 @@ public class GedcomReadParse {
                 //US15 ends @AS
             }
 
+
+
             fileOut.println("Families");
             fileOut.println(table1.render());
             System.out.println("Families");
             System.out.println(table1.render());
+
+            //US28 CHANGES STARTS @SR
+            sprint3.us28_orderSiblingsByAge(families,individuals);
+            sprint3.us29_listDeceasedIndividual(individuals);
+            //us28 changes ends @sr
+
+            //US30 changes starts @pp
+            sprint3.us30_ListLivingMarriedIndividual(families,individuals);
+            //US30 changes ends @pp
+
+            //US33 changes starts @pp
+            sprint3.us33_ListAllOrphanedChildrenBelow18(families,individuals);
+            //US33 changes ends @pp
+
+            //US31 changes starts @as
+            sprint3.us31_ListAllUnmarriedOver30(families,individuals);
+            //US31 changes ends @as
+
+            //US32 changes starts @as
+            sprint3.us32_ListMultipleBirths(families,individuals);
+            //US32 changes ends @as
 
             fileOut.println();
             System.out.println();
@@ -938,6 +969,22 @@ public class GedcomReadParse {
 
             sprint2.checkUniqueDateOfBirthAndName(individuals);
             sprint2.sprint2ErrorOutput(fileOut);
+            //us-23 sprint2 changes ends @sr
+
+            fileOut.println();
+            fileOut.println("============================== Sprint3 Output =======================================");
+            System.out.println();
+            System.out.println("============================== Sprint3 Output =======================================");
+            fileOut.println();
+            System.out.println();
+
+            sprint3.sprint3SuccessOutput(fileOut);
+
+
+            fileOut.println();
+            System.out.println();
+
+            sprint3.sprint3ErrorOutput(fileOut);
             //us-23 sprint2 changes ends @sr
 
             //file closed

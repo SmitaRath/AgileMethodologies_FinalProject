@@ -119,7 +119,7 @@ public class GedcomReadParseTest {
         assertEquals(true, g1.validateIdForIndividual(I1.id));
         assertEquals(true, g1.validateIdForFamily(f1.id));
     }
-    
+
     @Test
     //Validating function BirthBeforeDeath for us03
     public void ValidateUS03(){
