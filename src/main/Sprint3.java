@@ -456,8 +456,12 @@ public class Sprint3 {
         public int compareTo(ChildData data) {
 
             //return this.age > data.age ? 1 : this.age < data.age ? -1 : 0;
-            if (this.childDOBDate == null || data.childDOBDate == null)
+            if (this.childDOBDate == null && data.childDOBDate == null)
                 return 0;
+            if (this.childDOBDate != null && data.childDOBDate == null)
+                return -1;
+            if (this.childDOBDate == null && data.childDOBDate != null)
+                return 1;
             return this.childDOBDate.compareTo(data.childDOBDate);
         }
     }
