@@ -174,7 +174,7 @@ public class Sprint2 {
         String deathDay="";
         int i;
         for(Individual ind : individuals){
-            if(ind.id.equals(id)&&(!ind.alive)){
+            if(ind.id.equals(id)&&(!ind.alive)&&ind.deathDate!=null){
                 for(i=0;ind.death.charAt(i)!='-';i++){
                     deathYear = deathYear + ind.death.charAt(i);
                 }
@@ -241,7 +241,7 @@ public class Sprint2 {
         String deathDay="";
         int i;
         for(Individual ind : individuals){
-            if(ind.id.equals(id)&&(!ind.alive)){
+            if(ind.id.equals(id)&&(!ind.alive)&&ind.deathDate!=null){
                 for(i=0;ind.death.charAt(i)!='-';i++){
                     deathYear = deathYear + ind.death.charAt(i);
                 }

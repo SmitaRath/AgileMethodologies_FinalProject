@@ -157,7 +157,7 @@ ID: I21 NAME: Sezeze Vira
 US33 List of all Orphaned Children under 18 years
 ID: I3 NAME: Linda Smith
 
-US31 List of all individuals who are never married and are above 30 years
+US31 List Living Single
 ID: I22 NAME: Frizia Vira
 ID: I23 NAME: Suzane Vira
 ID: I24 NAME: Roopa Vira

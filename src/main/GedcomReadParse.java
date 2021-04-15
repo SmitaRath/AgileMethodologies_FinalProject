@@ -864,7 +864,7 @@ public class GedcomReadParse {
                 //US-08,US16 changes ends @KP
 
                 //us-10 changes starts @AS
-                if(i.marrriedDate!=null&&getIndividual(i.husbandId).dobDate!=null&sprint2.compareMarrigeandBirth(i.dateOfMarried,getIndividual(i.husbandId).dateOfBirth)){
+                if(i.marrriedDate!=null&&getIndividual(i.husbandId).dobDate!=null&&sprint2.compareMarrigeandBirth(i.dateOfMarried,getIndividual(i.husbandId).dateOfBirth)){
                     errString = "Error: In US10 for INDIVIDUAL at Line no: "+
                             getIndividual(i.husbandId).dobLineNo + "," + i.dateOfMarriedidLineNo +
                             "; ID: " + i.husbandId + "; "+ "Date of Birth: " + getIndividual(i.husbandId).dateOfBirth +
