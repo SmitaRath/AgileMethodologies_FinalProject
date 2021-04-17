@@ -1,13 +1,36 @@
 package main;
 
 import java.io.PrintStream;
+import java.time.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 
 
 public class Sprint4 {
     ArrayList<String> errorAnamolyUS25 = new ArrayList<>();
     ArrayList<String> successDataUS34 = new ArrayList<>();
+    ArrayList<String> successAnomalyDataUS39 = new ArrayList<>();
+
+    // us-39 changes starts @KP
+    public long calculateDays(Date dob) {
+        Instant instant = dob.toInstant();
+        ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
+        LocalDate givenDate = zone.toLocalDate();
+        Period period = Period.between(LocalDate.now(), givenDate);
+        Date present = new Date();
+        if (period.getYears() > 0)
+            return 100;
+        else {
+            int monthDiff = dob.getMonth() - present.getMonth();
+            if (monthDiff == 0 || monthDiff == 1) {
+                System.out.println("dob.getDAy" + dob.getDay() + " present.getDAy" + present.getDay());
+                return dob.getDay() - present.getDay();
+            }
+        }
+        return 100;
+    }
+    // us-39 changes ends @KP
 
     //us25 changes starts @sr
     public Individual getIndividualData(String id, ArrayList<Individual> individuals) {
@@ -138,12 +161,35 @@ public class Sprint4 {
     }
     //us34 changes ends @sr
 
+    //us39 changes ends @kp
+    public void US39_listAllLivingUpcomingAnniversary(Family family, String husbandName, String wifeName) {
+        long noDays = calculateDays(family.marrriedDate);
+        if (noDays < 29 && noDays >= 0) {
+            String successMessage = "", name = "";
+            String[] formatName;
+            husbandName = husbandName.replaceAll("/", "");
+            wifeName = wifeName.replaceAll("/", "");
+            successMessage = "ID: " + family.id + " Husband Name: " + husbandName + " Wife Name: " + wifeName +" Married Date: " + family.dateOfMarried +" Upcoming Anniversay in under 30 days";
+            successAnomalyDataUS39.add(successMessage);
+        }
+    }
+
+    //us39 changes ends @kp
     public void printErrorSuccess(PrintStream fileOut){
 
         if(!successDataUS34.isEmpty()){
             fileOut.println("US34 List large Age Difference");
             System.out.println("US34 List large Age Difference");
             for(String str :successDataUS34){
+                fileOut.println(str);
+                System.out.println(str);
+            }
+        }
+
+        if(!successAnomalyDataUS39.isEmpty()){
+            fileOut.println("\nUS39 List upcoming Anniversary in the next 30 days");
+            System.out.println("\nUS39 List upcoming Anniversary in the next 30 days");
+            for(String str :successAnomalyDataUS39){
                 fileOut.println(str);
                 System.out.println(str);
             }
