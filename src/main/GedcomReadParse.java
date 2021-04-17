@@ -893,11 +893,20 @@ public class GedcomReadParse {
                     sprint2.errorAnomalyData.add(errString);
                 }
                 //US15 ends @AS
+
+                //US39 starts @KP
                 if (i.wifeId != null && i.husbandId != null) {
                     if (getIndividual(i.husbandId).deathDate == null && getIndividual(i.wifeId).deathDate == null && i.dividedDate == null && i.marrriedDate != null) {
                         sprint4.US39_listAllLivingUpcomingAnniversary(i, getIndividual(i.husbandId).name, getIndividual(i.wifeId).name);
                     }
                 }
+                //US39 ends @KP
+
+                //US12 starts @KP
+                if(i.wifeId != null && i.husbandId != null && i.child != null) {
+                    sprint4.US12_parentsNotTooOld(i, individuals);
+                }
+                //US12 ends @KP
             }
 
 

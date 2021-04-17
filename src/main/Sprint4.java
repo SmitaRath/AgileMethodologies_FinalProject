@@ -11,6 +11,8 @@ public class Sprint4 {
     ArrayList<String> errorAnamolyUS25 = new ArrayList<>();
     ArrayList<String> successDataUS34 = new ArrayList<>();
     ArrayList<String> successAnomalyDataUS39 = new ArrayList<>();
+    ArrayList<String> sprint4ErrorAnamolyData = new ArrayList<>();
+    String message = "";
 
     // us-39 changes starts @KP
     public long calculateDays(Date dob) {
@@ -31,6 +33,32 @@ public class Sprint4 {
         return 100;
     }
     // us-39 changes ends @KP
+
+    // us-12 changes starts @KP
+    // calculates months between two dates
+    public int yearDiffBetweenTwoDate(Date dob, Date parents) {
+        if(dob != null && parents != null) {
+            Instant instantDob = dob.toInstant();
+            Instant instantParentDate = parents.toInstant();
+            ZonedDateTime zoneDob = instantDob.atZone(ZoneId.systemDefault());
+            ZonedDateTime zoneParentDate = instantParentDate.atZone(ZoneId.systemDefault());
+            LocalDate givenDobDate = zoneDob.toLocalDate();
+            LocalDate givenParentDate= zoneParentDate.toLocalDate();
+            Period period = Period.between(givenParentDate, givenDobDate);
+            if (period.getYears() > 0)   // If more than year, then it's more than 9 months; sending random no greater than 9
+                return 100;
+
+            if (period.getYears() == 0) {
+                if (period.getMonths() >= 0) {
+                    return period.getMonths();
+                }
+            }
+
+            return 0;
+        }
+        return 100;
+    }
+    // us-12 changes ends @KP
 
     //us25 changes starts @sr
     public Individual getIndividualData(String id, ArrayList<Individual> individuals) {
@@ -161,20 +189,51 @@ public class Sprint4 {
     }
     //us34 changes ends @sr
 
-    //us39 changes ends @kp
+    //us39 changes starts @kp
     public void US39_listAllLivingUpcomingAnniversary(Family family, String husbandName, String wifeName) {
         long noDays = calculateDays(family.marrriedDate);
         if (noDays < 29 && noDays >= 0) {
-            String successMessage = "", name = "";
-            String[] formatName;
             husbandName = husbandName.replaceAll("/", "");
             wifeName = wifeName.replaceAll("/", "");
-            successMessage = "ID: " + family.id + " Husband Name: " + husbandName + " Wife Name: " + wifeName +" Married Date: " + family.dateOfMarried +" Upcoming Anniversay in under 30 days";
-            successAnomalyDataUS39.add(successMessage);
+            message = "ID: " + family.id + " Husband Name: " + husbandName + " Wife Name: " + wifeName +" Married Date: " + family.dateOfMarried +" Upcoming Anniversay in under 30 days";
+            successAnomalyDataUS39.add(message);
         }
     }
-
     //us39 changes ends @kp
+
+    //us12 changes starts @kp
+    public void US12_parentsNotTooOld(Family family, ArrayList<Individual> individuals) {
+        for(String child: family.child) {
+            Individual individualData = null;
+            for (Individual ind : individuals) {
+                if (ind.id.equals(child) && ind.gender.toLowerCase().equals("m")) {
+                    individualData = ind;
+                    break;
+                }
+            }
+            if(individualData != null ) {
+                String[] individualName;
+                String individualLastName = null;
+                individualName =  individualData.name.split("/");
+                if(individualName[1] != null) {
+                    individualLastName = individualName[1].trim();
+                }
+
+//                if(lastName.toLowerCase().equals(individualLastName.toLowerCase())) {
+//                    message = "ID: " + individualData.id + " GENDER: " + individualData.gender + " Last NAME: " + individualLastName;
+//                    sprint4ErrorAnamolyData.add(message);
+//                } else {
+//                    message = "Error: In US16 for INDIVIDUAL at Line no: " + individualData.nameLineNo + "; ID: "
+//                            + individualData.id + "; Individual Name: " + individualData.name + " ; Family ID: " + individualData.spouse + " ; Family Name: " + lastName +
+//                            "; Family last name should be same for all males in family.";
+//                    sprint4ErrorAnamolyData.add(message);
+//
+//                }
+            }
+        }
+    }
+    //us12 changes ends @kp
+
     public void printErrorSuccess(PrintStream fileOut){
 
         if(!successDataUS34.isEmpty()){
