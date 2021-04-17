@@ -7,6 +7,7 @@ import java.util.HashSet;
 
 public class Sprint4 {
     ArrayList<String> errorAnamolyUS25 = new ArrayList<>();
+    ArrayList<String> successDataUS34 = new ArrayList<>();
 
     //us25 changes starts @sr
     public Individual getIndividualData(String id, ArrayList<Individual> individuals) {
@@ -30,6 +31,7 @@ public class Sprint4 {
         HashSet<String> duplicateNamesList = new HashSet<>();
         HashSet<String> duplicateDOBList = new HashSet<>();
         for(Family fam:families) {
+            errString="";
             for (int i = 0; i < fam.child.size(); i++) {
                 outerLoopChild = getIndividualData(fam.child.get(i), individuals);
                 fullnameOuter = "";
@@ -100,11 +102,46 @@ public class Sprint4 {
     }
     //us25 changes ends @sr
 
+    //us34 changes starts @sr
+    public void us34_largeAgeDifference(ArrayList<Family> families, ArrayList<Individual> individuals){
+        Individual husband = new Individual();
+        Individual wife = new Individual();
+        String str;
+        for(Family fam:families){
+            str="";
+            husband=getIndividualData(fam.husbandId,individuals);
+             wife=getIndividualData(fam.wifeId,individuals);
+            if(husband.age>=wife.age*2){
+                    str ="Family Id: " + fam.id +
+                        "; Husband ID: " + husband.id +
+                        "; Husband's Age: " + husband.age +
+                        "; Wife ID: " + wife.id +
+                        "; Wife's Age: " + wife.age;
+                    successDataUS34.add(str);
+            }
+        }
+    }
+    //us34 changes ends @sr
 
     public void printErrorSuccess(PrintStream fileOut){
+
+        if(!successDataUS34.isEmpty()){
+            fileOut.println("US34 List large Age Difference");
+            System.out.println("US34 List large Age Difference");
+            for(String str :successDataUS34){
+                fileOut.println(str);
+                System.out.println(str);
+            }
+        }
+
+        fileOut.println();
+        System.out.println();
+
         for(String str :errorAnamolyUS25){
             fileOut.println(str);
             System.out.println(str);
         }
+
+
     }
 }

@@ -192,6 +192,14 @@ Error: In US09 for INDIVIDUAL at Line no: 191; ID: I12; Individual Name: Roger /
 
 ============================== Sprint4 Output =======================================
 
+US34 List large Age Difference
+Family Id: F1; Husband ID: I2; Husband's Age: 200; Wife ID: I1; Wife's Age: 0
+Family Id: F1; Husband ID: I4; Husband's Age: 160; Wife ID: I3; Wife's Age: 0
+Family Id: F2; Husband ID: I6; Husband's Age: 62; Wife ID: I3; Wife's Age: 0
+Family Id: F4; Husband ID: I5; Husband's Age: 18; Wife ID: I8; Wife's Age: 3
+Family Id: F5; Husband ID: I11; Husband's Age: 23; Wife ID: I10; Wife's Age: 0
+Family Id: F6; Husband ID: I20; Husband's Age: 15; Wife ID: I21; Wife's Age: 3
+
 Error: In US25 for Family ; Id :F6; Name is not unique 
 Child ID :I22; Line no: 3; Name :Frizia /Vira/; Name is not unique 
 Child ID :I24; Line no: 15; Name :Frizia /Vira/; Name is not unique 
