@@ -11,7 +11,7 @@ public class Sprint4 {
     ArrayList<String> errorAnamolyUS25 = new ArrayList<>();
     ArrayList<String> successDataUS34 = new ArrayList<>();
     ArrayList<String> successAnomalyDataUS39 = new ArrayList<>();
-    ArrayList<String> sprint4ErrorAnamolyData = new ArrayList<>();
+    ArrayList<String> sprint4ErrorAnomalyData = new ArrayList<>();
     String message = "";
 
     // us-39 changes starts @KP
@@ -26,7 +26,6 @@ public class Sprint4 {
         else {
             int monthDiff = dob.getMonth() - present.getMonth();
             if (monthDiff == 0 || monthDiff == 1) {
-                System.out.println("dob.getDAy" + dob.getDay() + " present.getDAy" + present.getDay());
                 return dob.getDay() - present.getDay();
             }
         }
@@ -210,11 +209,11 @@ public class Sprint4 {
                     String fatherName = fatherData.name.replaceAll("/", "");
                     if (yearDiffBetweenTwoDate(individualData.dobDate, motherData.dobDate) >= 60) {
                         message = "Error: In US09 for INDIVIDUAL at Line no: " + motherData.dobLineNo + "; ID: " + motherData.id + "; Name: " + motherName + "; Birth date: " + motherData.dateOfBirth + "; Mother should be less than 60 years older than children for" + "; Child ID: " + individualData.id + "; Child birthdate: " + individualData.dateOfBirth;
-                        sprint4ErrorAnamolyData.add(message);
+                        sprint4ErrorAnomalyData.add(message);
                     }
                     if (yearDiffBetweenTwoDate(individualData.dobDate, fatherData.dobDate) >= 80) {
                         message = "Error: In US09 for INDIVIDUAL at Line no: " + fatherData.dobLineNo + "; ID: " + fatherData.id + "; Name: " + fatherName + "; Birth date: " + fatherData.dateOfBirth + "; Father should be less than 80 years older than children for" + "; Child ID: " + individualData.id + "; Child birthdate: " + individualData.dateOfBirth;
-                        sprint4ErrorAnamolyData.add(message);
+                        sprint4ErrorAnomalyData.add(message);
                     }
                 }
             }
@@ -253,7 +252,7 @@ public class Sprint4 {
             System.out.println(str);
         }
 
-        for(String str :sprint4ErrorAnamolyData){
+        for(String str :sprint4ErrorAnomalyData){
             fileOut.println(str);
             System.out.println(str);
         }

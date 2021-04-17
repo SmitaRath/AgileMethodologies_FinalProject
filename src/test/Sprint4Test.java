@@ -6,11 +6,14 @@ import org.junit.Test;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class Sprint4Test {
     GedcomReadParse g1 = new GedcomReadParse();
+    Sprint4 sprint4 = new Sprint4();
 
     @Test
     public void us25_uniqueFirstNamesInFamily() throws ParseException {
@@ -115,5 +118,22 @@ public class Sprint4Test {
         Wife2.dobDate = formatter.parse(Wife2.dateOfBirth);
         Wife2.age=g1.calculateAge(Wife2.dobDate);
         assertEquals(true,(Husb2.age>=Wife2.age*2));
+    }
+
+    @Test
+    public void yearDiffBetweenTwoDate() throws Exception {
+        Date date1 = new Date("5 FEB 2011");
+        Date date2 = new Date("5 DEC 2021");
+        assertEquals(-1, sprint4.yearDiffBetweenTwoDate(date1, date2));
+        assertEquals(10, sprint4.yearDiffBetweenTwoDate(date2, date1));
+    }
+
+    @Test
+    public void US09_birthBeforeDeathOfParents() throws Exception {
+        Date date1 = new Date();
+        Date date2 = new Date("5 DEC 2022");
+        assertEquals(0, sprint4.calculateDays(date1));
+        assertEquals(100, sprint4.calculateDays(date2));
+        assertNotEquals(10, sprint4.calculateDays(date1));
     }
 }
