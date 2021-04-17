@@ -53,10 +53,10 @@ Families
 
 
 US35: List all Recent births
-ID: I3 NAME: Linda Smith Date of Birth: 2021-04-12 Birth age in no.Of.Days: 4
+ID: I3 NAME: Linda Smith Date of Birth: 2021-04-12 Birth age in no.Of.Days: 5
 
 US36: List all Recent deaths
-ID: I24 NAME: Frizia Vira Date of Death: 2021-04-02 Death age in no.Of.Days: 14
+ID: I24 NAME: Frizia Vira Date of Death: 2021-04-02 Death age in no.Of.Days: 15
 
 Error: In US01 for INDIVDUAL at Line no: 134; ID: I1; BirthDay 2022-08-07 occurs in the future
 Error: In US03 for INDIVIDUAL at Line no: 134,136; ID: I1; Date of Birth: 2022-08-07; Date of Death: 1950-06-15; Birth Occurs After Death
@@ -117,9 +117,6 @@ Error: In US16 for INDIVIDUAL at Line no: 188; ID: I12; Individual Name: Roger /
 
 ============================== Sprint3 Output =======================================
 
-
-US38: List all Upcoming birthday which is in 30 days
-ID: I12 NAME: Roger Williams Date of Birth: 2021-04-30 Birthday in under 30 days
 
 US28 Order of siblings by age
 For Family ID :F1 F2 F3
@@ -194,10 +191,10 @@ Error: In US09 for INDIVIDUAL at Line no: 191; ID: I12; Individual Name: Roger /
 
 US34 List large Age Difference
 Family Id: F1; Husband ID: I2; Husband's Age: 200; Wife ID: I1; Wife's Age: 0
-Family Id: F1; Husband ID: I4; Husband's Age: 160; Wife ID: I3; Wife's Age: 0
+Family Id: F1; Husband ID: I4; Husband's Age: 85; Wife ID: I3; Wife's Age: 0
 Family Id: F2; Husband ID: I6; Husband's Age: 62; Wife ID: I3; Wife's Age: 0
 Family Id: F4; Husband ID: I5; Husband's Age: 18; Wife ID: I8; Wife's Age: 3
-Family Id: F5; Husband ID: I11; Husband's Age: 23; Wife ID: I10; Wife's Age: 0
+Family Id: F5; Husband ID: I11; Husband's Age: 23; Wife ID: I10; Wife's Age: 3
 Family Id: F6; Husband ID: I20; Husband's Age: 15; Wife ID: I21; Wife's Age: 3
 
 Error: In US25 for Family ; Id :F6; Name is not unique 
