@@ -45,20 +45,15 @@ public class Sprint4 {
             LocalDate givenDobDate = zoneDob.toLocalDate();
             LocalDate givenParentDate= zoneParentDate.toLocalDate();
             Period period = Period.between(givenParentDate, givenDobDate);
-            if (period.getYears() > 0)   // If more than year, then it's more than 9 months; sending random no greater than 9
-                return 100;
+            if (period.getYears() > 0)
+                return period.getYears();
 
-            if (period.getYears() == 0) {
-                if (period.getMonths() >= 0) {
-                    return period.getMonths();
-                }
-            }
-
-            return 0;
+            return -1;
         }
-        return 100;
+        return -1;
     }
     // us-12 changes ends @KP
+
 
     //us25 changes starts @sr
     public Individual getIndividualData(String id, ArrayList<Individual> individuals) {
@@ -203,32 +198,25 @@ public class Sprint4 {
 
     //us12 changes starts @kp
     public void US12_parentsNotTooOld(Family family, ArrayList<Individual> individuals) {
-        for(String child: family.child) {
-            Individual individualData = null;
-            for (Individual ind : individuals) {
-                if (ind.id.equals(child) && ind.gender.toLowerCase().equals("m")) {
-                    individualData = ind;
-                    break;
+        Individual motherData, fatherData;
+        motherData = getIndividualData(family.wifeId, individuals);
+        fatherData = getIndividualData(family.husbandId, individuals);
+        if(motherData != null && fatherData != null) {
+            for (String child : family.child) {
+                Individual individualData = null;
+                individualData = getIndividualData(child, individuals);
+                if (individualData != null) {
+                    String motherName = motherData.name.replaceAll("/", "");
+                    String fatherName = fatherData.name.replaceAll("/", "");
+                    if (yearDiffBetweenTwoDate(individualData.dobDate, motherData.dobDate) >= 60) {
+                        message = "Error: In US09 for INDIVIDUAL at Line no: " + motherData.dobLineNo + "; ID: " + motherData.id + "; Name: " + motherName + "; Birth date: " + motherData.dateOfBirth + "; Mother should be less than 60 years older than children for" + "; Child ID: " + individualData.id + "; Child birthdate: " + individualData.dateOfBirth;
+                        sprint4ErrorAnamolyData.add(message);
+                    }
+                    if (yearDiffBetweenTwoDate(individualData.dobDate, fatherData.dobDate) >= 80) {
+                        message = "Error: In US09 for INDIVIDUAL at Line no: " + fatherData.dobLineNo + "; ID: " + fatherData.id + "; Name: " + fatherName + "; Birth date: " + fatherData.dateOfBirth + "; Father should be less than 80 years older than children for" + "; Child ID: " + individualData.id + "; Child birthdate: " + individualData.dateOfBirth;
+                        sprint4ErrorAnamolyData.add(message);
+                    }
                 }
-            }
-            if(individualData != null ) {
-                String[] individualName;
-                String individualLastName = null;
-                individualName =  individualData.name.split("/");
-                if(individualName[1] != null) {
-                    individualLastName = individualName[1].trim();
-                }
-
-//                if(lastName.toLowerCase().equals(individualLastName.toLowerCase())) {
-//                    message = "ID: " + individualData.id + " GENDER: " + individualData.gender + " Last NAME: " + individualLastName;
-//                    sprint4ErrorAnamolyData.add(message);
-//                } else {
-//                    message = "Error: In US16 for INDIVIDUAL at Line no: " + individualData.nameLineNo + "; ID: "
-//                            + individualData.id + "; Individual Name: " + individualData.name + " ; Family ID: " + individualData.spouse + " ; Family Name: " + lastName +
-//                            "; Family last name should be same for all males in family.";
-//                    sprint4ErrorAnamolyData.add(message);
-//
-//                }
             }
         }
     }
@@ -245,9 +233,12 @@ public class Sprint4 {
             }
         }
 
+        fileOut.println();
+        System.out.println();
+
         if(!successAnomalyDataUS39.isEmpty()){
-            fileOut.println("\nUS39 List upcoming Anniversary in the next 30 days");
-            System.out.println("\nUS39 List upcoming Anniversary in the next 30 days");
+            fileOut.println("US39 List upcoming Anniversary in the next 30 days");
+            System.out.println("US39 List upcoming Anniversary in the next 30 days");
             for(String str :successAnomalyDataUS39){
                 fileOut.println(str);
                 System.out.println(str);
@@ -261,6 +252,12 @@ public class Sprint4 {
             fileOut.println(str);
             System.out.println(str);
         }
+
+        for(String str :sprint4ErrorAnamolyData){
+            fileOut.println(str);
+            System.out.println(str);
+        }
+
 
 
     }
