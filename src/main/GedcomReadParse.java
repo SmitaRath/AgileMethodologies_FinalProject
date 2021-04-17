@@ -363,6 +363,7 @@ public class GedcomReadParse {
         Family family = new Family();
         Sprint2 sprint2 = new Sprint2();
         Sprint3 sprint3 = new Sprint3();
+        Sprint4 sprint4 = new Sprint4();
         String errString="";
 
         try {
@@ -986,6 +987,21 @@ public class GedcomReadParse {
 
             sprint3.sprint3ErrorOutput(fileOut);
             //us-23 sprint2 changes ends @sr
+
+            fileOut.println();
+            fileOut.println("============================== Sprint4 Output =======================================");
+            System.out.println();
+            System.out.println("============================== Sprint4 Output =======================================");
+            fileOut.println();
+            System.out.println();
+
+            sprint4.us25_uniqueFirstNamesInFamily(families,individuals);
+            sprint4.printErrorSuccess(fileOut);
+
+
+            fileOut.println();
+            System.out.println();
+
 
             //file closed
             reader.close();
