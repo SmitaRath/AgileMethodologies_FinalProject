@@ -707,6 +707,7 @@ public class GedcomReadParse {
                     errorAnomalyData.add(errString);
                 }
                 // US-03 changes ends @AS
+
                 if (i.deathDate == null && i.dobDate != null) {
                     sprint3.US38_listAllLivingUpcomingBirthday(i);
                 }
@@ -730,7 +731,7 @@ public class GedcomReadParse {
 
 
 
-            for(Family i : families){
+            for(Family i : families) {
                 table1.addCell(i.id.toString());
                 table1.addCell(i.dateOfMarried.toString());
                 table1.addCell(i.dateOfDivided.toString());
@@ -892,6 +893,20 @@ public class GedcomReadParse {
                     sprint2.errorAnomalyData.add(errString);
                 }
                 //US15 ends @AS
+
+                //US39 starts @KP
+                if (i.wifeId != null && i.husbandId != null) {
+                    if (getIndividual(i.husbandId).deathDate == null && getIndividual(i.wifeId).deathDate == null && i.dividedDate == null && i.marrriedDate != null) {
+                        sprint4.US39_listAllLivingUpcomingAnniversary(i, getIndividual(i.husbandId).name, getIndividual(i.wifeId).name);
+                    }
+                }
+                //US39 ends @KP
+
+                //US12 starts @KP
+                if(i.wifeId != null && i.husbandId != null && i.child != null) {
+                    sprint4.US12_parentsNotTooOld(i, individuals);
+                }
+                //US12 ends @KP
             }
 
 
