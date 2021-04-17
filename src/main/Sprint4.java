@@ -104,19 +104,34 @@ public class Sprint4 {
 
     //us34 changes starts @sr
     public void us34_largeAgeDifference(ArrayList<Family> families, ArrayList<Individual> individuals){
+        GedcomReadParse g1 = new GedcomReadParse();
         Individual husband = new Individual();
         Individual wife = new Individual();
+        int husbandAge=0;
+        int wifeAge=0;
         String str;
         for(Family fam:families){
             str="";
             husband=getIndividualData(fam.husbandId,individuals);
-             wife=getIndividualData(fam.wifeId,individuals);
+            if(husband.dobDate!=null)
+            {
+                husbandAge=g1.calculateAge(husband.dobDate);
+                if(husbandAge<0)
+                    husbandAge=0;
+            }
+            wife=getIndividualData(fam.wifeId,individuals);
+            if(wife.dobDate!=null)
+            {
+                wifeAge=g1.calculateAge(wife.dobDate);
+                if(wifeAge<0)
+                    wifeAge=0;
+            }
             if(husband.age>=wife.age*2){
                     str ="Family Id: " + fam.id +
                         "; Husband ID: " + husband.id +
-                        "; Husband's Age: " + husband.age +
+                        "; Husband's Age: " + husbandAge +
                         "; Wife ID: " + wife.id +
-                        "; Wife's Age: " + wife.age;
+                        "; Wife's Age: " + wifeAge;
                     successDataUS34.add(str);
             }
         }
