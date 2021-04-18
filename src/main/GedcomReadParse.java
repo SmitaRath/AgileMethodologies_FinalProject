@@ -1010,6 +1010,9 @@ public class GedcomReadParse {
             fileOut.println();
             System.out.println();
 
+            //US18 changes starts @pp
+            sprint4.us18_siblingsShouldNotMarry(families,individuals);
+            //US18 changes ends @pp
             sprint4.us25_uniqueFirstNamesInFamily(families,individuals);
             sprint4.us34_largeAgeDifference(families,individuals);
             sprint4.printErrorSuccess(fileOut);

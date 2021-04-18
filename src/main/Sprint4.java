@@ -5,6 +5,7 @@ import java.time.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.HashMap;
 
 
 public class Sprint4 {
@@ -221,6 +222,59 @@ public class Sprint4 {
     }
     //us12 changes ends @kp
 
+    //us18 changes starts @pp
+    public boolean isSibling(ArrayList<Family>families,String s1, String s2){
+        String husb="";
+        String wife="";
+        int f=0;
+        for(int i=0;i<families.size();i++){
+            for(int j=0;j<families.get(i).child.size();j++){
+                if(s1.equals(families.get(i).child.get(j))){
+                    husb = families.get(i).husbandId;
+                    wife = families.get(i).wifeId;
+                    f=1;
+                    break;
+                }
+            }
+            if(f==1)
+                break;
+        }
+
+        for(int i=0;i<families.size();i++){
+            if(families.get(i).husbandId.equals(husb)||families.get(i).wifeId.equals(wife)){
+                for(int j=0;j<families.get(i).child.size();j++){
+                    if(s2.equals(families.get(i).child.get(j))){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    //us18 changes ends @pp
+
+    //us18 changes starts @pp
+    public void us18_siblingsShouldNotMarry(ArrayList<Family>families,ArrayList<Individual>individuals){
+        HashMap<String,Integer>child = new HashMap<String,Integer>();
+        for(int i=0;i<individuals.size();i++){
+            child.put(individuals.get(i).id,0);
+        }
+        for(int i=0;i<families.size();i++){
+            for(int j=0;j<families.get(i).child.size();j++){
+                child.put(families.get(i).child.get(j),1);
+            }
+        }
+        for(int i=0;i<families.size();i++){
+            if(child.get(families.get(i).husbandId)==1&&child.get(families.get(i).wifeId)==1&&isSibling(families,families.get(i).husbandId,families.get(i).wifeId)){
+                message = "Error: In US18 for Family - "+ families.get(i).id+" at LineNo: " + families.get(i).husbandidLineNo+" and "+families.get(i).wifeidLineNo
+                +" Husband - "+families.get(i).husbandId + " and Wife - "+families.get(i).wifeId
+                +" should not be siblings";
+                sprint4ErrorAnomalyData.add(message);
+            }
+        }
+    }
+    //us18 changes ends @pp
+
     public void printErrorSuccess(PrintStream fileOut){
 
         if(!successDataUS34.isEmpty()){
@@ -256,8 +310,6 @@ public class Sprint4 {
             fileOut.println(str);
             System.out.println(str);
         }
-
-
 
     }
 }
