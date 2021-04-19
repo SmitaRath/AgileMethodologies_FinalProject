@@ -129,7 +129,7 @@ public class Sprint4Test {
     }
 
     @Test
-    public void US09_birthBeforeDeathOfParents() throws Exception {
+    public void US12_birthBeforeDeathOfParents() throws Exception {
         Date date1 = new Date();
         Date date2 = new Date("5 DEC 2022");
         assertEquals(0, sprint4.calculateDays(date1));
