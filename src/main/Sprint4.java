@@ -2,10 +2,7 @@ package main;
 
 import java.io.PrintStream;
 import java.time.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.HashMap;
+import java.util.*;
 
 
 public class Sprint4 {
@@ -274,6 +271,115 @@ public class Sprint4 {
         }
     }
     //us18 changes ends @pp
+
+    //us17 changes starts @pp
+    public boolean us17_ParentsShouldNotMarryDescendants(ArrayList<Family>families){
+        HashMap<String,Integer>flag = new HashMap<String,Integer>();
+        int f1=0,f2=0;
+        for(int i=0;i<families.size();i++){
+            flag.put(families.get(i).husbandId,1);
+            flag.put(families.get(i).wifeId,1);
+        }
+        for(int i=0;i<families.size();i++){
+            if(flag.get(families.get(i).husbandId)==1){
+                ArrayList<String>spouse = new ArrayList<>();
+                for(int j=0;j<families.size();j++){
+                    if(families.get(j).husbandId.equals(families.get(i).husbandId))
+                        spouse.add(families.get(j).wifeId);
+                }
+                Queue<String> queue = new LinkedList<>();
+                for(int j=0;j<families.size();j++){
+                    if(families.get(j).husbandId.equals(families.get(i).husbandId)){
+                        if(families.get(j).child.size()>0){
+                            for(int k=0;k<families.get(j).child.size();k++){
+                                if(flag.containsKey(families.get(j).child.get(k))){
+                                    queue.add(families.get(j).child.get(k));
+                                }
+                            }
+                        }
+                    }
+                }
+                while(!queue.isEmpty()){
+                    String s1 = queue.remove();
+                    for(int j=0;j<spouse.size();j++){
+                        if(spouse.get(j).equals(s1)){
+                            f1=1;
+                            message = "Error: In US17 for Family - "+ families.get(i).id+" at LineNo: " + families.get(i).husbandidLineNo+" and "+families.get(i).wifeidLineNo
+                                    +" Wife - "+s1 + " is descendant of Husband - "+families.get(i).husbandId
+                                    +" but parents should not marry their descendants";
+                            sprint4ErrorAnomalyData.add(message);
+                        }
+                    }
+                    for(int j=0;j<families.size();j++){
+                        if(families.get(j).wifeId.equals(s1)){
+                            if(families.get(j).child.size()>0){
+                                for(int k=0;k<families.get(j).child.size();k++){
+                                    if(flag.containsKey(families.get(j).child.get(k))){
+                                        queue.add(families.get(j).child.get(k));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                flag.put(families.get(i).husbandId,2);
+            }
+        }
+        for(int i=0;i<families.size();i++){
+            flag.put(families.get(i).husbandId,1);
+            flag.put(families.get(i).wifeId,1);
+        }
+        for(int i=0;i<families.size();i++){
+            if(flag.get(families.get(i).wifeId)==1){
+                ArrayList<String>spouse = new ArrayList<>();
+                for(int j=0;j<families.size();j++){
+                    if(families.get(j).wifeId.equals(families.get(i).wifeId))
+                        spouse.add(families.get(j).husbandId);
+                }
+                Queue<String> queue = new LinkedList<>();
+                for(int j=0;j<families.size();j++){
+                    if(families.get(j).wifeId.equals(families.get(i).wifeId)){
+                        if(families.get(j).child.size()>0){
+                            for(int k=0;k<families.get(j).child.size();k++){
+                                if(flag.containsKey(families.get(j).child.get(k))){
+                                    queue.add(families.get(j).child.get(k));
+                                }
+                            }
+                        }
+                    }
+                }
+                while(!queue.isEmpty()){
+                    String s1 = queue.remove();
+                    for(int j=0;j<spouse.size();j++){
+                        if(spouse.get(j).equals(s1)){
+                            f2=1;
+                            message = "Error: In US17 for Family - "+ families.get(i).id+" at LineNo: " + families.get(i).husbandidLineNo+" and "+families.get(i).wifeidLineNo
+                                    +" Husband - "+s1 + " is descendant of Wife - "+families.get(i).wifeId
+                                    +" but parents should not marry their descendants";
+                            sprint4ErrorAnomalyData.add(message);
+                        }
+                    }
+                    for(int j=0;j<families.size();j++){
+                        if(families.get(j).husbandId.equals(s1)){
+                            if(families.get(j).child.size()>0){
+                                for(int k=0;k<families.get(j).child.size();k++){
+                                    if(flag.containsKey(families.get(j).child.get(k))){
+                                        queue.add(families.get(j).child.get(k));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                flag.put(families.get(i).wifeId,2);
+            }
+        }
+        if(f1==1||f2==1){
+            return true;
+        }
+        return false;
+    }
+    //us17 changes ends @pp
 
     public void printErrorSuccess(PrintStream fileOut){
 
