@@ -129,11 +129,70 @@ public class Sprint4Test {
     }
 
     @Test
-    public void US09_birthBeforeDeathOfParents() throws Exception {
+    public void US12_birthBeforeDeathOfParents() throws Exception {
         Date date1 = new Date();
         Date date2 = new Date("5 DEC 2022");
         assertEquals(0, sprint4.calculateDays(date1));
         assertEquals(100, sprint4.calculateDays(date2));
         assertNotEquals(10, sprint4.calculateDays(date1));
+    }
+
+    @Test
+    public void US18_SiblingsShouldNotMarry(){
+        Individual I1 = new Individual();
+        Individual I2 = new Individual();
+        Individual I3 = new Individual();
+        Individual I4 = new Individual();
+        Individual I5 = new Individual();
+        I1.id = "I1";
+        I2.id = "I2";
+        I3.id = "I3";
+        I4.id = "I4";
+        I5.id = "I5";
+        Family f1 = new Family();
+        f1.husbandId = "I1";
+        f1.wifeId = "I2";
+        f1.child.add("I3");
+        Family f2 = new Family();
+        f2.wifeId = "I5";
+        f2.husbandId = "I1";
+        f2.child.add("I4");
+        Family f3 = new Family();
+        f3.husbandId = "I3";
+        f3.wifeId = "I4";
+        g1.families.add(f1);
+        g1.families.add(f2);
+        g1.families.add(f3);
+        assertEquals(true,sprint4.isSibling(g1.families,f3.husbandId,f3.wifeId));
+        assertEquals(false,sprint4.isSibling(g1.families,f1.husbandId,f1.wifeId));
+    }
+
+    @Test
+    public void us17_ParentsShouldNotMarryDescendants(){
+        Individual I1 = new Individual();
+        Individual I2 = new Individual();
+        Individual I3 = new Individual();
+        Individual I4 = new Individual();
+        Individual I5 = new Individual();
+        I1.id = "I1";
+        I2.id = "I2";
+        I3.id = "I3";
+        I4.id = "I4";
+        I5.id = "I5";
+        Family f1 = new Family();
+        f1.husbandId = "I1";
+        f1.wifeId = "I2";
+        f1.child.add("I3");
+        Family f2 = new Family();
+        f2.husbandId = "I4";
+        f2.wifeId = "I3";
+        f2.child.add("I5");
+        Family f3 = new Family();
+        f3.husbandId = "I1";
+        f3.wifeId = "I5";
+        g1.families.add(f1);
+        g1.families.add(f2);
+        g1.families.add(f3);
+        assertEquals(true,sprint4.us17_ParentsShouldNotMarryDescendants(g1.families));
     }
 }
