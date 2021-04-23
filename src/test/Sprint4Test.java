@@ -195,4 +195,32 @@ public class Sprint4Test {
         g1.families.add(f3);
         assertEquals(true,sprint4.us17_ParentsShouldNotMarryDescendants(g1.families));
     }
+
+    @Test
+    public void us11_NoBigamy() throws ParseException {
+        DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
+        Individual I1 = new Individual();
+        Individual I2 = new Individual();
+        Individual I3 = new Individual();
+        I1.id = "I1";
+        I2.id = "I2";
+        I3.id = "I3";
+        Family f1 = new Family();
+        f1.husbandId = "I1";
+        f1.wifeId = "I2";
+        f1.dateOfDivided = "14 JUN 2014";
+        f1.dividedDate = formatter.parse(f1.dateOfDivided);
+        f1.dateOfMarried = "10 APR 2010";
+        f1.marrriedDate = formatter.parse(f1.dateOfMarried);
+        Family f2 = new Family();
+        f2.husbandId = "I1";
+        f2.wifeId = "I3";
+        f2.dateOfDivided = "14 JUN 2018";
+        f2.dividedDate = formatter.parse(f2.dateOfDivided);
+        f2.dateOfMarried = "10 APR 2013";
+        f2.marrriedDate = formatter.parse(f2.dateOfMarried);
+        g1.families.add(f1);
+        g1.families.add(f2);
+        assertEquals(true,sprint4.us11_NoBigamy(g1.families));
+    }
 }
