@@ -1017,6 +1017,11 @@ public class GedcomReadParse {
             //US17 changes starts @pp
             sprint4.us17_ParentsShouldNotMarryDescendants(families);
             //US17 changes ends @pp
+
+            //US11 changes starts @as
+            sprint4.us11_NoBigamy(families);
+            //US11 changes ends @as
+
             sprint4.us25_uniqueFirstNamesInFamily(families,individuals);
             sprint4.us34_largeAgeDifference(families,individuals);
             sprint4.printErrorSuccess(fileOut);
