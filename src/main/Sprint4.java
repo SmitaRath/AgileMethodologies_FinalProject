@@ -381,6 +381,89 @@ public class Sprint4 {
     }
     //us17 changes ends @pp
 
+    //us11 changes starts @as
+    public void us11_NoBigamy(ArrayList<Family>families){
+        for(int i=0;i<families.size();i++){
+            for(int j=0;j<families.size();j++){
+                if(j!=i&&families.get(i).husbandId.equals(families.get(j).husbandId)){
+                    if(families.get(i).marrriedDate!=null&&families.get(j).marrriedDate!=null&&families.get(j).dividedDate!=null&&families.get(i).dividedDate!=null){
+                        if(families.get(i).dividedDate.before(families.get(j).marrriedDate)||families.get(i).marrriedDate.after(families.get(j).dividedDate)){
+
+                        }
+                        else{
+                            message = "Error: In US11 for Family - "+ families.get(i).id + " at LineNo: " + families.get(i).dateOfMarriedidLineNo+" and "+families.get(j).dateOfMarriedidLineNo
+                                    +" Husband - "+families.get(i).husbandId + " is married to more than one individual at a same time but there should not be bigamy.";
+                            sprint4ErrorAnomalyData.add(message);
+                        }
+                    }
+                    if(families.get(i).marrriedDate!=null&&families.get(j).marrriedDate!=null&&families.get(j).dividedDate!=null&&families.get(i).dividedDate==null){
+                        if(families.get(i).marrriedDate.after(families.get(j).dividedDate)){
+
+                        }
+                        else{
+                            message = "Error: In US11 for Family - "+ families.get(i).id + " at LineNo: " + families.get(i).dateOfMarriedidLineNo+" and "+families.get(j).dateOfMarriedidLineNo
+                                    +" Husband - "+families.get(i).husbandId + " is married to more than one individual at a same time but there should not be bigamy.";
+                            sprint4ErrorAnomalyData.add(message);
+                        }
+                    }
+                    if(families.get(i).marrriedDate!=null&&families.get(j).marrriedDate!=null&&families.get(j).dividedDate==null&&families.get(i).dividedDate==null){
+                        message = "Error: In US11 for Family - "+ families.get(i).id + " at LineNo: " + families.get(i).dateOfMarriedidLineNo+" and "+families.get(j).dateOfMarriedidLineNo
+                                +" Husband - "+families.get(i).husbandId + " is married to more than one individual at a same time but there should not be bigamy.";
+                        sprint4ErrorAnomalyData.add(message);
+                    }
+                    if(families.get(i).marrriedDate!=null&&families.get(j).marrriedDate!=null&&families.get(j).dividedDate==null&&families.get(i).dividedDate!=null){
+                        if(families.get(i).dividedDate.before(families.get(j).marrriedDate)){
+
+                        }
+                        else{
+                            message = "Error: In US11 for Family - "+ families.get(i).id + " at LineNo: " + families.get(i).dateOfMarriedidLineNo+" and "+families.get(j).dateOfMarriedidLineNo
+                                    +" Husband - "+families.get(i).husbandId + " is married to more than one individual at a same time but there should not be bigamy.";
+                            sprint4ErrorAnomalyData.add(message);
+                        }
+                    }
+                }
+                if(j!=i&&families.get(i).wifeId.equals(families.get(j).wifeId)){
+                    if(families.get(i).marrriedDate!=null&&families.get(j).marrriedDate!=null&&families.get(j).dividedDate!=null&&families.get(i).dividedDate!=null){
+                        if(families.get(i).dividedDate.before(families.get(j).marrriedDate)||families.get(i).marrriedDate.after(families.get(j).dividedDate)){
+
+                        }
+                        else{
+                            message = "Error: In US11 for Family - "+ families.get(i).id + " at LineNo: " + families.get(i).dateOfMarriedidLineNo+" and "+families.get(j).dateOfMarriedidLineNo
+                                    +" Wife - "+families.get(i).wifeId + " is married to more than one individual at a same time but there should not be bigamy.";
+                            sprint4ErrorAnomalyData.add(message);
+                        }
+                    }
+                    if(families.get(i).marrriedDate!=null&&families.get(j).marrriedDate!=null&&families.get(j).dividedDate!=null&&families.get(i).dividedDate==null){
+                        if(families.get(i).marrriedDate.after(families.get(j).dividedDate)){
+
+                        }
+                        else{
+                            message = "Error: In US11 for Family - "+ families.get(i).id + " at LineNo: " + families.get(i).dateOfMarriedidLineNo+" and "+families.get(j).dateOfMarriedidLineNo
+                                    +" Wife - "+families.get(i).wifeId + " is married to more than one individual at a same time but there should not be bigamy.";
+                            sprint4ErrorAnomalyData.add(message);
+                        }
+                    }
+                    if(families.get(i).marrriedDate!=null&&families.get(j).marrriedDate!=null&&families.get(j).dividedDate==null&&families.get(i).dividedDate==null){
+                        message = "Error: In US11 for Family - "+ families.get(i).id + " at LineNo: " + families.get(i).dateOfMarriedidLineNo+" and "+families.get(j).dateOfMarriedidLineNo
+                                +" Wife - "+families.get(i).wifeId + " is married to more than one individual at a same time but there should not be bigamy.";
+                        sprint4ErrorAnomalyData.add(message);
+                    }
+                    if(families.get(i).marrriedDate!=null&&families.get(j).marrriedDate!=null&&families.get(j).dividedDate==null&&families.get(i).dividedDate!=null){
+                        if(families.get(i).dividedDate.before(families.get(j).marrriedDate)){
+
+                        }
+                        else{
+                            message = "Error: In US11 for Family - "+ families.get(i).id + " at LineNo: " + families.get(i).dateOfMarriedidLineNo+" and "+families.get(j).dateOfMarriedidLineNo
+                                    +" Wife - "+families.get(i).wifeId + " is married to more than one individual at a same time but there should not be bigamy.";
+                            sprint4ErrorAnomalyData.add(message);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    //us11 changes ends @as
+
     public void printErrorSuccess(PrintStream fileOut){
 
         if(!successDataUS34.isEmpty()){
