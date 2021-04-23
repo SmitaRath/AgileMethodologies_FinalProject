@@ -232,6 +232,9 @@ public class Sprint3 {
         for(int i=0;i<individuals.size();i++){
             if(individuals.get(i).dobDate!=null)
                 birthdate.put(individuals.get(i).id,individuals.get(i).dateOfBirth);
+            else{
+                birthdate.put(individuals.get(i).id,"null");
+            }
             idflag.put(individuals.get(i).id,0);
         }
         for(int i=0;i<families.size();i++){
@@ -249,7 +252,7 @@ public class Sprint3 {
                         }
                     }
                     for(int k=j+1;k<families.get(i).child.size();k++){
-                        if(birthdate.get(families.get(i).child.get(j)).equals(birthdate.get(families.get(i).child.get(k)))){
+                        if(!(birthdate.get(families.get(i).child.get(j)).equals("null"))&&birthdate.get(families.get(i).child.get(j)).equals(birthdate.get(families.get(i).child.get(k)))){
                             message = message + "--> ID: " + families.get(i).child.get(k);
                             for(int l=0;l<individuals.size();l++){
                                 if(individuals.get(l).id.equals(families.get(i).child.get(k))){
@@ -353,8 +356,8 @@ public class Sprint3 {
         //us31 changes starts @AS
         fileOut.println();
         System.out.println();
-        fileOut.println("US31 List of all individuals who are never married and are above 30 years");
-        System.out.println("US31 List of all individuals who are never married and are above 30 years");
+        fileOut.println("US31 List Living Single");
+        System.out.println("US31 List Living Single");
         for(String str:successAnomalyDataUS31){
             fileOut.println(str);
             System.out.println(str);
@@ -453,8 +456,12 @@ public class Sprint3 {
         public int compareTo(ChildData data) {
 
             //return this.age > data.age ? 1 : this.age < data.age ? -1 : 0;
-            if (this.childDOBDate == null || data.childDOBDate == null)
+            if (this.childDOBDate == null && data.childDOBDate == null)
                 return 0;
+            if (this.childDOBDate != null && data.childDOBDate == null)
+                return -1;
+            if (this.childDOBDate == null && data.childDOBDate != null)
+                return 1;
             return this.childDOBDate.compareTo(data.childDOBDate);
         }
     }
