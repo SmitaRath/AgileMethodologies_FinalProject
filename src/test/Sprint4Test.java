@@ -223,4 +223,22 @@ public class Sprint4Test {
         g1.families.add(f2);
         assertEquals(true,sprint4.us11_NoBigamy(g1.families));
     }
+
+    @Test
+    public void us04_MarriageBeforeDivorce() throws ParseException {
+        DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
+        Individual I1 = new Individual();
+        Individual I2 = new Individual();
+        I1.id = "I1";
+        I2.id = "I2";
+        Family f1 = new Family();
+        f1.husbandId = "I1";
+        f1.wifeId = "I2";
+        f1.dateOfDivided = "14 JUN 2014";
+        f1.dividedDate = formatter.parse(f1.dateOfDivided);
+        f1.dateOfMarried = "10 APR 2020";
+        f1.marrriedDate = formatter.parse(f1.dateOfMarried);
+        g1.families.add(f1);
+        assertEquals(true, sprint4.us04_MarriageBeforeDivorce(g1.families));
+    }
 }

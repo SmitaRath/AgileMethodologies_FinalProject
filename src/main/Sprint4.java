@@ -476,6 +476,25 @@ public class Sprint4 {
     }
     //us11 changes ends @as
 
+    //us04 changes stars @as
+    public boolean us04_MarriageBeforeDivorce(ArrayList<Family>families){
+        int f=0;
+        for(int i=0;i<families.size();i++){
+            if(families.get(i).marrriedDate!=null&&families.get(i).dividedDate!=null) {
+                if (!(families.get(i).marrriedDate.before(families.get(i).dividedDate))) {
+                    message = "Error: In US04 for Family - " + families.get(i).id + " at LineNo: " + families.get(i).dateOfMarriedidLineNo + " and " + families.get(i).dateOfDividedLineNo
+                            + " Marriage occurs after divorce of spouses";
+                    sprint4ErrorAnomalyData.add(message);
+                    f = 1;
+                }
+            }
+        }
+        if(f==1)
+            return true;
+        return false;
+    }
+    //us04 changes ends @as
+
     public void printErrorSuccess(PrintStream fileOut){
 
         if(!successDataUS34.isEmpty()){
