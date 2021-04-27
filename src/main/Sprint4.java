@@ -109,13 +109,15 @@ public class Sprint4 {
                 }
             }
             if (duplicateNameCount >= 2) {
-                errString = "Error: In US25 for Family "
-                        + "; Id :" + fam.id
-                        + "; Name is not unique ";
-                errorAnamolyUS25.add(errString);
+//                errString = "Error: In US25 for Family "
+//                        + "; Id :" + fam.id
+//                        + "; Name is not unique ";
+//                errorAnamolyUS25.add(errString);
                 for (String str : duplicateNamesList) {
                     ind = getIndividualData(str, individuals);
-                    errString = "Child ID :" + str
+                    errString = "Error: In US25 for Family "
+                            + "; Id :" + fam.id
+                            + " Child ID :" + str
                             + "; Line no: " + ind.nameLineNo
                             + "; Name :" + ind.name
                             + "; Name is not unique ";
@@ -123,13 +125,15 @@ public class Sprint4 {
                 }
             }
             if (duplicateDOBCount >= 2) {
-                errString = "Error: In US25 for Family "
-                        + "; Id :" + fam.id
-                        + "; Date Of Birth is not unique ";
-                errorAnamolyUS25.add(errString);
+//                errString = "Error: In US25 for Family "
+//                        + "; Id :" + fam.id
+//                        + "; Date Of Birth is not unique ";
+//                errorAnamolyUS25.add(errString);
                 for (String str : duplicateDOBList) {
                     ind = getIndividualData(str, individuals);
-                    errString = "Child ID :" + str
+                    errString = "Error: In US25 for Family "
+                            + "; Id :" + fam.id
+                            +" Child ID :" + str
                             + "; Line no: " + ind.dobLineNo
                             + "; Date of Birth :" + ind.dateOfBirth
                             + "; Date Of Birth is not unique ";
@@ -382,7 +386,8 @@ public class Sprint4 {
     //us17 changes ends @pp
 
     //us11 changes starts @as
-    public void us11_NoBigamy(ArrayList<Family>families){
+    public boolean us11_NoBigamy(ArrayList<Family>families){
+        int f1=0,f2=0;
         for(int i=0;i<families.size();i++){
             for(int j=0;j<families.size();j++){
                 if(j!=i&&families.get(i).husbandId.equals(families.get(j).husbandId)){
@@ -391,6 +396,7 @@ public class Sprint4 {
 
                         }
                         else{
+                            f1=1;
                             message = "Error: In US11 for Family - "+ families.get(i).id + " at LineNo: " + families.get(i).dateOfMarriedidLineNo+" and "+families.get(j).dateOfMarriedidLineNo
                                     +" Husband - "+families.get(i).husbandId + " is married to more than one individual at a same time but there should not be bigamy.";
                             sprint4ErrorAnomalyData.add(message);
@@ -401,12 +407,14 @@ public class Sprint4 {
 
                         }
                         else{
+                            f1=1;
                             message = "Error: In US11 for Family - "+ families.get(i).id + " at LineNo: " + families.get(i).dateOfMarriedidLineNo+" and "+families.get(j).dateOfMarriedidLineNo
                                     +" Husband - "+families.get(i).husbandId + " is married to more than one individual at a same time but there should not be bigamy.";
                             sprint4ErrorAnomalyData.add(message);
                         }
                     }
                     if(families.get(i).marrriedDate!=null&&families.get(j).marrriedDate!=null&&families.get(j).dividedDate==null&&families.get(i).dividedDate==null){
+                        f1=1;
                         message = "Error: In US11 for Family - "+ families.get(i).id + " at LineNo: " + families.get(i).dateOfMarriedidLineNo+" and "+families.get(j).dateOfMarriedidLineNo
                                 +" Husband - "+families.get(i).husbandId + " is married to more than one individual at a same time but there should not be bigamy.";
                         sprint4ErrorAnomalyData.add(message);
@@ -416,6 +424,7 @@ public class Sprint4 {
 
                         }
                         else{
+                            f1=1;
                             message = "Error: In US11 for Family - "+ families.get(i).id + " at LineNo: " + families.get(i).dateOfMarriedidLineNo+" and "+families.get(j).dateOfMarriedidLineNo
                                     +" Husband - "+families.get(i).husbandId + " is married to more than one individual at a same time but there should not be bigamy.";
                             sprint4ErrorAnomalyData.add(message);
@@ -428,6 +437,7 @@ public class Sprint4 {
 
                         }
                         else{
+                            f2=1;
                             message = "Error: In US11 for Family - "+ families.get(i).id + " at LineNo: " + families.get(i).dateOfMarriedidLineNo+" and "+families.get(j).dateOfMarriedidLineNo
                                     +" Wife - "+families.get(i).wifeId + " is married to more than one individual at a same time but there should not be bigamy.";
                             sprint4ErrorAnomalyData.add(message);
@@ -438,12 +448,14 @@ public class Sprint4 {
 
                         }
                         else{
+                            f2=1;
                             message = "Error: In US11 for Family - "+ families.get(i).id + " at LineNo: " + families.get(i).dateOfMarriedidLineNo+" and "+families.get(j).dateOfMarriedidLineNo
                                     +" Wife - "+families.get(i).wifeId + " is married to more than one individual at a same time but there should not be bigamy.";
                             sprint4ErrorAnomalyData.add(message);
                         }
                     }
                     if(families.get(i).marrriedDate!=null&&families.get(j).marrriedDate!=null&&families.get(j).dividedDate==null&&families.get(i).dividedDate==null){
+                        f2=1;
                         message = "Error: In US11 for Family - "+ families.get(i).id + " at LineNo: " + families.get(i).dateOfMarriedidLineNo+" and "+families.get(j).dateOfMarriedidLineNo
                                 +" Wife - "+families.get(i).wifeId + " is married to more than one individual at a same time but there should not be bigamy.";
                         sprint4ErrorAnomalyData.add(message);
@@ -453,6 +465,7 @@ public class Sprint4 {
 
                         }
                         else{
+                            f2=1;
                             message = "Error: In US11 for Family - "+ families.get(i).id + " at LineNo: " + families.get(i).dateOfMarriedidLineNo+" and "+families.get(j).dateOfMarriedidLineNo
                                     +" Wife - "+families.get(i).wifeId + " is married to more than one individual at a same time but there should not be bigamy.";
                             sprint4ErrorAnomalyData.add(message);
@@ -461,8 +474,30 @@ public class Sprint4 {
                 }
             }
         }
+        if(f1==1||f2==1)
+            return true;
+        return false;
     }
     //us11 changes ends @as
+
+    //us04 changes stars @as
+    public boolean us04_MarriageBeforeDivorce(ArrayList<Family>families){
+        int f=0;
+        for(int i=0;i<families.size();i++){
+            if(families.get(i).marrriedDate!=null&&families.get(i).dividedDate!=null) {
+                if (!(families.get(i).marrriedDate.before(families.get(i).dividedDate))) {
+                    message = "Error: In US04 for Family - " + families.get(i).id + " at LineNo: " + families.get(i).dateOfMarriedidLineNo + " and " + families.get(i).dateOfDividedLineNo
+                            + " Marriage occurs after divorce of spouses";
+                    sprint4ErrorAnomalyData.add(message);
+                    f = 1;
+                }
+            }
+        }
+        if(f==1)
+            return true;
+        return false;
+    }
+    //us04 changes ends @as
 
     public void printErrorSuccess(PrintStream fileOut){
 

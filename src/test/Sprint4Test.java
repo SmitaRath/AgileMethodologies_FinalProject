@@ -100,8 +100,6 @@ public class Sprint4Test {
         Wife2.dateOfBirth = "16 APR 2001";
         Wife2.dobDate = formatter.parse(Wife2.dateOfBirth);
         Wife2.age=g1.calculateAge(Wife2.dobDate);
-        System.out.println(Wife2.age);
-        System.out.println(Husb2.age);
         Wife2.gender="F";
         Wife2.spouse="F2";
         Fam2.id="F2";
@@ -110,7 +108,7 @@ public class Sprint4Test {
         Fam2.dateOfMarried="06 MAR 2020";
         Fam2.marrriedDate=formatter.parse(Fam2.dateOfMarried);
         assertEquals(false,(Husb1.age>=Wife1.age*2));
-        assertEquals(false,(Husb2.age>=Wife2.age*2));
+        assertEquals(true,(Husb2.age>=Wife2.age*2));
         Husb2.dateOfBirth = "16 APR 1981";
         Husb2.dobDate = formatter.parse(Husb2.dateOfBirth);
         Husb2.age=g1.calculateAge(Husb2.dobDate);
@@ -194,5 +192,51 @@ public class Sprint4Test {
         g1.families.add(f2);
         g1.families.add(f3);
         assertEquals(true,sprint4.us17_ParentsShouldNotMarryDescendants(g1.families));
+    }
+
+    @Test
+    public void us11_NoBigamy() throws ParseException {
+        DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
+        Individual I1 = new Individual();
+        Individual I2 = new Individual();
+        Individual I3 = new Individual();
+        I1.id = "I1";
+        I2.id = "I2";
+        I3.id = "I3";
+        Family f1 = new Family();
+        f1.husbandId = "I1";
+        f1.wifeId = "I2";
+        f1.dateOfDivided = "14 JUN 2014";
+        f1.dividedDate = formatter.parse(f1.dateOfDivided);
+        f1.dateOfMarried = "10 APR 2010";
+        f1.marrriedDate = formatter.parse(f1.dateOfMarried);
+        Family f2 = new Family();
+        f2.husbandId = "I1";
+        f2.wifeId = "I3";
+        f2.dateOfDivided = "14 JUN 2018";
+        f2.dividedDate = formatter.parse(f2.dateOfDivided);
+        f2.dateOfMarried = "10 APR 2013";
+        f2.marrriedDate = formatter.parse(f2.dateOfMarried);
+        g1.families.add(f1);
+        g1.families.add(f2);
+        assertEquals(true,sprint4.us11_NoBigamy(g1.families));
+    }
+
+    @Test
+    public void us04_MarriageBeforeDivorce() throws ParseException {
+        DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
+        Individual I1 = new Individual();
+        Individual I2 = new Individual();
+        I1.id = "I1";
+        I2.id = "I2";
+        Family f1 = new Family();
+        f1.husbandId = "I1";
+        f1.wifeId = "I2";
+        f1.dateOfDivided = "14 JUN 2014";
+        f1.dividedDate = formatter.parse(f1.dateOfDivided);
+        f1.dateOfMarried = "10 APR 2020";
+        f1.marrriedDate = formatter.parse(f1.dateOfMarried);
+        g1.families.add(f1);
+        assertEquals(true, sprint4.us04_MarriageBeforeDivorce(g1.families));
     }
 }

@@ -292,7 +292,7 @@ public class GedcomReadParse {
         if(period.getYears()<0)
             return 0;
         else
-        return period.getYears();
+            return period.getYears();
     }
 
     // us-35 changes starts @KP
@@ -1021,6 +1021,10 @@ public class GedcomReadParse {
             //US11 changes starts @as
             sprint4.us11_NoBigamy(families);
             //US11 changes ends @as
+
+            //us04 changes starts @as
+            sprint4.us04_MarriageBeforeDivorce(families);
+            //us04 changes ends @as
 
             sprint4.us25_uniqueFirstNamesInFamily(families,individuals);
             sprint4.us34_largeAgeDifference(families,individuals);

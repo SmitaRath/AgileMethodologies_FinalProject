@@ -64,7 +64,6 @@ public class Individual {
         /*  public int compare(Individual s1, Individual s2) {
               String Id1 = s1.id.toUpperCase();
               String Id2 = s2.id.toUpperCase();
-
               //ascending order
               return Id1.compareTo(Id2);
           }};*/
