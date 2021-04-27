@@ -100,8 +100,6 @@ public class Sprint4Test {
         Wife2.dateOfBirth = "16 APR 2001";
         Wife2.dobDate = formatter.parse(Wife2.dateOfBirth);
         Wife2.age=g1.calculateAge(Wife2.dobDate);
-        System.out.println(Wife2.age);
-        System.out.println(Husb2.age);
         Wife2.gender="F";
         Wife2.spouse="F2";
         Fam2.id="F2";
@@ -110,7 +108,7 @@ public class Sprint4Test {
         Fam2.dateOfMarried="06 MAR 2020";
         Fam2.marrriedDate=formatter.parse(Fam2.dateOfMarried);
         assertEquals(false,(Husb1.age>=Wife1.age*2));
-        assertEquals(false,(Husb2.age>=Wife2.age*2));
+        assertEquals(true,(Husb2.age>=Wife2.age*2));
         Husb2.dateOfBirth = "16 APR 1981";
         Husb2.dobDate = formatter.parse(Husb2.dateOfBirth);
         Husb2.age=g1.calculateAge(Husb2.dobDate);
