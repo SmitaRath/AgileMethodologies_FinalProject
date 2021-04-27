@@ -109,13 +109,15 @@ public class Sprint4 {
                 }
             }
             if (duplicateNameCount >= 2) {
-                errString = "Error: In US25 for Family "
-                        + "; Id :" + fam.id
-                        + "; Name is not unique ";
-                errorAnamolyUS25.add(errString);
+//                errString = "Error: In US25 for Family "
+//                        + "; Id :" + fam.id
+//                        + "; Name is not unique ";
+//                errorAnamolyUS25.add(errString);
                 for (String str : duplicateNamesList) {
                     ind = getIndividualData(str, individuals);
-                    errString = "Child ID :" + str
+                    errString = "Error: In US25 for Family "
+                            + "; Id :" + fam.id
+                            + " Child ID :" + str
                             + "; Line no: " + ind.nameLineNo
                             + "; Name :" + ind.name
                             + "; Name is not unique ";
@@ -123,13 +125,15 @@ public class Sprint4 {
                 }
             }
             if (duplicateDOBCount >= 2) {
-                errString = "Error: In US25 for Family "
-                        + "; Id :" + fam.id
-                        + "; Date Of Birth is not unique ";
-                errorAnamolyUS25.add(errString);
+//                errString = "Error: In US25 for Family "
+//                        + "; Id :" + fam.id
+//                        + "; Date Of Birth is not unique ";
+//                errorAnamolyUS25.add(errString);
                 for (String str : duplicateDOBList) {
                     ind = getIndividualData(str, individuals);
-                    errString = "Child ID :" + str
+                    errString = "Error: In US25 for Family "
+                            + "; Id :" + fam.id
+                            +" Child ID :" + str
                             + "; Line no: " + ind.dobLineNo
                             + "; Date of Birth :" + ind.dateOfBirth
                             + "; Date Of Birth is not unique ";
