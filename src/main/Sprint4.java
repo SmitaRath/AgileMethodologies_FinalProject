@@ -209,11 +209,11 @@ public class Sprint4 {
                 if (individualData != null) {
                     String motherName = motherData.name.replaceAll("/", "");
                     String fatherName = fatherData.name.replaceAll("/", "");
-                    if (yearDiffBetweenTwoDate(individualData.dobDate, motherData.dobDate) >= 60) {
+                    if (yearDiffBetweenTwoDate(individualData.dobDate, motherData.dobDate) > 60) {
                         message = "Error: In US12 for INDIVIDUAL at Line no: " + motherData.dobLineNo + "; ID: " + motherData.id + "; Name: " + motherName + "; Birth date: " + motherData.dateOfBirth + "; Mother should be less than 60 years older than children for" + "; Child ID: " + individualData.id + "; Child birthdate: " + individualData.dateOfBirth;
                         sprint4ErrorAnomalyData.add(message);
                     }
-                    if (yearDiffBetweenTwoDate(individualData.dobDate, fatherData.dobDate) >= 80) {
+                    if (yearDiffBetweenTwoDate(individualData.dobDate, fatherData.dobDate) > 80) {
                         message = "Error: In US12 for INDIVIDUAL at Line no: " + fatherData.dobLineNo + "; ID: " + fatherData.id + "; Name: " + fatherName + "; Birth date: " + fatherData.dateOfBirth + "; Father should be less than 80 years older than children for" + "; Child ID: " + individualData.id + "; Child birthdate: " + individualData.dateOfBirth;
                         sprint4ErrorAnomalyData.add(message);
                     }
