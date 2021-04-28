@@ -292,7 +292,7 @@ public class GedcomReadParse {
         if(period.getYears()<0)
             return 0;
         else
-        return period.getYears();
+            return period.getYears();
     }
 
     // us-35 changes starts @KP
@@ -363,6 +363,7 @@ public class GedcomReadParse {
         Family family = new Family();
         Sprint2 sprint2 = new Sprint2();
         Sprint3 sprint3 = new Sprint3();
+        Sprint4 sprint4 = new Sprint4();
         String errString="";
 
         try {
@@ -706,6 +707,7 @@ public class GedcomReadParse {
                     errorAnomalyData.add(errString);
                 }
                 // US-03 changes ends @AS
+
                 if (i.deathDate == null && i.dobDate != null) {
                     sprint3.US38_listAllLivingUpcomingBirthday(i);
                 }
@@ -729,7 +731,7 @@ public class GedcomReadParse {
 
 
 
-            for(Family i : families){
+            for(Family i : families) {
                 table1.addCell(i.id.toString());
                 table1.addCell(i.dateOfMarried.toString());
                 table1.addCell(i.dateOfDivided.toString());
@@ -891,6 +893,20 @@ public class GedcomReadParse {
                     sprint2.errorAnomalyData.add(errString);
                 }
                 //US15 ends @AS
+
+                //US39 starts @KP
+                if (i.wifeId != null && i.husbandId != null) {
+                    if (getIndividual(i.husbandId).deathDate == null && getIndividual(i.wifeId).deathDate == null && i.dividedDate == null && i.marrriedDate != null) {
+                        sprint4.US39_listAllLivingUpcomingAnniversary(i, getIndividual(i.husbandId).name, getIndividual(i.wifeId).name);
+                    }
+                }
+                //US39 ends @KP
+
+                //US12 starts @KP
+                if(i.wifeId != null && i.husbandId != null && i.child != null) {
+                    sprint4.US12_parentsNotTooOld(i, individuals);
+                }
+                //US12 ends @KP
             }
 
 
@@ -986,6 +1002,38 @@ public class GedcomReadParse {
 
             sprint3.sprint3ErrorOutput(fileOut);
             //us-23 sprint2 changes ends @sr
+
+            fileOut.println();
+            fileOut.println("============================== Sprint4 Output =======================================");
+            System.out.println();
+            System.out.println("============================== Sprint4 Output =======================================");
+            fileOut.println();
+            System.out.println();
+
+            //US18 changes starts @pp
+            sprint4.us18_siblingsShouldNotMarry(families,individuals);
+            //US18 changes ends @pp
+
+            //US17 changes starts @pp
+            sprint4.us17_ParentsShouldNotMarryDescendants(families);
+            //US17 changes ends @pp
+
+            //US11 changes starts @as
+            sprint4.us11_NoBigamy(families);
+            //US11 changes ends @as
+
+            //us04 changes starts @as
+            sprint4.us04_MarriageBeforeDivorce(families);
+            //us04 changes ends @as
+
+            sprint4.us25_uniqueFirstNamesInFamily(families,individuals);
+            sprint4.us34_largeAgeDifference(families,individuals);
+            sprint4.printErrorSuccess(fileOut);
+
+
+            fileOut.println();
+            System.out.println();
+
 
             //file closed
             reader.close();

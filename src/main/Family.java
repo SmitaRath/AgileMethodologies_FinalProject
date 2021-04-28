@@ -45,7 +45,6 @@ public class Family{
        /* public int compare(Family s1, Family s2) {
             String Id1 = s1.id.toUpperCase();
             String Id2 = s2.id.toUpperCase();
-
             //ascending order
             return Id1.compareTo(Id2);
         }*/
