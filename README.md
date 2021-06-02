@@ -1,12 +1,15 @@
 # AgileMethodologies_FinalProject
 This is final Project for Agile Methodologies
 
-Group Members
+## Group Members
 
-# Smita Rath
-# Pinak Pathak
-# Kandasamy Parthasarathy
-# Anirudh Sundararaman
+Smita Rath
+
+Pinak Pathak
+
+Kandasamy Parthasarathy
+
+Anirudh Sundararaman
 
 The objective of the project is to anaylyze the GEDCOM file (which is used to depict family and individual data) and finding anamolies and errors in the GEDCOM file.
 The project is implemented using Agile Scrum Method and the development is done in iterations in four different sprints.
