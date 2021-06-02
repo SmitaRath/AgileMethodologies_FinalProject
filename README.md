@@ -14,7 +14,7 @@ Anirudh Sundararaman
 The objective of the project is to anaylyze the GEDCOM file (which is used to depict family and individual data) and finding anamolies and errors in the GEDCOM file.
 The project is implemented using Agile Scrum Method and the development is done in iterations in four different sprints.
 
-## The following processes are used during the implemetation.
+## The following process are used during the implemetation.
 
 Product Backlog
 
